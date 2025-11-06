@@ -17,6 +17,8 @@ class AppColors {
   // === Textos ===
   static const Color textPrimary = Color(0xFF3D3D3D);          // texto principal
   static const Color textSecondary = Color(0xFF28BDBD);        // texto de destaque / link
+  static const Color textWhite = Color(0xFFFFFFFF);            // texto branco
+
   static const Color textDisabled = Color(0xFF787878);         // texto desabilitado / placeholder
 
   // === Bordas e divisores ===
@@ -51,6 +53,7 @@ class AppSemantic {
   static const Color textPrimary = AppColors.textPrimary;
   static const Color textSecondary = AppColors.textSecondary;
   static const Color textDisabled = AppColors.textDisabled;
+  static const Color textWhite = AppColors.textWhite;
 
   // Bordas e divisores
   static const Color border = AppColors.border;
