@@ -5,6 +5,7 @@ import '../../../core/widgets/app_logo.dart';
 import '../../../core/widgets/app_tab_slider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../register/register_page_step_1.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -86,13 +87,15 @@ class _LoginPageState extends State<LoginPage> {
       return;
     }
 
-    // TODO: Implementar navegação para a tela de registro
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Tela de registro em desenvolvimento'),
-        backgroundColor: AppColors.buttonPrimary,
-      ),
-    );
+    // Navegar para a tela de cadastro (Step 1)
+    if (mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const RegisterPageStep1(),
+        ),
+      );
+    }
   }
 
   @override

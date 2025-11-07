@@ -89,6 +89,8 @@ class _AppTextFieldState extends State<AppTextField> {
             minLines: widget.minLines,
             onEditingComplete: widget.onEditingComplete,
             onChanged: widget.onChanged,
+            onTap: widget.onTap,
+            inputFormatters: widget.inputFormatters,
             style: AppTypography.textPrimary,
             decoration: InputDecoration(
               hintText: widget.hint,
@@ -96,7 +98,7 @@ class _AppTextFieldState extends State<AppTextField> {
               prefixIcon: widget.prefixIcon,
               suffixIcon: widget.suffixIcon,
               filled: true,
-              fillColor: AppColors.inputBackground,
+              fillColor: Colors.white,
               isDense: true,
               constraints: const BoxConstraints(minHeight: 48),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

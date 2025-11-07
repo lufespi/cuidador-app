@@ -16,13 +16,14 @@ class StepIndicator extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(totalSteps, (index) {
-        final isActive = index == currentStep - 1;
+        // Step está ativo se for menor ou igual ao currentStep
+        final isActive = index <= currentStep;
         return Container(
           width: 32,
           height: 4,
-          margin: EdgeInsets.symmetric(horizontal: 4),
+          margin: const EdgeInsets.symmetric(horizontal: 4),
           decoration: BoxDecoration(
-            color: isActive ? AppColors.buttonPrimary : AppColors.textDisabled.withOpacity(0.3),
+            color: isActive ? AppColors.buttonPrimary : AppColors.textDisabled.withAlpha(76),
             borderRadius: BorderRadius.circular(2),
           ),
         );
