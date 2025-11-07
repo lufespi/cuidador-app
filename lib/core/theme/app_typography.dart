@@ -53,6 +53,7 @@ class AppTypography {
     fontSize: 12,
     fontWeight: FontWeight.w600,
     decoration: TextDecoration.underline,
+    decorationColor: AppColors.textSecondary,
     color: AppColors.textSecondary,
   );
 
