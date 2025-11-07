@@ -14,6 +14,9 @@ class AppColors {
   static const Color surface = Color(0xFFFFFFFF);              // cartões e áreas brancas
   static const Color surfaceVariant = Color(0xFFEAFBFA);       // superfície alternativa (verde suave)
 
+  // === Inputs e campos de formulário ===
+  static const Color inputBackground = Color(0xFFDDE3E3);      // fundo dos campos de entrada
+
   // === Textos ===
   static const Color textPrimary = Color(0xFF3D3D3D);          // texto principal
   static const Color textSecondary = Color(0xFF28BDBD);        // texto de destaque / link
@@ -48,6 +51,9 @@ class AppSemantic {
   static const Color background = AppColors.background;
   static const Color surface = AppColors.surface;
   static const Color surfaceVariant = AppColors.surfaceVariant;
+
+    // === Inputs e campos de formulário ===
+  static const Color inputBackground = AppColors.inputBackground;
 
   // Textos
   static const Color textPrimary = AppColors.textPrimary;

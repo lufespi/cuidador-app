@@ -5,20 +5,22 @@ import '../theme/app_typography.dart';
 class AppLogo extends StatelessWidget {
   final String? title;
   final String? subtitle;
+  final TextStyle? subtitleStyle;
   final double iconSize;
   final MainAxisAlignment mainAxisAlignment;
   final String? imagePath; // caminho para PNG ou asset
   final bool showDefaultIcon; // mostrar ícone padrão (coração)
 
   const AppLogo({
-    Key? key,
+    super.key,
     this.title = 'CuidaDor',
     this.subtitle = 'Gerencie sua saúde osteoarticular',
+    this.subtitleStyle,
     this.iconSize = 72,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.imagePath,
     this.showDefaultIcon = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class AppLogo extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             subtitle!,
-            style: AppTypography.textPrimary,
+            style: subtitleStyle ?? AppTypography.textPrimary,
             textAlign: TextAlign.center,
           ),
         ],

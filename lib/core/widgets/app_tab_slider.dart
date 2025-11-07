@@ -10,20 +10,27 @@ class AppTabSlider extends StatelessWidget {
   final double height;
 
   const AppTabSlider({
-    Key? key,
+    super.key,
     required this.tabs,
     required this.activeIndex,
     required this.onTabChanged,
     this.height = 40,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.buttonSurface,
+        color: AppColors.inputBackground,
         borderRadius: BorderRadius.circular(28),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(25),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Row(
         children: List.generate(
