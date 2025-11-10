@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/app_button.dart';
+import 'indicar_local_page.dart';
 
 class DorPage extends StatefulWidget {
   const DorPage({super.key});
@@ -184,7 +185,14 @@ class _DorPageState extends State<DorPage> {
                   // Botão indicar local da dor
                   Center(
                     child: OutlinedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const IndicarLocalPage(),
+                          ),
+                        );
+                      },
                       icon: SvgPicture.asset(
                         'assets/icons/pain/locate-fixed.svg', 
                         width: 18, 
