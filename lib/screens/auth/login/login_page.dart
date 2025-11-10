@@ -6,6 +6,7 @@ import '../../../core/widgets/app_tab_slider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../register/register_page_step_1.dart';
+import '../../home/home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -47,16 +48,27 @@ class _LoginPageState extends State<LoginPage> {
 
     try {
       // Simular delay de login
-      await Future.delayed(const Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 1));
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login realizado com sucesso!'),
-            backgroundColor: AppColors.stateSuccess,
-          ),
-        );
-        // Aqui você pode navegar para a tela principal
+      // Login temporário para debug: admin/admin
+      if (_emailController.text == 'admin' && _senhaController.text == 'admin') {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Credenciais inválidas. Use: admin/admin'),
+              backgroundColor: AppColors.stateError,
+            ),
+          );
+        }
       }
     } finally {
       if (mounted) {
