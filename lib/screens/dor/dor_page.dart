@@ -29,6 +29,7 @@ class _DorPageState extends State<DorPage> {
     if (_nivelDor <= 4) return 'Dor Leve';
     if (_nivelDor <= 6) return 'Dor Moderada';
     if (_nivelDor <= 8) return 'Dor Intensa';
+    if (_nivelDor >= 9) return 'Dor Insuportável';
     return 'Dor Insuportável';
   }
 
@@ -38,6 +39,7 @@ class _DorPageState extends State<DorPage> {
     if (_nivelDor <= 4) return 'Dor perceptível mas não impede suas atividades.\n\nExemplo: Dor de cabeça leve, pequena dor muscular após exercício.\n\nVocê consegue trabalhar e se concentrar normalmente';
     if (_nivelDor <= 6) return 'Dor que interfere nas atividades mas você ainda consegue realizá-las.\n\nExemplo: Dor de dente chata, torção de tornozelo, cólica menstrual moderada,\n\nVocê pode precisar de analgésico simples,\nDificulta concentração em tarefas complexas.';
     if (_nivelDor <= 8) return 'Dor que domina seus sentidos e limita significativamente suas atividades.\n\nExemplo: Enxaqueca forte, cólica renal, fratura óssea.\n\nVocê não consegue ignorar a dor,\nDificuldade para dormir ou realizar atividades básicas,\nPrecisa de medicação mais forte.';
+    if (_nivelDor >= 9) return 'A pior dor imaginável, você não consegue fazer nada além de lidar com ela.\n\nExemplo: Apendicite aguda, trabalho de parto em transição, queimaduras graves.\n\nPode causar choque, náuseas, vômitos.\nRequer atendimento médico imediato. \n\nMuitas pessoas nunca experimentaram esse nível de dor.';
     return 'A pior dor imaginável, você não consegue fazer nada além de lidar com ela.\n\nExemplo: Apendicite aguda, trabalho de parto em transição, queimaduras graves.\n\nPode causar choque, náuseas, vômitos.\nRequer atendimento médico imediato. \n\nMuitas pessoas nunca experimentaram esse nível de dor.';
   }
 
