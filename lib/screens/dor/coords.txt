@@ -1,0 +1,482 @@
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #1:
+I/flutter ( 9649):    X: 220.53
+I/flutter ( 9649):    Y: 382.63
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 68.92%
+I/flutter ( 9649):    Percentual Y: 56.53%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #2:
+I/flutter ( 9649):    X: 245.73
+I/flutter ( 9649):    Y: 397.06
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 76.79%
+I/flutter ( 9649):    Percentual Y: 58.67%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #3:
+I/flutter ( 9649):    X: 266.56
+I/flutter ( 9649):    Y: 383.57
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 83.30%
+I/flutter ( 9649):    Percentual Y: 56.67%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #4:
+I/flutter ( 9649):    X: 273.23
+I/flutter ( 9649):    Y: 355.75
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 85.38%
+I/flutter ( 9649):    Percentual Y: 52.56%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #5:
+I/flutter ( 9649):    X: 155.76
+I/flutter ( 9649):    Y: 97.13
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 48.67%
+I/flutter ( 9649):    Percentual Y: 14.35%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #6:
+I/flutter ( 9649):    X: 171.56
+I/flutter ( 9649):    Y: 122.59
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 53.61%
+I/flutter ( 9649):    Percentual Y: 18.11%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #7:
+I/flutter ( 9649):    X: 135.34
+I/flutter ( 9649):    Y: 128.00
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 42.29%
+I/flutter ( 9649):    Percentual Y: 18.91%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ❌ Ponto #7 removido
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #7:
+I/flutter ( 9649):    X: 139.01
+I/flutter ( 9649):    Y: 125.27
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 43.44%
+I/flutter ( 9649):    Percentual Y: 18.51%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ❌ Ponto #7 removido
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #7:
+I/flutter ( 9649):    X: 138.54
+I/flutter ( 9649):    Y: 124.43
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 43.29%
+I/flutter ( 9649):    Percentual Y: 18.38%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ❌ Ponto #6 removido
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #7:
+I/flutter ( 9649):    X: 177.44
+I/flutter ( 9649):    Y: 127.94
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 55.45%
+I/flutter ( 9649):    Percentual Y: 18.90%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ❌ Ponto #7 removido
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #7:
+I/flutter ( 9649):    X: 178.96
+I/flutter ( 9649):    Y: 126.89
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 55.92%
+I/flutter ( 9649):    Percentual Y: 18.75%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ❌ Ponto #7 removido
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #7:
+I/flutter ( 9649):    X: 174.55
+I/flutter ( 9649):    Y: 122.90
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 54.55%
+I/flutter ( 9649):    Percentual Y: 18.16%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #8:
+I/flutter ( 9649):    X: 161.27
+I/flutter ( 9649):    Y: 153.40
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 50.40%
+I/flutter ( 9649):    Percentual Y: 22.67%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ❌ Ponto #8 removido
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #8:
+I/flutter ( 9649):    X: 158.91
+I/flutter ( 9649):    Y: 154.87
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 49.66%
+I/flutter ( 9649):    Percentual Y: 22.88%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #9:
+I/flutter ( 9649):    X: 206.73
+I/flutter ( 9649):    Y: 187.15
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 64.60%
+I/flutter ( 9649):    Percentual Y: 27.65%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #10:
+I/flutter ( 9649):    X: 110.67
+I/flutter ( 9649):    Y: 184.74
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 34.58%
+I/flutter ( 9649):    Percentual Y: 27.30%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #11:
+I/flutter ( 9649):    X: 158.28
+I/flutter ( 9649):    Y: 218.86
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 49.46%
+I/flutter ( 9649):    Percentual Y: 32.34%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #12:
+I/flutter ( 9649):    X: 183.26
+I/flutter ( 9649):    Y: 249.56
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 57.27%
+I/flutter ( 9649):    Percentual Y: 36.87%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #13:
+I/flutter ( 9649):    X: 129.83
+I/flutter ( 9649):    Y: 253.03
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 40.57%
+I/flutter ( 9649):    Percentual Y: 37.39%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #14:
+I/flutter ( 9649):    X: 158.17
+I/flutter ( 9649):    Y: 304.21
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 49.43%
+I/flutter ( 9649):    Percentual Y: 44.95%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #15:
+I/flutter ( 9649):    X: 189.09
+I/flutter ( 9649):    Y: 368.09
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 59.09%
+I/flutter ( 9649):    Percentual Y: 54.39%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #16:
+I/flutter ( 9649):    X: 129.72
+I/flutter ( 9649):    Y: 366.35
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 40.54%
+I/flutter ( 9649):    Percentual Y: 54.13%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #17:
+I/flutter ( 9649):    X: 223.57
+I/flutter ( 9649):    Y: 263.42
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 69.87%
+I/flutter ( 9649):    Percentual Y: 38.92%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #18:
+I/flutter ( 9649):    X: 93.14
+I/flutter ( 9649):    Y: 267.78
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 29.11%
+I/flutter ( 9649):    Percentual Y: 39.57%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #19:
+I/flutter ( 9649):    X: 235.18
+I/flutter ( 9649):    Y: 323.78
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 73.49%
+I/flutter ( 9649):    Percentual Y: 47.84%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #20:
+I/flutter ( 9649):    X: 83.11
+I/flutter ( 9649):    Y: 325.36
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 25.97%
+I/flutter ( 9649):    Percentual Y: 48.07%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #21:
+I/flutter ( 9649):    X: 99.75
+I/flutter ( 9649):    Y: 381.05
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 31.17%
+I/flutter ( 9649):    Percentual Y: 56.30%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #22:
+I/flutter ( 9649):    X: 74.03
+I/flutter ( 9649):    Y: 391.55
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 23.13%
+I/flutter ( 9649):    Percentual Y: 57.85%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #23:
+I/flutter ( 9649):    X: 49.57
+I/flutter ( 9649):    Y: 376.59
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 15.49%
+I/flutter ( 9649):    Percentual Y: 55.64%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #24:
+I/flutter ( 9649):    X: 47.10
+I/flutter ( 9649):    Y: 351.71
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 14.72%
+I/flutter ( 9649):    Percentual Y: 51.97%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #25:
+I/flutter ( 9649):    X: 199.43
+I/flutter ( 9649):    Y: 450.18
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 62.32%
+I/flutter ( 9649):    Percentual Y: 66.52%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #26:
+I/flutter ( 9649):    X: 121.90
+I/flutter ( 9649):    Y: 451.23
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 38.09%
+I/flutter ( 9649):    Percentual Y: 66.67%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #27:
+I/flutter ( 9649):    X: 209.61
+I/flutter ( 9649):    Y: 548.23
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 65.50%
+I/flutter ( 9649):    Percentual Y: 81.00%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #28:
+I/flutter ( 9649):    X: 235.96
+I/flutter ( 9649):    Y: 579.20
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 73.74%
+I/flutter ( 9649):    Percentual Y: 85.58%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+3
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #29:
+I/flutter ( 9649):    X: 116.49
+I/flutter ( 9649):    Y: 540.36
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 36.40%
+I/flutter ( 9649):    Percentual Y: 79.84%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7b2f5b3
+I/VRI[MainActivity]@7b2f5b3( 9649): call setFrameRateCategory for touch hint category=high hint, reason=touch, vri=VRI[MainActivity]@7b2f5b3
+2
+I/VRI[MainActivity]@7b2f5b3( 9649): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 🎯 POSIÇÃO CLICADA #30:
+I/flutter ( 9649):    X: 91.61
+I/flutter ( 9649):    Y: 581.04
+I/flutter ( 9649):    Container Width: 320.00
+I/flutter ( 9649):    Container Height: 676.80
+I/flutter ( 9649):    Percentual X: 28.63%
+I/flutter ( 9649):    Percentual Y: 85.85%
+I/flutter ( 9649): ═══════════════════════════════════════
+I/flutter ( 9649): 
