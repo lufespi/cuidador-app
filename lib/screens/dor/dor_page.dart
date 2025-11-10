@@ -25,22 +25,20 @@ class _DorPageState extends State<DorPage> {
 
   String _getDescricaoDor() {
     if (_nivelDor == 0) return 'Sem Dor';
-    if (_nivelDor <= 2) return 'Dor Mínima';
-    if (_nivelDor <= 4) return 'Dor Leve';
-    if (_nivelDor <= 6) return 'Dor Moderada';
-    if (_nivelDor <= 8) return 'Dor Intensa';
-    if (_nivelDor >= 9) return 'Dor Insuportável';
-    return 'Dor Insuportável';
+    if (_nivelDor >= 1 && _nivelDor <= 2) return 'Dor Mínima';
+    if (_nivelDor >= 3 && _nivelDor <= 4) return 'Dor Leve';
+    if (_nivelDor >= 5 && _nivelDor <= 6) return 'Dor Moderada';
+    if (_nivelDor >= 7 && _nivelDor <= 8) return 'Dor Intensa';
+    return 'Dor Insuportável'; // 9-10
   }
 
   String _getSubtituloDor() {
     if (_nivelDor == 0) return 'Você está completamente confortável, sem nenhum desconforto';
-    if (_nivelDor <= 2) return 'Dor muito leve que você consegue ignorar.\n\nExemplo: Pequena coceira, leve desconforto ao sentar em posição errada.';
-    if (_nivelDor <= 4) return 'Dor perceptível mas não impede suas atividades.\n\nExemplo: Dor de cabeça leve, pequena dor muscular após exercício.\n\nVocê consegue trabalhar e se concentrar normalmente';
-    if (_nivelDor <= 6) return 'Dor que interfere nas atividades mas você ainda consegue realizá-las.\n\nExemplo: Dor de dente chata, torção de tornozelo, cólica menstrual moderada,\n\nVocê pode precisar de analgésico simples,\nDificulta concentração em tarefas complexas.';
-    if (_nivelDor <= 8) return 'Dor que domina seus sentidos e limita significativamente suas atividades.\n\nExemplo: Enxaqueca forte, cólica renal, fratura óssea.\n\nVocê não consegue ignorar a dor,\nDificuldade para dormir ou realizar atividades básicas,\nPrecisa de medicação mais forte.';
-    if (_nivelDor >= 9) return 'A pior dor imaginável, você não consegue fazer nada além de lidar com ela.\n\nExemplo: Apendicite aguda, trabalho de parto em transição, queimaduras graves.\n\nPode causar choque, náuseas, vômitos.\nRequer atendimento médico imediato. \n\nMuitas pessoas nunca experimentaram esse nível de dor.';
-    return 'A pior dor imaginável, você não consegue fazer nada além de lidar com ela.\n\nExemplo: Apendicite aguda, trabalho de parto em transição, queimaduras graves.\n\nPode causar choque, náuseas, vômitos.\nRequer atendimento médico imediato. \n\nMuitas pessoas nunca experimentaram esse nível de dor.';
+    if (_nivelDor >= 1 && _nivelDor <= 2) return 'Dor muito leve que você consegue ignorar.\n\nExemplo: Pequena coceira, leve desconforto ao sentar em posição errada.';
+    if (_nivelDor >= 3 && _nivelDor <= 4) return 'Dor perceptível mas não impede suas atividades.\n\nExemplo: Dor de cabeça leve, pequena dor muscular após exercício.\n\nVocê consegue trabalhar e se concentrar normalmente';
+    if (_nivelDor >= 5 && _nivelDor <= 6) return 'Dor que interfere nas atividades mas você ainda consegue realizá-las.\n\nExemplo: Dor de dente chata, torção de tornozelo, cólica menstrual moderada,\n\nVocê pode precisar de analgésico simples,\nDificulta concentração em tarefas complexas.';
+    if (_nivelDor >= 7 && _nivelDor <= 8) return 'Dor que domina seus sentidos e limita significativamente suas atividades.\n\nExemplo: Enxaqueca forte, cólica renal, fratura óssea.\n\nVocê não consegue ignorar a dor,\nDificuldade para dormir ou realizar atividades básicas,\nPrecisa de medicação mais forte.';
+    return 'A pior dor imaginável, você não consegue fazer nada além de lidar com ela.\n\nExemplo: Apendicite aguda, trabalho de parto em transição, queimaduras graves.\n\nPode causar choque, náuseas, vômitos.\nRequer atendimento médico imediato. \n\nMuitas pessoas nunca experimentaram esse nível de dor.'; // 9-10
   }
 
   @override
@@ -131,11 +129,18 @@ class _DorPageState extends State<DorPage> {
                       thumbShape: const RoundSliderThumbShape(
                         enabledThumbRadius: 10,
                       ),
+                      overlayShape: const RoundSliderOverlayShape(
+                        overlayRadius: 20,
+                      ),
+                      tickMarkShape: const RoundSliderTickMarkShape(
+                        tickMarkRadius: 0,
+                      ),
                     ),
                     child: Slider(
                       value: _nivelDor,
                       min: 0,
                       max: 10,
+                      divisions: 10,
                       onChanged: (value) {
                         setState(() {
                           _nivelDor = value;
