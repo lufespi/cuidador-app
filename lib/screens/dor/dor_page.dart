@@ -125,7 +125,7 @@ class _DorPageState extends State<DorPage> {
                       activeTrackColor: AppColors.buttonPrimary,
                       inactiveTrackColor: AppColors.inputBackground,
                       thumbColor: AppColors.buttonPrimary,
-                      overlayColor: AppColors.buttonPrimary.withOpacity(0.2),
+                      overlayColor: AppColors.buttonPrimary.withValues(alpha: 0.2),
                       trackHeight: 6,
                       thumbShape: const RoundSliderThumbShape(
                         enabledThumbRadius: 10,
@@ -320,7 +320,7 @@ class _DorPageState extends State<DorPage> {
                           color: AppColors.surfaceVariant,
                           borderRadius: BorderRadius.circular(8),
                           border: Border.all(
-                            color: AppColors.buttonPrimary.withOpacity(0.3),
+                            color: AppColors.buttonPrimary.withValues(alpha: 0.3),
                             width: 1,
                           ),
                         ),
@@ -376,10 +376,10 @@ class _DorPageState extends State<DorPage> {
                   Container(
                     height: 150,
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant.withOpacity(0.3),
+                      color: AppColors.surfaceVariant.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColors.buttonPrimary.withOpacity(0.2),
+                        color: AppColors.buttonPrimary.withValues(alpha: 0.2),
                         width: 1,
                       ),
                     ),
@@ -390,7 +390,7 @@ class _DorPageState extends State<DorPage> {
                           Icon(
                             Icons.insert_chart_outlined,
                             size: 48,
-                            color: AppColors.buttonPrimary.withOpacity(0.5),
+                            color: AppColors.buttonPrimary.withValues(alpha: 0.5),
                           ),
                           const SizedBox(height: 8),
                           Text(
@@ -485,7 +485,7 @@ class _DorPageState extends State<DorPage> {
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.buttonPrimary.withOpacity(0.2),
+          color: AppColors.buttonPrimary.withValues(alpha: 0.2),
           width: 1.5,
         ),
       ),

@@ -223,7 +223,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           ],
                         ),
                         child: DropdownButtonFormField<String>(
-                          value: _selectedGender,
+                          initialValue: _selectedGender,
                           hint: Text(
                             'Selecione uma opção',
                             style: AppTypography.textDisabled,
@@ -399,7 +399,7 @@ class _PhoneInputFormatter extends TextInputFormatter {
     String formatted = '';
     
     // DDD
-    if (digitsOnly.length >= 1) {
+    if (digitsOnly.isNotEmpty) {
       formatted += '(';
       formatted += digitsOnly.substring(0, digitsOnly.length >= 2 ? 2 : digitsOnly.length);
       if (digitsOnly.length >= 2) {

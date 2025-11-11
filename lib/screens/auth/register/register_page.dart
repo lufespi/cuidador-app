@@ -13,8 +13,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  int _currentStep = 0;
-  
   final PageController _pageController = PageController();
 
   @override
@@ -23,31 +21,7 @@ class _RegisterPageState extends State<RegisterPage> {
     super.dispose();
   }
 
-  void _nextStep() {
-    if (_currentStep < 2) {
-      setState(() {
-        _currentStep++;
-      });
-      _pageController.animateToPage(
-        _currentStep,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
 
-  void _previousStep() {
-    if (_currentStep > 0) {
-      setState(() {
-        _currentStep--;
-      });
-      _pageController.animateToPage(
-        _currentStep,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
             width: 24,
             height: 24,
             colorFilter: ColorFilter.mode(
-              color.withOpacity(0.2),
+              color.withValues(alpha: 0.2),
               BlendMode.srcIn,
             ),
           ),

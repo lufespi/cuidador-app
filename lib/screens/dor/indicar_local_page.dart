@@ -10,38 +10,62 @@ class IndicarLocalPage extends StatefulWidget {
 }
 
 class _IndicarLocalPageState extends State<IndicarLocalPage> {
-  // Pontos fixos com base nas coordenadas coletadas
-  final List<Map<String, double>> _pontosFixes = [
-    {'x': 220.53, 'y': 382.63, 'width': 320.00, 'height': 676.80},
-    {'x': 245.73, 'y': 397.06, 'width': 320.00, 'height': 676.80},
-    {'x': 266.56, 'y': 383.57, 'width': 320.00, 'height': 676.80},
-    {'x': 273.23, 'y': 355.75, 'width': 320.00, 'height': 676.80},
-    {'x': 155.76, 'y': 97.13, 'width': 320.00, 'height': 676.80},
-    {'x': 174.55, 'y': 122.90, 'width': 320.00, 'height': 676.80},
-    {'x': 138.54, 'y': 124.43, 'width': 320.00, 'height': 676.80},
-    {'x': 158.91, 'y': 154.87, 'width': 320.00, 'height': 676.80},
-    {'x': 206.73, 'y': 187.15, 'width': 320.00, 'height': 676.80},
-    {'x': 110.67, 'y': 184.74, 'width': 320.00, 'height': 676.80},
-    {'x': 158.28, 'y': 218.86, 'width': 320.00, 'height': 676.80},
-    {'x': 183.26, 'y': 249.56, 'width': 320.00, 'height': 676.80},
-    {'x': 129.83, 'y': 253.03, 'width': 320.00, 'height': 676.80},
-    {'x': 158.17, 'y': 304.21, 'width': 320.00, 'height': 676.80},
-    {'x': 189.09, 'y': 368.09, 'width': 320.00, 'height': 676.80},
-    {'x': 129.72, 'y': 366.35, 'width': 320.00, 'height': 676.80},
-    {'x': 223.57, 'y': 263.42, 'width': 320.00, 'height': 676.80},
-    {'x': 93.14, 'y': 267.78, 'width': 320.00, 'height': 676.80},
-    {'x': 235.18, 'y': 323.78, 'width': 320.00, 'height': 676.80},
-    {'x': 83.11, 'y': 325.36, 'width': 320.00, 'height': 676.80},
-    {'x': 99.75, 'y': 381.05, 'width': 320.00, 'height': 676.80},
-    {'x': 74.03, 'y': 391.55, 'width': 320.00, 'height': 676.80},
-    {'x': 49.57, 'y': 376.59, 'width': 320.00, 'height': 676.80},
-    {'x': 47.10, 'y': 351.71, 'width': 320.00, 'height': 676.80},
-    {'x': 199.43, 'y': 450.18, 'width': 320.00, 'height': 676.80},
-    {'x': 121.90, 'y': 451.23, 'width': 320.00, 'height': 676.80},
-    {'x': 209.61, 'y': 548.23, 'width': 320.00, 'height': 676.80},
-    {'x': 235.96, 'y': 579.20, 'width': 320.00, 'height': 676.80},
-    {'x': 116.49, 'y': 540.36, 'width': 320.00, 'height': 676.80},
-    {'x': 91.61, 'y': 581.04, 'width': 320.00, 'height': 676.80},
+  // Dimensões de referência do container onde as coordenadas foram coletadas
+  static const double _refWidth = 320.00;
+  static const double _refHeight = 676.80;
+
+  // Pontos fixos organizados por GRUPOS clicáveis
+  // Cada grupo poderá expandir para uma visualização mais detalhada no futuro
+  final List<Map<String, dynamic>> _pontosFixes = [
+    // === GRUPO CABEÇA (#1-3) ===
+    {'id': 'cabeca_topo', 'grupo': 'cabeça', 'x': 155.76, 'y': 68.13, 'width': _refWidth, 'height': _refHeight}, // #1
+    {'id': 'cabeca_lateral_esquerda', 'grupo': 'cabeça', 'x': 138.54, 'y': 95.43, 'width': _refWidth, 'height': _refHeight}, // #2
+    {'id': 'cabeca_lateral_direita', 'grupo': 'cabeça', 'x': 174.55, 'y': 93.90, 'width': _refWidth, 'height': _refHeight}, // #3
+    
+    // === GRUPO TORSO (#4-10) ===
+    {'id': 'torso_pescoco', 'grupo': 'torso', 'x': 158.91, 'y': 139.87, 'width': _refWidth, 'height': _refHeight}, // #4
+    {'id': 'torso_ombro_esquerdo', 'grupo': 'torso', 'x': 110.67, 'y': 169.74, 'width': _refWidth, 'height': _refHeight}, // #5
+    {'id': 'torso_ombro_direito', 'grupo': 'torso', 'x': 206.73, 'y': 172.15, 'width': _refWidth, 'height': _refHeight}, // #6
+    {'id': 'torso_peito', 'grupo': 'torso', 'x': 158.28, 'y': 203.86, 'width': _refWidth, 'height': _refHeight}, // #7
+    {'id': 'torso_costela_esquerda', 'grupo': 'torso', 'x': 129.83, 'y': 234.56, 'width': _refWidth, 'height': _refHeight}, // #8
+    {'id': 'torso_costela_direita', 'grupo': 'torso', 'x': 183.26, 'y': 234.56, 'width': _refWidth, 'height': _refHeight}, // #9
+    {'id': 'torso_abdomen', 'grupo': 'torso', 'x': 158.17, 'y': 289.21, 'width': _refWidth, 'height': _refHeight}, // #10
+    
+    // === GRUPO BRAÇO ESQUERDO (#11-12) ===
+    {'id': 'braco_esquerdo_cotovelo', 'grupo': 'braço_esquerdo', 'x': 93.14, 'y': 267.78, 'width': _refWidth, 'height': _refHeight}, // #11
+    {'id': 'braco_esquerdo_antebraco', 'grupo': 'braço_esquerdo', 'x': 83.11, 'y': 325.36, 'width': _refWidth, 'height': _refHeight}, // #12
+    
+    // === GRUPO BRAÇO DIREITO (#13-14) ===
+    {'id': 'braco_direito_cotovelo', 'grupo': 'braço_direito', 'x': 223.57, 'y': 263.42, 'width': _refWidth, 'height': _refHeight}, // #13
+    {'id': 'braco_direito_antebraco', 'grupo': 'braço_direito', 'x': 235.18, 'y': 323.78, 'width': _refWidth, 'height': _refHeight}, // #14
+    
+    // === GRUPO MÃO DIREITA (#15-18) ===
+    {'id': 'mao_direita_polegar', 'grupo': 'mao_direita', 'x': 51.10, 'y': 351.71, 'width': _refWidth, 'height': _refHeight}, // #15
+    {'id': 'mao_direita_dedos', 'grupo': 'mao_direita', 'x': 53.57, 'y': 376.59, 'width': _refWidth, 'height': _refHeight}, // #16
+    {'id': 'mao_direita_punho', 'grupo': 'mao_direita', 'x': 103.75, 'y': 381.05, 'width': _refWidth, 'height': _refHeight}, // #17
+    {'id': 'mao_direita_palma', 'grupo': 'mao_direita', 'x': 77.03, 'y': 391.55, 'width': _refWidth, 'height': _refHeight}, // #18
+
+    // === GRUPO MÃO ESQUERDA (#19-22) ===
+    {'id': 'mao_esquerda_polegar', 'grupo': 'mao_esquerda', 'x': 273.23, 'y': 355.75, 'width': _refWidth, 'height': _refHeight}, // #19
+    {'id': 'mao_esquerda_punho', 'grupo': 'mao_esquerda', 'x': 220.53, 'y': 382.63, 'width': _refWidth, 'height': _refHeight}, // #20
+    {'id': 'mao_esquerda_dedos', 'grupo': 'mao_esquerda', 'x': 266.56, 'y': 383.57, 'width': _refWidth, 'height': _refHeight}, // #21
+    {'id': 'mao_esquerda_palma', 'grupo': 'mao_esquerda', 'x': 245.73, 'y': 397.06, 'width': _refWidth, 'height': _refHeight}, // #22
+    
+    // === GRUPO PERNA ESQUERDA (#23-25) ===
+    {'id': 'perna_esquerda_quadril', 'grupo': 'perna_esquerda', 'x': 129.72, 'y': 366.35, 'width': _refWidth, 'height': _refHeight}, // #23
+    {'id': 'perna_esquerda_coxa', 'grupo': 'perna_esquerda', 'x': 121.90, 'y': 451.23, 'width': _refWidth, 'height': _refHeight}, // #24
+    {'id': 'perna_esquerda_joelho', 'grupo': 'perna_esquerda', 'x': 116.49, 'y': 540.36, 'width': _refWidth, 'height': _refHeight}, // #25
+    
+    // === GRUPO PERNA DIREITA (#26-28) ===
+    {'id': 'perna_direita_quadril', 'grupo': 'perna_direita', 'x': 189.09, 'y': 368.09, 'width': _refWidth, 'height': _refHeight}, // #26
+    {'id': 'perna_direita_coxa', 'grupo': 'perna_direita', 'x': 199.43, 'y': 450.18, 'width': _refWidth, 'height': _refHeight}, // #27
+    {'id': 'perna_direita_joelho', 'grupo': 'perna_direita', 'x': 209.61, 'y': 540.36, 'width': _refWidth, 'height': _refHeight}, // #28
+    
+    // === GRUPO PÉ ESQUERDO (#29) ===
+    {'id': 'pe_esquerdo', 'grupo': 'pe_esquerdo', 'x': 100.60, 'y': 595.20, 'width': _refWidth, 'height': _refHeight}, // #29
+    
+    // === GRUPO PÉ DIREITO (#30) ===
+    {'id': 'pe_direito', 'grupo': 'pe_direito', 'x': 225.96, 'y': 595.20, 'width': _refWidth, 'height': _refHeight}, // #30
   ];
 
   @override
@@ -71,16 +95,47 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: AppColors.surfaceVariant,
-            borderRadius: BorderRadius.circular(16),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceVariant,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: _buildCorpoHumano(),
+              ),
+            ),
           ),
-          padding: const EdgeInsets.all(16),
-          child: _buildCorpoHumano(),
-        ),
+          // Botão Confirmar Região
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            child: SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: ElevatedButton(
+                onPressed: () {
+                  // TODO: Implementar confirmação de região
+                  Navigator.pop(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.buttonPrimary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  elevation: 0,
+                ),
+                child: Text(
+                  'Confirmar Região',
+                  style: AppTypography.buttonPrimary,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -95,7 +150,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
               color: AppColors.surface,
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
-                color: AppColors.buttonPrimary.withOpacity(0.3),
+                color: AppColors.buttonPrimary.withValues(alpha: 0.3),
                 width: 2,
               ),
             ),
@@ -126,7 +181,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(
-                        color: AppColors.buttonPrimary.withOpacity(0.8),
+                        color: AppColors.buttonPrimary.withValues(alpha: 0.8),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: AppColors.textWhite,
@@ -134,7 +189,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
                         ),
                         boxShadow: [
                           BoxShadow(
-                            color: AppColors.buttonPrimary.withOpacity(0.6),
+                            color: AppColors.buttonPrimary.withValues(alpha: 0.6),
                             blurRadius: 8,
                             spreadRadius: 1,
                           ),
@@ -142,7 +197,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
               ],
             ),
         );
