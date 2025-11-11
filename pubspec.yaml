@@ -82,6 +82,17 @@ flutter:
     - assets/icons/pain/calendar.svg
     - assets/icons/pain/locate-fixed.svg
     - assets/icons/pain/stethoscope.svg
+
+    # Settings Menu Icons
+    - assets/icons/settings/bell-ring.svg
+    - assets/icons/settings/globe.svg
+    - assets/icons/settings/info.svg
+    - assets/icons/settings/lock-keyhole.svg
+    - assets/icons/settings/palette.svg
+    - assets/icons/settings/person-standing.svg
+    - assets/icons/settings/settings.svg
+    - assets/icons/settings/user-round.svg
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 
