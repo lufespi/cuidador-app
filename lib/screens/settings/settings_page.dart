@@ -3,6 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/index.dart';
+import 'account/account_page.dart';
+import 'accessibility/accessibility_page.dart';
+import 'notifications/notifications_page.dart';
+import 'privacy/privacy_page.dart';
+import 'theme/theme_page.dart';
+import 'language/language_page.dart';
+import 'about/about_page.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -67,7 +74,10 @@ class SettingsPage extends StatelessWidget {
                   title: 'Conta',
                   subtitle: 'Gerencie suas informações pessoais.',
                   onTap: () {
-                    // TODO: Navegar para página de Conta
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AccountPage()),
+                    );
                   },
                 ),
                 SettingsMenuItem(
@@ -75,7 +85,10 @@ class SettingsPage extends StatelessWidget {
                   title: 'Acessibilidade',
                   subtitle: 'Ajustes de leitura e contraste.',
                   onTap: () {
-                    // TODO: Navegar para página de Acessibilidade
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AccessibilityPage()),
+                    );
                   },
                 ),
                 SettingsMenuItem(
@@ -83,7 +96,10 @@ class SettingsPage extends StatelessWidget {
                   title: 'Notificações e Alertas',
                   subtitle: 'Receba lembretes quando precisar.',
                   onTap: () {
-                    // TODO: Navegar para página de Notificações
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const NotificationsPage()),
+                    );
                   },
                 ),
                 SettingsMenuItem(
@@ -91,7 +107,10 @@ class SettingsPage extends StatelessWidget {
                   title: 'Privacidade e Segurança',
                   subtitle: 'Controle de dados e permissões.',
                   onTap: () {
-                    // TODO: Navegar para página de Privacidade
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const PrivacyPage()),
+                    );
                   },
                 ),
                 SettingsMenuItem(
@@ -99,27 +118,132 @@ class SettingsPage extends StatelessWidget {
                   title: 'Tema e Aparência',
                   subtitle: 'Personalize cores e modo de exibição.',
                   onTap: () {
-                    // TODO: Navegar para página de Tema
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const ThemePage()),
+                    );
                   },
                 ),
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/globe.svg',
                   title: 'Idioma',
-                  subtitle: 'Selecione o idioma do app.',
+                  subtitle: 'Selecione o idioma do aplicativo.',
                   onTap: () {
-                    // TODO: Navegar para página de Idioma
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const LanguagePage()),
+                    );
                   },
                 ),
                     SettingsMenuItem(
                       iconPath: 'assets/icons/settings/info.svg',
-                      title: 'Sobre o App',
+                      title: 'Sobre o Aplicativo',
                       subtitle: 'Saiba mais sobre o CuidaDor.',
                       showDivider: false, // Último item não tem divider
                       onTap: () {
-                        // TODO: Navegar para página Sobre o App
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const AboutPage()),
+                        );
                       },
                     ),
                   ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              
+              // Botão Sair (discreto)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: TextButton(
+                  onPressed: () {
+                    // TODO: Implementar logout
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: Center(
+                          child: Text(
+                            'Sair da sua conta?',
+                            style: AppTypography.heading1Primary,
+                          ),
+                        ),
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const SizedBox(height: 8),
+                            // Divider acima de Sair
+                            Container(
+                              height: 1,
+                              color: AppColors.inputBackground,
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  // TODO: Implementar ação de logout
+                                },
+                                style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                ),
+                                child: Text(
+                                  'Sair',
+                                  style: AppTypography.textPrimary.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: AppColors.stateError,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            // Divider sutil
+                            Container(
+                              height: 1,
+                              color: AppColors.inputBackground,
+                            ),
+                            SizedBox(
+                              width: double.infinity,
+                              child: TextButton(
+                                onPressed: () => Navigator.pop(context),
+                                style: TextButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(vertical: 14),
+                                ),
+                                child: Text(
+                                  'Cancelar',
+                                  style: AppTypography.textPrimary.copyWith(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  style: TextButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.logout,
+                        color: AppColors.stateError.withValues(alpha: 0.7),
+                        size: 18,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        'Sair',
+                        style: AppTypography.textPrimary.copyWith(
+                          color: AppColors.stateError.withValues(alpha: 0.7),
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(height: 24),
