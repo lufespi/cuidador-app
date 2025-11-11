@@ -79,6 +79,8 @@ flutter:
     - assets/icons/navigation-bar/heart.svg
     - assets/icons/navigation-bar/settings.svg
 
+    # Forms Menu Icons
+    - assets/icons/forms/heart-pulse.svg
     # Pain Menu Icons
     - assets/icons/pain/activity.svg
     - assets/icons/pain/calendar.svg
@@ -94,6 +96,7 @@ flutter:
     - assets/icons/settings/person-standing.svg
     - assets/icons/settings/settings.svg
     - assets/icons/settings/user-round.svg
+    
     
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
