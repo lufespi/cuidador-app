@@ -79,7 +79,7 @@ class _AppTextFieldState extends State<AppTextField> {
               ),
             ],
           ),
-          child: TextField(
+          child: TextFormField(
             controller: widget.controller,
             focusNode: _focusNode,
             keyboardType: widget.keyboardType,
@@ -91,6 +91,7 @@ class _AppTextFieldState extends State<AppTextField> {
             onChanged: widget.onChanged,
             onTap: widget.onTap,
             inputFormatters: widget.inputFormatters,
+            validator: widget.validator,
             style: AppTypography.textPrimary,
             decoration: InputDecoration(
               hintText: widget.hint,

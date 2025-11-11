@@ -79,15 +79,47 @@ flutter:
     - assets/icons/navigation-bar/heart.svg
     - assets/icons/navigation-bar/settings.svg
 
-    # Forms Menu Icons
+    # Accessibility Icons
+    - assets/icons/accessibility/constract.svg
+    - assets/icons/accessibility/person-standing.svg
+    - assets/icons/accessibility/speaker.svg
+    - assets/icons/accessibility/T-font.svg
+
+    # Education Icons
+    - assets/icons/education/book.svg
+
+    # Forms Icons
+    - assets/icons/forms/calendar-days.svg
+    - assets/icons/forms/constrast.svg
     - assets/icons/forms/heart-pulse.svg
-    # Pain Menu Icons
+    - assets/icons/forms/person-standing.svg
+    - assets/icons/forms/shield.svg
+    - assets/icons/forms/speaker.svg
+    - assets/icons/forms/T-font.svg
+    - assets/icons/forms/user-pen.svg
+
+    # Pain Icons
     - assets/icons/pain/activity.svg
     - assets/icons/pain/calendar.svg
     - assets/icons/pain/locate-fixed.svg
     - assets/icons/pain/stethoscope.svg
 
-    # Settings Menu Icons
+    # Practice Icons
+    - assets/icons/practice/clock.svg
+    - assets/icons/practice/dumbbell.svg
+    - assets/icons/practice/footprints.svg
+    - assets/icons/practice/heart.svg
+    - assets/icons/practice/sparkles.svg
+    - assets/icons/practice/triangle-alert.svg
+    - assets/icons/practice/wind.svg
+
+    # Reminder Icons
+    - assets/icons/reminder/bell.svg
+    - assets/icons/reminder/clock.svg
+    - assets/icons/reminder/pen-line.svg
+    - assets/icons/reminder/plus.svg
+
+    # Settings Icons
     - assets/icons/settings/bell-ring.svg
     - assets/icons/settings/globe.svg
     - assets/icons/settings/info.svg

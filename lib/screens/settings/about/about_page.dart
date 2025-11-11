@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
+import 'app_info_page.dart';
+import 'team_page.dart';
+import 'terms_page.dart';
+import 'feedback_page.dart';
 
 class AboutPage extends StatelessWidget {
   const AboutPage({super.key});
@@ -69,11 +73,10 @@ class AboutPage extends StatelessWidget {
                       context: context,
                       label: 'Sobre o Aplicativo',
                       onTap: () {
-                        // TODO: Navegar para tela Sobre o Aplicativo
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Sobre o Aplicativo - Em desenvolvimento'),
-                            backgroundColor: AppColors.buttonPrimary,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AppInfoPage(),
                           ),
                         );
                       },
@@ -93,11 +96,10 @@ class AboutPage extends StatelessWidget {
                       context: context,
                       label: 'Equipe e Desenvolvimento',
                       onTap: () {
-                        // TODO: Navegar para tela Equipe e Desenvolvimento
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Equipe e Desenvolvimento - Em desenvolvimento'),
-                            backgroundColor: AppColors.buttonPrimary,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TeamPage(),
                           ),
                         );
                       },
@@ -117,11 +119,10 @@ class AboutPage extends StatelessWidget {
                       context: context,
                       label: 'Termos e Política de Privacidade',
                       onTap: () {
-                        // TODO: Navegar para tela Termos e Política de Privacidade
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Termos e Política de Privacidade - Em desenvolvimento'),
-                            backgroundColor: AppColors.buttonPrimary,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TermsPage(),
                           ),
                         );
                       },
@@ -141,11 +142,10 @@ class AboutPage extends StatelessWidget {
                       context: context,
                       label: 'Feedback',
                       onTap: () {
-                        // TODO: Navegar para tela Feedback
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Feedback - Em desenvolvimento'),
-                            backgroundColor: AppColors.buttonPrimary,
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FeedbackPage(),
                           ),
                         );
                       },
