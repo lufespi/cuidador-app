@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
+import 'regioes/head_page.dart';
+import 'regioes/torso_page.dart';
+import 'regioes/left_arm_page.dart';
+import 'regioes/right_arm_page.dart';
+import 'regioes/left_hand_page.dart';
+import 'regioes/right_hand_page.dart';
+import 'regioes/left_leg_page.dart';
+import 'regioes/right_leg_page.dart';
+import 'regioes/left_foot_page.dart';
+import 'regioes/right_foot_page.dart';
 
 class IndicarLocalPage extends StatefulWidget {
   const IndicarLocalPage({super.key});
@@ -13,6 +23,73 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
   // Dimensões de referência do container onde as coordenadas foram coletadas
   static const double _refWidth = 320.00;
   static const double _refHeight = 676.80;
+
+  // Conjunto para armazenar os grupos que tiveram pontos selecionados
+  final Set<String> _gruposSelecionados = {};
+
+  // Função para navegar para a página de detalhe do grupo
+  void _navegarParaGrupo(String grupo) {
+    Widget? page;
+    
+    switch (grupo) {
+      case 'cabeça':
+        page = const HeadPage();
+        break;
+      case 'torso':
+        page = const TorsoPage();
+        break;
+      case 'braço_esquerdo':
+        // Imagem está de frente, então esquerdo da imagem = direito do usuário
+        page = const RightArmPage();
+        break;
+      case 'braço_direito':
+        // Imagem está de frente, então direito da imagem = esquerdo do usuário
+        page = const LeftArmPage();
+        break;
+      case 'mao_esquerda':
+        page = const LeftHandPage();
+        break;
+      case 'mao_direita':
+        page = const RightHandPage();
+        break;
+      case 'perna_esquerda':
+        // Imagem está de frente, então esquerdo da imagem = direito do usuário
+        page = const RightLegPage();
+        break;
+      case 'perna_direita':
+        // Imagem está de frente, então direito da imagem = esquerdo do usuário
+        page = const LeftLegPage();
+        break;
+      case 'pe_esquerdo':
+        // Imagem está de frente, então esquerdo da imagem = direito do usuário
+        page = const RightFootPage();
+        break;
+      case 'pe_direito':
+        // Imagem está de frente, então direito da imagem = esquerdo do usuário
+        page = const LeftFootPage();
+        break;
+    }
+    
+    if (page != null) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => page!),
+      ).then((pontosSelecionados) {
+        // Aqui você pode processar os pontos selecionados retornados
+        if (pontosSelecionados != null && pontosSelecionados is List && pontosSelecionados.isNotEmpty) {
+          setState(() {
+            _gruposSelecionados.add(grupo);
+          });
+          debugPrint('Pontos selecionados no grupo $grupo: $pontosSelecionados');
+        } else {
+          // Se não houver pontos selecionados, remove o grupo do conjunto
+          setState(() {
+            _gruposSelecionados.remove(grupo);
+          });
+        }
+      });
+    }
+  }
 
   // Pontos fixos organizados por GRUPOS clicáveis
   // Cada grupo poderá expandir para uma visualização mais detalhada no futuro
@@ -117,12 +194,15 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
               width: double.infinity,
               height: 52,
               child: ElevatedButton(
-                onPressed: () {
-                  // TODO: Implementar confirmação de região
-                  Navigator.pop(context);
-                },
+                onPressed: _gruposSelecionados.isEmpty
+                    ? null
+                    : () {
+                        // TODO: Implementar confirmação de região
+                        Navigator.pop(context);
+                      },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.buttonPrimary,
+                  disabledBackgroundColor: AppColors.buttonPrimary.withValues(alpha: 0.3),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12),
                   ),
@@ -130,7 +210,11 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
                 ),
                 child: Text(
                   'Confirmar Região',
-                  style: AppTypography.buttonPrimary,
+                  style: AppTypography.buttonPrimary.copyWith(
+                    color: _gruposSelecionados.isEmpty
+                        ? AppColors.textWhite.withValues(alpha: 0.5)
+                        : AppColors.textWhite,
+                  ),
                 ),
               ),
             ),
@@ -177,23 +261,28 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
                   return Positioned(
                     left: posX - 10,
                     top: posY - 10,
-                    child: Container(
-                      width: 20,
-                      height: 20,
-                      decoration: BoxDecoration(
-                        color: AppColors.buttonPrimary.withValues(alpha: 0.8),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.textWhite,
-                          width: 1.5,
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.buttonPrimary.withValues(alpha: 0.6),
-                            blurRadius: 8,
-                            spreadRadius: 1,
+                    child: GestureDetector(
+                      onTap: () {
+                        _navegarParaGrupo(ponto['grupo']);
+                      },
+                      child: Container(
+                        width: 20,
+                        height: 20,
+                        decoration: BoxDecoration(
+                          color: AppColors.buttonPrimary.withValues(alpha: 0.8),
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.textWhite,
+                            width: 1.5,
                           ),
-                        ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.buttonPrimary.withValues(alpha: 0.6),
+                              blurRadius: 8,
+                              spreadRadius: 1,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
