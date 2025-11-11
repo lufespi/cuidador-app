@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
+import '../../core/theme/app_typography.dart';
 import '../dor/dor_page.dart';
 import '../settings/settings_page.dart';
 
@@ -119,10 +120,7 @@ class PlaceholderPage extends StatelessWidget {
         elevation: 0,
         title: Text(
           title,
-          style: const TextStyle(
-            color: AppColors.textPrimary,
-            fontWeight: FontWeight.w600,
-          ),
+          style: AppTypography.heading1Primary,
         ),
       ),
       body: Center(
@@ -137,17 +135,12 @@ class PlaceholderPage extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               'Página $title',
-              style: const TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: AppColors.textPrimary,
-              ),
+              style: AppTypography.heading1Primary,
             ),
             const SizedBox(height: 8),
             Text(
               'Em desenvolvimento',
-              style: TextStyle(
-                fontSize: 14,
+              style: AppTypography.heading2Primary.copyWith(
                 color: AppColors.textDisabled,
               ),
             ),

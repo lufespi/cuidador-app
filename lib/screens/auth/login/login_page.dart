@@ -125,10 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                 imagePath: 'assets/images/cuidador-main-logo.png',
                 title: null,
                 subtitle: 'Gerencie sua saúde osteoarticular',
-                subtitleStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF858585),
-                  fontSize: 15,
+                subtitleStyle: AppTypography.heading2Primary.copyWith(
+                  color: const Color(0xFF858585),
                 ),
               ),
               const SizedBox(height: 48),

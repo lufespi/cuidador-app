@@ -76,7 +76,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                 // Welcome text
                 Text(
                   'Gostaria de personalizar sua experiência?',
-                  style: AppTypography.textPrimary.copyWith(fontSize: 14),
+                  style: AppTypography.heading2Primary,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -121,7 +121,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                           const SizedBox(width: 8),
                           Text(
                             'Voltar',
-                            style: AppTypography.textPrimary.copyWith(fontSize: 14),
+                            style: AppTypography.heading2Primary,
                           ),
                         ],
                       ),
@@ -168,7 +168,6 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                       Text(
                         'Tamanho da Fonte: ${_getFontSizeLabel()}',
                         style: AppTypography.textPrimary.copyWith(
-                          fontSize: 12,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -190,7 +189,6 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                             Text(
                               'A',
                               style: AppTypography.textPrimary.copyWith(
-                                fontSize: 10,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -248,10 +246,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                             const SizedBox(width: 12),
                             Text(
                               'A',
-                              style: AppTypography.textPrimary.copyWith(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
-                              ),
+                              style: AppTypography.heading1Primary,
                             ),
                           ],
                         ),
@@ -274,13 +269,12 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                                 Text(
                                   'Alto Contraste',
                                   style: AppTypography.textPrimary.copyWith(
-                                    fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Text(
                                   'Melhor visibilidade para textos',
-                                  style: AppTypography.textDisabled.copyWith(fontSize: 10),
+                                  style: AppTypography.textDisabled,
                                 ),
                               ],
                             ),
@@ -313,13 +307,12 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                                 Text(
                                   'Texto-Para-Fala',
                                   style: AppTypography.textPrimary.copyWith(
-                                    fontSize: 12,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 Text(
                                   'Leitura de textos em voz alta',
-                                  style: AppTypography.textDisabled.copyWith(fontSize: 10),
+                                  style: AppTypography.textDisabled,
                                 ),
                               ],
                             ),
@@ -400,7 +393,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                               Expanded(
                                 child: Text(
                                   'Concordo com o uso dos meus dados conforme a política de privacidade (LGPD).',
-                                  style: AppTypography.textPrimary.copyWith(fontSize: 11),
+                                  style: AppTypography.textPrimary,
                                 ),
                               ),
                             ],
@@ -442,7 +435,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                               Expanded(
                                 child: Text(
                                   'Desejo receber por e-mail dicas de bem-estar, exercícios e novidades sobre o app.',
-                                  style: AppTypography.textPrimary.copyWith(fontSize: 11),
+                                  style: AppTypography.textPrimary,
                                 ),
                               ),
                             ],

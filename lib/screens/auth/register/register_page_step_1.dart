@@ -108,7 +108,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                 // Welcome text
                 Text(
                   'Bem-vindo! Complete seu cadastro para começar',
-                  style: AppTypography.textPrimary.copyWith(fontSize: 14),
+                  style: AppTypography.heading2Primary,
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 24),
@@ -319,15 +319,13 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                   children: [
                     Text(
                       'Já possui conta? ',
-                      style: AppTypography.textPrimary.copyWith(fontSize: 14),
+                      style: AppTypography.heading2Primary,
                     ),
                     GestureDetector(
                       onTap: _handleLogin,
                       child: Text(
                         'Realize o login',
-                        style: AppTypography.textLink.copyWith(
-                          fontSize: 14,
-                        ),
+                        style: AppTypography.textLink,
                       ),
                     ),
                   ],

@@ -45,10 +45,7 @@ class SettingsPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         Text(
                           'Ajustes',
-                          style: AppTypography.textPrimary.copyWith(
-                            fontSize: 24,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: AppTypography.heading1Primary,
                         ),
                       ],
                     ),
@@ -83,7 +80,7 @@ class SettingsPage extends StatelessWidget {
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/person-standing.svg',
                   title: 'Acessibilidade',
-                  subtitle: 'Ajustes de leitura e contraste.',
+                  subtitle: 'Ajuste o aplicativo para melhor atender suas necessidades.',
                   onTap: () {
                     Navigator.push(
                       context,
@@ -188,9 +185,7 @@ class SettingsPage extends StatelessWidget {
                                 ),
                                 child: Text(
                                   'Sair',
-                                  style: AppTypography.textPrimary.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                                  style: AppTypography.heading2Primary.copyWith(
                                     color: AppColors.stateError,
                                   ),
                                 ),
@@ -210,10 +205,7 @@ class SettingsPage extends StatelessWidget {
                                 ),
                                 child: Text(
                                   'Cancelar',
-                                  style: AppTypography.textPrimary.copyWith(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: AppTypography.heading2Primary,
                                 ),
                               ),
                             ),
@@ -237,9 +229,8 @@ class SettingsPage extends StatelessWidget {
                       const SizedBox(width: 6),
                       Text(
                         'Sair',
-                        style: AppTypography.textPrimary.copyWith(
+                        style: AppTypography.heading2Primary.copyWith(
                           color: AppColors.stateError.withValues(alpha: 0.7),
-                          fontSize: 14,
                         ),
                       ),
                     ],
