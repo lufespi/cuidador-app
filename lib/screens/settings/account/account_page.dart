@@ -3,12 +3,111 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
+import 'edit/edit_name_page.dart';
+import 'edit/edit_birth_date_page.dart';
+import 'edit/edit_gender_page.dart';
+import 'edit/edit_phone_page.dart';
+import 'edit/edit_email_page.dart';
 
-class AccountPage extends StatelessWidget {
+class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
 
-  void _navigateToEditField(BuildContext context, String fieldName) {
-    // TODO: Implementar navegação para telas de edição
+  @override
+  State<AccountPage> createState() => _AccountPageState();
+}
+
+class _AccountPageState extends State<AccountPage> {
+  // Valores iniciais (TODO: substituir por dados reais do backend)
+  String _userFirstName = 'João';
+  String _userLastName = 'Silva';
+  String _userBirthDate = '15/03/1990';
+  String _userGender = 'Masculino';
+  String _userPhone = '(11) 98765-4321';
+  String _userEmail = 'joao.silva@email.com';
+
+  String get _userFullName => '$_userFirstName $_userLastName';
+
+  Future<void> _navigateToEditName() async {
+    final result = await Navigator.push<Map<String, String>>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditNamePage(
+          currentFirstName: _userFirstName,
+          currentLastName: _userLastName,
+        ),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userFirstName = result['firstName'] ?? _userFirstName;
+        _userLastName = result['lastName'] ?? _userLastName;
+      });
+    }
+  }
+
+  Future<void> _navigateToEditBirthDate() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditBirthDatePage(currentBirthDate: _userBirthDate),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userBirthDate = result;
+      });
+    }
+  }
+
+  Future<void> _navigateToEditGender() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditGenderPage(currentGender: _userGender),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userGender = result;
+      });
+    }
+  }
+
+  Future<void> _navigateToEditPhone() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditPhonePage(currentPhone: _userPhone),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userPhone = result;
+      });
+    }
+  }
+
+  Future<void> _navigateToEditEmail() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditEmailPage(currentEmail: _userEmail),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userEmail = result;
+      });
+    }
+  }
+
+  void _navigateToEditHealthData(String fieldName) {
+    // TODO: Implementar navegação para telas de edição de dados de saúde
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Editar $fieldName - Em desenvolvimento'),
@@ -70,7 +169,8 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'Nome',
-                      onTap: () => _navigateToEditField(context, 'Nome'),
+                      value: _userFullName,
+                      onTap: _navigateToEditName,
                     ),
                     
                     // Divider
@@ -86,7 +186,8 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'Data de Nascimento',
-                      onTap: () => _navigateToEditField(context, 'Data de Nascimento'),
+                      value: _userBirthDate,
+                      onTap: _navigateToEditBirthDate,
                     ),
                     
                     // Divider
@@ -102,7 +203,8 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'Sexo',
-                      onTap: () => _navigateToEditField(context, 'Sexo'),
+                      value: _userGender,
+                      onTap: _navigateToEditGender,
                     ),
                     
                     // Divider
@@ -118,7 +220,8 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'Telefone',
-                      onTap: () => _navigateToEditField(context, 'Telefone'),
+                      value: _userPhone,
+                      onTap: _navigateToEditPhone,
                     ),
                     
                     // Divider
@@ -134,7 +237,8 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'E-mail',
-                      onTap: () => _navigateToEditField(context, 'E-mail'),
+                      value: _userEmail,
+                      onTap: _navigateToEditEmail,
                       isLast: true,
                     ),
                   ],
@@ -174,7 +278,7 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'Diagnóstico Principal',
-                      onTap: () => _navigateToEditField(context, 'Diagnóstico Principal'),
+                      onTap: () => _navigateToEditHealthData('Diagnóstico Principal'),
                     ),
                     
                     // Divider
@@ -190,7 +294,7 @@ class AccountPage extends StatelessWidget {
                     _buildAccountField(
                       context: context,
                       label: 'Comorbidades',
-                      onTap: () => _navigateToEditField(context, 'Comorbidades'),
+                      onTap: () => _navigateToEditHealthData('Comorbidades'),
                       isLast: true,
                     ),
                   ],
@@ -226,11 +330,11 @@ class AccountPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     
-                    // Campo Alterar Senha
+                    // Opção Alterar senha
                     _buildAccountField(
                       context: context,
                       label: 'Alterar senha',
-                      onTap: () => _navigateToEditField(context, 'Alterar senha'),
+                      onTap: () => _navigateToEditHealthData('Alterar senha'),
                     ),
                     
                     // Divider
@@ -340,6 +444,7 @@ class AccountPage extends StatelessWidget {
     required BuildContext context,
     required String label,
     required VoidCallback onTap,
+    String? value,
     bool isLast = false,
     bool isDestructive = false,
   }) {
@@ -351,11 +456,24 @@ class AccountPage extends StatelessWidget {
         child: Row(
           children: [
             Expanded(
-              child: Text(
-                label,
-                style: AppTypography.textPrimary.copyWith(
-                  color: isDestructive ? AppColors.stateError : null,
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: AppTypography.textPrimary.copyWith(
+                      color: isDestructive ? AppColors.stateError : AppColors.textDisabled,
+                      fontSize: 11,
+                    ),
+                  ),
+                  if (value != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      value,
+                      style: AppTypography.textPrimary,
+                    ),
+                  ],
+                ],
               ),
             ),
             const SizedBox(width: 12),
