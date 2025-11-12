@@ -5,8 +5,6 @@ import '../../../core/widgets/app_logo.dart';
 import '../../../core/widgets/app_tab_slider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/services/auth_service.dart';
-import '../../../core/services/api_service.dart';
 import '../register/register_page_step_1.dart';
 import '../../home/home_page.dart';
 
@@ -21,7 +19,6 @@ class _LoginPageState extends State<LoginPage> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _confirmarSenhaController = TextEditingController();
-  final _authService = AuthService();
   bool _showPassword = false;
   bool _showConfirmPassword = false;
   bool _isLoading = false;
@@ -50,45 +47,28 @@ class _LoginPageState extends State<LoginPage> {
     setState(() => _isLoading = true);
 
     try {
-      // Chamar API de login
-      await _authService.login(
-        email: _emailController.text.trim(),
-        password: _senhaController.text,
-      );
+      // Simular delay de login
+      await Future.delayed(const Duration(seconds: 1));
 
-      if (mounted) {
-        // Login bem-sucedido - navegar para home
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomePage(),
-          ),
-        );
-        
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Login realizado com sucesso!'),
-            backgroundColor: AppColors.stateSuccess,
-          ),
-        );
-      }
-    } on ApiException catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(e.message),
-            backgroundColor: AppColors.stateError,
-          ),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Erro ao fazer login. Verifique sua conexão.'),
-            backgroundColor: AppColors.stateError,
-          ),
-        );
+      // Login temporário para debug: admin/admin
+      if (_emailController.text == 'admin' && _senhaController.text == 'admin') {
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const HomePage(),
+            ),
+          );
+        }
+      } else {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Credenciais inválidas. Use: admin/admin'),
+              backgroundColor: AppColors.stateError,
+            ),
+          );
+        }
       }
     } finally {
       if (mounted) {
