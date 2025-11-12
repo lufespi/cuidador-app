@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -64,10 +65,13 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                     // Título da seção
                     Row(
                       children: [
-                        Icon(
-                          Icons.accessibility_new,
-                          color: AppColors.textPrimary,
-                          size: 24,
+                        SvgPicture.asset(
+                          'assets/icons/accessibility/person-standing.svg',
+                          height: 24,
+                          colorFilter: const ColorFilter.mode(
+                            AppColors.textPrimary,
+                            BlendMode.srcIn,
+                          ),
                         ),
                         const SizedBox(width: 8),
                         Text(

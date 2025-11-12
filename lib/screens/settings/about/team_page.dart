@@ -76,6 +76,7 @@ class TeamPage extends StatelessWidget {
                               Text(
                                 'Responsável pela gestão do projeto, design e desenvolvimento front-end da aplicação utilizando Flutter.',
                                 style: AppTypography.textPrimary,
+                                textAlign: TextAlign.justify,
                               ),
                             ],
                           ),
@@ -120,8 +121,9 @@ class TeamPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Responsável pelo back-end, integração de APIs e gerenciamento de banco de dados da aplicação.',
+                                'Responsável pelo desenvolvimento back-end, integração de APIs e gerenciamento de banco de dados da aplicação.',
                                 style: AppTypography.textPrimary,
+                                textAlign: TextAlign.justify,
                               ),
                             ],
                           ),
@@ -147,6 +149,7 @@ class TeamPage extends StatelessWidget {
                     Text(
                       'Esse projeto foi desenvolvido como trabalho final da disciplina de Desenvolvimento de Aplicativos Móveis, ministrado pelo professor Gilson Augusto Helfer, com o objetivo de apoiar o autocuidado e o manejo da dor em pessoas com osteoartrite. Oferecendo ferramentas para monitoramento da dor, práticas terapêuticas guiadas e conteúdo educativo baseado em evidências científicas.\n\nDesenvolvido com Flutter, o aplicativo oferece uma experiência nativa tanto para Android quanto iOS, garantindo desempenho e usabilidade em diferentes plataformas.',
                       style: AppTypography.textPrimary,
+                      textAlign: TextAlign.justify,
                     ),
                   ],
                 ),
