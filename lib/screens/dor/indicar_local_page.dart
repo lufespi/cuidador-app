@@ -117,10 +117,10 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
     {'id': 'braco_direito_antebraco', 'grupo': 'braço_direito', 'x': 235.18, 'y': 323.78, 'width': _refWidth, 'height': _refHeight}, // #14
     
     // === GRUPO MÃO DIREITA (#15-18) ===
-    {'id': 'mao_direita_polegar', 'grupo': 'mao_direita', 'x': 51.10, 'y': 351.71, 'width': _refWidth, 'height': _refHeight}, // #15
-    {'id': 'mao_direita_dedos', 'grupo': 'mao_direita', 'x': 53.57, 'y': 376.59, 'width': _refWidth, 'height': _refHeight}, // #16
-    {'id': 'mao_direita_punho', 'grupo': 'mao_direita', 'x': 103.75, 'y': 381.05, 'width': _refWidth, 'height': _refHeight}, // #17
-    {'id': 'mao_direita_palma', 'grupo': 'mao_direita', 'x': 77.03, 'y': 391.55, 'width': _refWidth, 'height': _refHeight}, // #18
+    {'id': 'mao_direita_polegar', 'grupo': 'mao_direita', 'x': 41.10, 'y': 351.71, 'width': _refWidth, 'height': _refHeight}, // #15
+    {'id': 'mao_direita_dedos', 'grupo': 'mao_direita', 'x': 43.57, 'y': 376.59, 'width': _refWidth, 'height': _refHeight}, // #16
+    {'id': 'mao_direita_punho', 'grupo': 'mao_direita', 'x': 93.75, 'y': 381.05, 'width': _refWidth, 'height': _refHeight}, // #17
+    {'id': 'mao_direita_palma', 'grupo': 'mao_direita', 'x': 67.03, 'y': 391.55, 'width': _refWidth, 'height': _refHeight}, // #18
 
     // === GRUPO MÃO ESQUERDA (#19-22) ===
     {'id': 'mao_esquerda_polegar', 'grupo': 'mao_esquerda', 'x': 273.23, 'y': 355.75, 'width': _refWidth, 'height': _refHeight}, // #19

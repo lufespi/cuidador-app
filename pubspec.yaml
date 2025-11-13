@@ -70,6 +70,19 @@ flutter:
     - assets/images/old-woman.png
     - assets/images/woman-exercise.png
 
+    # Body Parts
+    - assets/images/body-parts/Body.png
+    - assets/images/body-parts/Head.png
+    - assets/images/body-parts/Left-Arm.png
+    - assets/images/body-parts/Left-Foot.png
+    - assets/images/body-parts/Left-Hand.png
+    - assets/images/body-parts/Left-Leg.png
+    - assets/images/body-parts/Right-Arm.png
+    - assets/images/body-parts/Right-Foot.png
+    - assets/images/body-parts/Right-Hand.png
+    - assets/images/body-parts/Right-Leg.png
+    - assets/images/body-parts/Torso.png
+
     # Icons SVG
 
     # Navigation Menu Icons

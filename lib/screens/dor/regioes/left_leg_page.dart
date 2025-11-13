@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/body_part_selector.dart';
+import 'head_page.dart';
+import 'torso_page.dart';
+import 'left_arm_page.dart';
+import 'right_arm_page.dart';
+import 'left_hand_page.dart';
+import 'right_hand_page.dart';
+import 'right_leg_page.dart';
+import 'left_foot_page.dart';
+import 'right_foot_page.dart';
 
 class LeftLegPage extends StatefulWidget {
   const LeftLegPage({super.key});
@@ -11,6 +21,58 @@ class LeftLegPage extends StatefulWidget {
 
 class _LeftLegPageState extends State<LeftLegPage> {
   final List<String> _pontosSelecionados = [];
+
+  void _navegarParaParte(String parte) {
+    Widget? page;
+    switch (parte) {
+      case 'Cabeça':
+        page = const HeadPage();
+        break;
+      case 'Torso':
+        page = const TorsoPage();
+        break;
+      case 'Braço E.':
+        page = const LeftArmPage();
+        break;
+      case 'Braço D.':
+        page = const RightArmPage();
+        break;
+      case 'Mão E.':
+        page = const LeftHandPage();
+        break;
+      case 'Mão D.':
+        page = const RightHandPage();
+        break;
+      case 'Perna E.':
+        return;
+      case 'Perna D.':
+        page = const RightLegPage();
+        break;
+      case 'Pé E.':
+        page = const LeftFootPage();
+        break;
+      case 'Pé D.':
+        page = const RightFootPage();
+        break;
+    }
+    if (page != null && mounted) {
+      // ignore: use_build_context_synchronously
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => page!));
+    }
+  }
+
+  final List<Map<String, String>> _bodyParts = [
+    {'imagePath': 'assets/images/body-parts/Head.png', 'label': 'Cabeça'},
+    {'imagePath': 'assets/images/body-parts/Torso.png', 'label': 'Torso'},
+    {'imagePath': 'assets/images/body-parts/Left-Arm.png', 'label': 'Braço E.'},
+    {'imagePath': 'assets/images/body-parts/Right-Arm.png', 'label': 'Braço D.'},
+    {'imagePath': 'assets/images/body-parts/Left-Hand.png', 'label': 'Mão E.'},
+    {'imagePath': 'assets/images/body-parts/Right-Hand.png', 'label': 'Mão D.'},
+    {'imagePath': 'assets/images/body-parts/Left-Leg.png', 'label': 'Perna E.'},
+    {'imagePath': 'assets/images/body-parts/Right-Leg.png', 'label': 'Perna D.'},
+    {'imagePath': 'assets/images/body-parts/Left-Foot.png', 'label': 'Pé E.'},
+    {'imagePath': 'assets/images/body-parts/Right-Foot.png', 'label': 'Pé D.'},
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -23,9 +85,20 @@ class _LeftLegPageState extends State<LeftLegPage> {
           icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'Perna Esquerda',
-          style: AppTypography.heading1Secondary,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Perna Esquerda',
+              style: AppTypography.heading1Secondary,
+            ),
+            Text(
+              'Toque na região onde você sente dor',
+              style: AppTypography.textPrimary.copyWith(
+                color: AppColors.textWhite,
+              ),
+            ),
+          ],
         ),
       ),
       body: Column(
@@ -37,17 +110,29 @@ class _LeftLegPageState extends State<LeftLegPage> {
                 decoration: BoxDecoration(
                   color: AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppColors.buttonPrimary.withValues(alpha: 0.3),
+                    width: 2,
+                  ),
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Text(
-                    'Região da Perna Esquerda - Em desenvolvimento',
-                    style: AppTypography.textPrimary,
+                  child: Image.asset(
+                    'assets/images/body-parts/Left-Leg.png',
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
             ),
           ),
+          BodyPartCarousel(
+            bodyParts: _bodyParts,
+            selectedPart: 'Perna E.',
+            onPartSelected: (part) {
+              _navegarParaParte(part);
+            },
+          ),
+          const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: SizedBox(
