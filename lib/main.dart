@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'core/theme/app_colors.dart';
 import 'screens/auth/index.dart';
 
@@ -16,6 +17,15 @@ class CuidaDorApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.buttonPrimary),
         useMaterial3: true,
       ),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('pt', 'BR'),
+      ],
+      locale: const Locale('pt', 'BR'),
       home: const LoginPage(),
     );
   }

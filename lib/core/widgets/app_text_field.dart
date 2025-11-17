@@ -63,11 +63,13 @@ class _AppTextFieldState extends State<AppTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: AppTypography.heading2Primary,
-        ),
-        const SizedBox(height: 8),
+        if (widget.label.isNotEmpty) ...[
+          Text(
+            widget.label,
+            style: AppTypography.heading2Primary,
+          ),
+          const SizedBox(height: 8),
+        ],
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),

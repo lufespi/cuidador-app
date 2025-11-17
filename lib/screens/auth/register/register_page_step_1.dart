@@ -34,15 +34,6 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
 
   void _handleContinue() {
     if (_formKey.currentState?.validate() ?? false) {
-      if (_selectedGender == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Por favor, selecione o sexo'),
-            backgroundColor: AppColors.stateError,
-          ),
-        );
-        return;
-      }
       // Navigate to next step
       Navigator.push(
         context,
@@ -64,7 +55,6 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
       initialDate: DateTime.now().subtract(const Duration(days: 365 * 30)),
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      locale: const Locale('pt', 'BR'),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
@@ -148,67 +138,137 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                       const SizedBox(height: 24),
                       
                       // First name field
-                      AppTextField(
-                        label: 'Primeiro Nome',
-                        hint: 'Digite seu primeiro nome',
-                        controller: _firstNameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira seu primeiro nome';
-                          }
-                          return null;
-                        },
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: 'Primeiro Nome ',
+                              style: AppTypography.heading2Primary,
+                              children: const [
+                                TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                    color: AppColors.stateError,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          AppTextField(
+                            label: '',
+                            hint: 'Digite seu primeiro nome',
+                            controller: _firstNameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira seu primeiro nome';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 16),
                       
                       // Last name field
-                      AppTextField(
-                        label: 'Sobrenome',
-                        hint: 'Digite seu sobrenome',
-                        controller: _lastNameController,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira seu sobrenome';
-                          }
-                          return null;
-                        },
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: 'Sobrenome ',
+                              style: AppTypography.heading2Primary,
+                              children: const [
+                                TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                    color: AppColors.stateError,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          AppTextField(
+                            label: '',
+                            hint: 'Digite seu sobrenome',
+                            controller: _lastNameController,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira seu sobrenome';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 16),
                       
                       // Birthdate field
-                      AppTextField(
-                        label: 'Data de Nascimento',
-                        hint: 'DD/MM/AAAA',
-                        controller: _birthdateController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          _DateInputFormatter(),
-                        ],
-                        suffixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.calendar_today,
-                            color: AppColors.textPrimary,
-                            size: 20,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: 'Data de Nascimento ',
+                              style: AppTypography.heading2Primary,
+                              children: const [
+                                TextSpan(
+                                  text: '*',
+                                  style: TextStyle(
+                                    color: AppColors.stateError,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          onPressed: _selectDate,
-                        ),
-                        onTap: _selectDate,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira sua data de nascimento';
-                          }
-                          if (value.length < 10) {
-                            return 'Data inválida';
-                          }
-                          return null;
-                        },
+                          const SizedBox(height: 8),
+                          AppTextField(
+                            label: '',
+                            hint: 'DD/MM/AAAA',
+                            controller: _birthdateController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              _DateInputFormatter(),
+                            ],
+                            suffixIcon: IconButton(
+                              icon: const Icon(
+                                Icons.calendar_today,
+                                color: AppColors.textPrimary,
+                                size: 20,
+                              ),
+                              onPressed: _selectDate,
+                            ),
+                            onTap: _selectDate,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Por favor, insira sua data de nascimento';
+                              }
+                              if (value.length < 10) {
+                                return 'Data inválida';
+                              }
+                              return null;
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 16),
                       
                       // Gender field
-                      Text(
-                        'Sexo',
-                        style: AppTypography.heading2Primary,
+                      RichText(
+                        text: TextSpan(
+                          text: 'Sexo ',
+                          style: AppTypography.heading2Primary,
+                          children: [
+                            TextSpan(
+                              text: '(opcional)',
+                              style: AppTypography.textPrimary.copyWith(
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Container(
@@ -254,6 +314,13 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                                 width: 2,
                               ),
                             ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: AppColors.stateError,
+                                width: 2,
+                              ),
+                            ),
                           ),
                           items: [
                             DropdownMenuItem(
@@ -283,23 +350,42 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                       const SizedBox(height: 16),
                       
                       // Phone field
-                      AppTextField(
-                        label: 'Telefone',
-                        hint: '(15) 12345-6789',
-                        controller: _phoneController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [
-                          _PhoneInputFormatter(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          RichText(
+                            text: TextSpan(
+                              text: 'Telefone ',
+                              style: AppTypography.heading2Primary,
+                              children: [
+                                TextSpan(
+                                  text: '(opcional)',
+                                  style: AppTypography.textPrimary.copyWith(
+                                    color: AppColors.textDisabled,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          AppTextField(
+                            label: '',
+                            hint: '(15) 12345-6789',
+                            controller: _phoneController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              _PhoneInputFormatter(),
+                            ],
+                            validator: (value) {
+                              // Opcional: só valida se não estiver vazio
+                              if (value != null && value.isNotEmpty && value.length < 15) {
+                                return 'Telefone inválido';
+                              }
+                              return null;
+                            },
+                          ),
                         ],
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Por favor, insira seu telefone';
-                          }
-                          if (value.length < 15) {
-                            return 'Telefone inválido';
-                          }
-                          return null;
-                        },
                       ),
                     ],
                   ),

@@ -59,7 +59,6 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
       initialDate: _selectedDate,
       firstDate: DateTime(1900),
       lastDate: DateTime.now(),
-      locale: const Locale('pt', 'BR'),
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(

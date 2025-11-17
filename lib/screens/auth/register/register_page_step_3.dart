@@ -4,6 +4,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/step_indicator.dart';
+import '../../settings/about/terms_page.dart';
 
 class RegisterPageStep3 extends StatefulWidget {
   const RegisterPageStep3({super.key});
@@ -21,6 +22,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
   bool _gdprConsent = false;
   bool _emailConsent = false;
   bool _isBackButtonPressed = false;
+  bool _showErrors = false;
 
   String _getFontSizeLabel() {
     const labels = ['Muito Pequeno', 'Pequeno', 'Pequeno-Médio', 'Médio', 'Médio-Grande', 'Grande', 'Muito Grande'];
@@ -28,6 +30,10 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
   }
 
   void _handleFinish() {
+    setState(() {
+      _showErrors = true;
+    });
+    
     if (!_gdprConsent) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -351,9 +357,21 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                             size: 24,
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            'Uso de Dados e Privacidade',
-                            style: AppTypography.heading2Primary,
+                          Expanded(
+                            child: RichText(
+                              text: TextSpan(
+                                text: 'Uso de Dados e Privacidade ',
+                                style: AppTypography.heading2Primary,
+                                children: const [
+                                  TextSpan(
+                                    text: '*',
+                                    style: TextStyle(
+                                      color: AppColors.stateError,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
@@ -376,7 +394,9 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: _gdprConsent ? AppColors.buttonPrimary : AppColors.textDisabled,
+                                    color: _showErrors && !_gdprConsent 
+                                        ? AppColors.stateError 
+                                        : (_gdprConsent ? AppColors.buttonPrimary : AppColors.textDisabled),
                                     width: 2,
                                   ),
                                   color: _gdprConsent ? AppColors.buttonPrimary : Colors.transparent,
@@ -443,6 +463,30 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                const SizedBox(height: 16),
+                
+                // Terms and Conditions link
+                Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const TermsPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Ler Termos e Condições',
+                      style: AppTypography.textPrimary.copyWith(
+                        color: AppColors.buttonPrimary,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppColors.buttonPrimary,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),

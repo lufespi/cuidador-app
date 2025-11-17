@@ -21,6 +21,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
   String? _selectedDiagnosis;
   final List<String> _selectedComorbidities = [];
   bool _isBackButtonPressed = false;
+  bool _showErrors = false;
 
   @override
   void dispose() {
@@ -30,7 +31,51 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
   }
 
   void _handleContinue() {
+    setState(() {
+      _showErrors = true;
+    });
+    
     if (_formKey.currentState?.validate() ?? false) {
+      if (_selectedDiagnosis == null) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, selecione o diagnóstico principal'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+        return;
+      }
+      
+      if (_selectedDiagnosis == 'Outro diagnóstico' && _otherDiagnosisController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, especifique seu diagnóstico'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+        return;
+      }
+      
+      if (_selectedComorbidities.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, selecione pelo menos uma comorbidade ou "Nenhuma"'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+        return;
+      }
+      
+      if (_selectedComorbidities.contains('Outra') && _otherComorbidityController.text.trim().isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Por favor, especifique a comorbidade'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+        return;
+      }
+      
       // Navigate to next step
       Navigator.push(
         context,
@@ -161,9 +206,20 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                       const SizedBox(height: 24),
                       
                       // Primary diagnosis section
-                      Text(
-                        'Diagnóstico Principal',
-                        style: AppTypography.heading2Primary.copyWith(fontSize: 16),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Diagnóstico Principal ',
+                          style: AppTypography.heading2Primary.copyWith(fontSize: 16),
+                          children: const [
+                            TextSpan(
+                              text: '*',
+                              style: TextStyle(
+                                color: AppColors.stateError,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 16),
                       
@@ -178,6 +234,12 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                           label: '',
                           hint: 'Especifique seu diagnóstico',
                           controller: _otherDiagnosisController,
+                          validator: (value) {
+                            if (_showErrors && (value == null || value.trim().isEmpty)) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     ],
@@ -195,13 +257,24 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Comorbidades',
-                        style: AppTypography.heading2Primary.copyWith(fontSize: 16),
+                      RichText(
+                        text: TextSpan(
+                          text: 'Comorbidades ',
+                          style: AppTypography.heading2Primary.copyWith(fontSize: 16),
+                          children: const [
+                            TextSpan(
+                              text: '*',
+                              style: TextStyle(
+                                color: AppColors.stateError,
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Selecione todas que se aplicam',
+                        'Selecione todas que se aplicam (ou "Nenhuma")',
                         style: AppTypography.textPrimary.copyWith(fontSize: 12),
                       ),
                       const SizedBox(height: 16),
@@ -210,13 +283,20 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                       _buildComorbidityOption('Diabetes'),
                       _buildComorbidityOption('Osteoporose'),
                       _buildComorbidityOption('Outra'),
+                      _buildComorbidityOption('Nenhuma'),
                       
                       if (_selectedComorbidities.contains('Outra')) ...[
                         const SizedBox(height: 8),
                         AppTextField(
                           label: '',
-                          hint: 'Especifique seu diagnóstico',
+                          hint: 'Especifique a comorbidade',
                           controller: _otherComorbidityController,
+                          validator: (value) {
+                            if (_showErrors && (value == null || value.trim().isEmpty)) {
+                              return 'Campo obrigatório';
+                            }
+                            return null;
+                          },
                         ),
                       ],
                     ],
@@ -239,6 +319,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
 
   Widget _buildDiagnosisOption(String title) {
     final isSelected = _selectedDiagnosis == title;
+    final showError = _showErrors && _selectedDiagnosis == null;
     
     return GestureDetector(
       onTap: () {
@@ -256,7 +337,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.buttonPrimary : AppColors.textDisabled,
+                  color: showError 
+                      ? AppColors.stateError 
+                      : (isSelected ? AppColors.buttonPrimary : AppColors.textDisabled),
                   width: 2,
                 ),
                 color: isSelected ? AppColors.buttonPrimary : Colors.transparent,
@@ -287,14 +370,27 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
 
   Widget _buildComorbidityOption(String title) {
     final isSelected = _selectedComorbidities.contains(title);
+    final showError = _showErrors && _selectedComorbidities.isEmpty;
     
     return GestureDetector(
       onTap: () {
         setState(() {
-          if (isSelected) {
-            _selectedComorbidities.remove(title);
+          if (title == 'Nenhuma') {
+            // Se selecionar "Nenhuma", limpa outras seleções
+            if (isSelected) {
+              _selectedComorbidities.remove(title);
+            } else {
+              _selectedComorbidities.clear();
+              _selectedComorbidities.add(title);
+            }
           } else {
-            _selectedComorbidities.add(title);
+            // Se selecionar outra opção, remove "Nenhuma"
+            _selectedComorbidities.remove('Nenhuma');
+            if (isSelected) {
+              _selectedComorbidities.remove(title);
+            } else {
+              _selectedComorbidities.add(title);
+            }
           }
         });
       },
@@ -308,7 +404,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: isSelected ? AppColors.buttonPrimary : AppColors.textDisabled,
+                  color: showError 
+                      ? AppColors.stateError 
+                      : (isSelected ? AppColors.buttonPrimary : AppColors.textDisabled),
                   width: 2,
                 ),
                 color: isSelected ? AppColors.buttonPrimary : Colors.transparent,
