@@ -117,9 +117,12 @@ class _RightFootPageState extends State<RightFootPage> {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Image.asset(
-                    'assets/images/body-parts/Right-Foot.png',
-                    fit: BoxFit.contain,
+                  child: Transform.scale(
+                    scale: 2.0,
+                    child: Image.asset(
+                      'assets/images/body-parts/Right-Foot.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

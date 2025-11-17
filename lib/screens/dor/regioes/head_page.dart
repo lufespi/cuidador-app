@@ -120,9 +120,12 @@ class _HeadPageState extends State<HeadPage> {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Image.asset(
-                    'assets/images/body-parts/Head.png',
-                    fit: BoxFit.contain,
+                  child: Transform.scale(
+                    scale: 2.0,
+                    child: Image.asset(
+                      'assets/images/body-parts/Head.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

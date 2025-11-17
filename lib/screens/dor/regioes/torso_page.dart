@@ -118,9 +118,12 @@ class _TorsoPageState extends State<TorsoPage> {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Image.asset(
-                    'assets/images/body-parts/Torso.png',
-                    fit: BoxFit.contain,
+                  child: Transform.scale(
+                    scale: 1.5,
+                    child: Image.asset(
+                      'assets/images/body-parts/Torso.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

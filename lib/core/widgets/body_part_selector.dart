@@ -130,6 +130,41 @@ class _BodyPartCarouselState extends State<BodyPartCarousel> {
   void initState() {
     super.initState();
     _scrollController = ScrollController();
+    
+    // Scroll para o item selecionado após o build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _scrollToSelectedItem();
+    });
+  }
+
+  @override
+  void didUpdateWidget(BodyPartCarousel oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Se a parte selecionada mudou, scroll para ela
+    if (oldWidget.selectedPart != widget.selectedPart) {
+      _scrollToSelectedItem();
+    }
+  }
+
+  void _scrollToSelectedItem() {
+    if (widget.selectedPart == null) return;
+    
+    final selectedIndex = widget.bodyParts.indexWhere(
+      (part) => part['label'] == widget.selectedPart,
+    );
+    
+    if (selectedIndex != -1 && _scrollController.hasClients) {
+      // Largura do item (140) + padding horizontal (16)
+      final itemWidth = 156.0;
+      final screenWidth = MediaQuery.of(context).size.width;
+      final offset = (selectedIndex * itemWidth) - (screenWidth / 2) + (itemWidth / 2);
+      
+      _scrollController.animateTo(
+        offset.clamp(0.0, _scrollController.position.maxScrollExtent),
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+      );
+    }
   }
 
   @override

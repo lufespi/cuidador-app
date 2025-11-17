@@ -118,9 +118,12 @@ class _LeftHandPageState extends State<LeftHandPage> {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Image.asset(
-                    'assets/images/body-parts/Left-Hand.png',
-                    fit: BoxFit.contain,
+                  child: Transform.scale(
+                    scale: 1.5,
+                    child: Image.asset(
+                      'assets/images/body-parts/Left-Hand.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),

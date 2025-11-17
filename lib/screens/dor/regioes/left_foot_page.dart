@@ -117,9 +117,12 @@ class _LeftFootPageState extends State<LeftFootPage> {
                 ),
                 padding: const EdgeInsets.all(16),
                 child: Center(
-                  child: Image.asset(
-                    'assets/images/body-parts/Left-Foot.png',
-                    fit: BoxFit.contain,
+                  child: Transform.scale(
+                    scale: 2.0,
+                    child: Image.asset(
+                      'assets/images/body-parts/Left-Foot.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
