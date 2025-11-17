@@ -9,3 +9,6 @@ export 'settings_menu_item.dart';
 export 'practice_tag.dart';
 export 'practice_card.dart';
 export 'practice_timer_dialog.dart';
+export 'education_card.dart';
+export 'content_section_card.dart';
+export 'highlight_card.dart';
