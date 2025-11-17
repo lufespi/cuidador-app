@@ -23,113 +23,37 @@ class _EditNamePageState extends State<EditNamePage> {
   final _formKey = GlobalKey<FormState>();
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
-  final TextEditingController _passwordController = TextEditingController();
+  bool _hasChanges = false;
 
   @override
   void initState() {
     super.initState();
     _firstNameController = TextEditingController(text: widget.currentFirstName);
     _lastNameController = TextEditingController(text: widget.currentLastName);
+    
+    // Adicionar listeners para detectar mudanças
+    _firstNameController.addListener(_checkForChanges);
+    _lastNameController.addListener(_checkForChanges);
   }
 
   @override
   void dispose() {
     _firstNameController.dispose();
     _lastNameController.dispose();
-    _passwordController.dispose();
     super.dispose();
   }
 
-  void _showPasswordDialog() {
-    if (_formKey.currentState!.validate()) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Dialog(
-            backgroundColor: AppColors.surface,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(16),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withAlpha(25),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Confirmar Alteração',
-                    style: AppTypography.heading1Primary,
-                  ),
-                  const SizedBox(height: 16),
-                  Text(
-                    'Por segurança, digite sua senha atual para confirmar a alteração.',
-                    style: AppTypography.textPrimary.copyWith(
-                      color: AppColors.textDisabled,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  AppTextField(
-                    controller: _passwordController,
-                    label: 'Senha Atual',
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          _passwordController.clear();
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'Cancelar',
-                          style: AppTypography.textPrimary.copyWith(
-                            color: AppColors.textDisabled,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      TextButton(
-                        onPressed: () {
-                          // TODO: Validar senha e salvar alteração
-                          if (_passwordController.text.isNotEmpty) {
-                            Navigator.of(context).pop();
-                            _saveChanges();
-                          }
-                        },
-                        child: Text(
-                          'Confirmar',
-                          style: AppTypography.textPrimary.copyWith(
-                            color: AppColors.buttonPrimary,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-    }
+  void _checkForChanges() {
+    setState(() {
+      _hasChanges = _firstNameController.text != widget.currentFirstName ||
+                    _lastNameController.text != widget.currentLastName;
+    });
   }
 
   void _saveChanges() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
     // TODO: Salvar alteração do nome
     final fullName = '${_firstNameController.text} ${_lastNameController.text}';
     ScaffoldMessenger.of(context).showSnackBar(
@@ -232,7 +156,7 @@ class _EditNamePageState extends State<EditNamePage> {
               padding: const EdgeInsets.all(16),
               child: AppButton(
                 label: 'Salvar Alterações',
-                onPressed: _showPasswordDialog,
+                onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),
             ),

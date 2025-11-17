@@ -22,11 +22,13 @@ class _EditPhonePageState extends State<EditPhonePage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _phoneController;
   final TextEditingController _passwordController = TextEditingController();
+  bool _hasChanges = false;
 
   @override
   void initState() {
     super.initState();
     _phoneController = TextEditingController(text: widget.currentPhone);
+    _phoneController.addListener(_checkForChanges);
   }
 
   @override
@@ -34,6 +36,12 @@ class _EditPhonePageState extends State<EditPhonePage> {
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _checkForChanges() {
+    setState(() {
+      _hasChanges = _phoneController.text != widget.currentPhone;
+    });
   }
 
   void _showPasswordDialog() {
@@ -233,7 +241,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
               padding: const EdgeInsets.all(16),
               child: AppButton(
                 label: 'Salvar Alterações',
-                onPressed: _showPasswordDialog,
+                onPressed: _hasChanges ? _showPasswordDialog : null,
                 height: 52,
               ),
             ),

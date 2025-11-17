@@ -8,6 +8,9 @@ import 'edit/edit_birth_date_page.dart';
 import 'edit/edit_gender_page.dart';
 import 'edit/edit_phone_page.dart';
 import 'edit/edit_email_page.dart';
+import 'edit/edit_password_page.dart';
+import 'health/edit_diagnosis_page.dart';
+import 'health/edit_comorbidities_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({super.key});
@@ -24,6 +27,8 @@ class _AccountPageState extends State<AccountPage> {
   String _userGender = 'Masculino';
   String _userPhone = '(11) 98765-4321';
   String _userEmail = 'joao.silva@email.com';
+  String _userDiagnosis = 'Não informado';
+  String _userComorbidities = 'Nenhuma';
 
   String get _userFullName => '$_userFirstName $_userLastName';
 
@@ -106,12 +111,41 @@ class _AccountPageState extends State<AccountPage> {
     }
   }
 
-  void _navigateToEditHealthData(String fieldName) {
-    // TODO: Implementar navegação para telas de edição de dados de saúde
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Editar $fieldName - Em desenvolvimento'),
-        backgroundColor: AppColors.buttonPrimary,
+  Future<void> _navigateToEditDiagnosis() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditDiagnosisPage(currentDiagnosis: _userDiagnosis),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userDiagnosis = result;
+      });
+    }
+  }
+
+  Future<void> _navigateToEditComorbidities() async {
+    final result = await Navigator.push<String>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditComorbiditiesPage(currentComorbidities: _userComorbidities),
+      ),
+    );
+    
+    if (result != null && mounted) {
+      setState(() {
+        _userComorbidities = result;
+      });
+    }
+  }
+
+  Future<void> _navigateToEditPassword() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const EditPasswordPage(),
       ),
     );
   }
@@ -278,7 +312,8 @@ class _AccountPageState extends State<AccountPage> {
                     _buildAccountField(
                       context: context,
                       label: 'Diagnóstico Principal',
-                      onTap: () => _navigateToEditHealthData('Diagnóstico Principal'),
+                      value: _userDiagnosis,
+                      onTap: _navigateToEditDiagnosis,
                     ),
                     
                     // Divider
@@ -294,7 +329,8 @@ class _AccountPageState extends State<AccountPage> {
                     _buildAccountField(
                       context: context,
                       label: 'Comorbidades',
-                      onTap: () => _navigateToEditHealthData('Comorbidades'),
+                      value: _userComorbidities,
+                      onTap: _navigateToEditComorbidities,
                       isLast: true,
                     ),
                   ],
@@ -334,7 +370,7 @@ class _AccountPageState extends State<AccountPage> {
                     _buildAccountField(
                       context: context,
                       label: 'Alterar senha',
-                      onTap: () => _navigateToEditHealthData('Alterar senha'),
+                      onTap: _navigateToEditPassword,
                     ),
                     
                     // Divider

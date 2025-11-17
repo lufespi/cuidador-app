@@ -21,11 +21,13 @@ class _EditEmailPageState extends State<EditEmailPage> {
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _emailController;
   final TextEditingController _passwordController = TextEditingController();
+  bool _hasChanges = false;
 
   @override
   void initState() {
     super.initState();
     _emailController = TextEditingController(text: widget.currentEmail);
+    _emailController.addListener(_checkForChanges);
   }
 
   @override
@@ -33,6 +35,12 @@ class _EditEmailPageState extends State<EditEmailPage> {
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _checkForChanges() {
+    setState(() {
+      _hasChanges = _emailController.text != widget.currentEmail;
+    });
   }
 
   void _showPasswordDialog() {
@@ -243,7 +251,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
               padding: const EdgeInsets.all(16),
               child: AppButton(
                 label: 'Salvar Alterações',
-                onPressed: _showPasswordDialog,
+                onPressed: _hasChanges ? _showPasswordDialog : null,
                 height: 52,
               ),
             ),
