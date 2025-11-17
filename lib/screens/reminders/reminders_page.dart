@@ -67,7 +67,7 @@ class _RemindersPageState extends State<RemindersPage> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Cancelar',
+              'Não',
               style: AppTypography.textPrimary.copyWith(
                 color: AppColors.textDisabled,
               ),
@@ -81,7 +81,7 @@ class _RemindersPageState extends State<RemindersPage> {
               Navigator.pop(context);
             },
             child: Text(
-              'Excluir',
+              'Sim',
               style: AppTypography.textPrimary.copyWith(
                 color: AppColors.stateError,
                 fontWeight: FontWeight.w600,
@@ -92,6 +92,8 @@ class _RemindersPageState extends State<RemindersPage> {
       ),
     );
   }
+
+
 
   void _showReminderDialog({Map<String, dynamic>? reminder, int? index}) {
     showDialog(
@@ -108,10 +110,31 @@ class _RemindersPageState extends State<RemindersPage> {
           });
         },
         onDelete: index != null ? () {
-          _deleteReminder(index);
+          setState(() {
+            _reminders.removeAt(index);
+          });
         } : null,
       ),
     );
+  }
+
+  String _getReminderTypeLabel(String type) {
+    switch (type) {
+      case 'exercise':
+        return 'Exercício';
+      case 'medication':
+        return 'Medicação';
+      case 'appointment':
+        return 'Consulta';
+      case 'practice':
+        return 'Prática';
+      case 'hydration':
+        return 'Hidratação';
+      case 'diet':
+        return 'Dieta';
+      default:
+        return 'Lembrete';
+    }
   }
 
   IconData _getReminderIcon(String type) {
@@ -231,6 +254,7 @@ class _RemindersPageState extends State<RemindersPage> {
                           time: reminder['time'],
                           isActive: reminder['isActive'],
                           icon: _getReminderIcon(reminder['type']),
+                          type: _getReminderTypeLabel(reminder['type']),
                           onToggle: () => _toggleReminder(index),
                           onEdit: () => _editReminder(index),
                           onDelete: () => _deleteReminder(index),
@@ -817,27 +841,17 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               
               // Botão de excluir (apenas ao editar)
               if (widget.reminder != null) ...[
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
+                const SizedBox(height: 16),
+                Center(
                   child: TextButton(
                     onPressed: _showDeleteConfirmation,
                     style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        side: const BorderSide(
-                          color: AppColors.stateError,
-                          width: 1,
-                        ),
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: Text(
                       'Excluir Lembrete',
-                      style: AppTypography.textPrimary.copyWith(
-                        color: AppColors.stateError,
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
+                      style: AppTypography.heading2Primary.copyWith(
+                        color: AppColors.stateError.withValues(alpha: 0.7),
                       ),
                     ),
                   ),
@@ -873,9 +887,11 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () {
+              Navigator.pop(context); // Apenas fecha o dialog de confirmação
+            },
             child: Text(
-              'Cancelar',
+              'Não',
               style: AppTypography.textPrimary.copyWith(
                 color: AppColors.textDisabled,
               ),
@@ -886,11 +902,11 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               Navigator.pop(context); // Fecha o dialog de confirmação
               Navigator.pop(context); // Fecha o dialog de edição
               if (widget.onDelete != null) {
-                widget.onDelete!();
+                widget.onDelete!(); // Remove o lembrete
               }
             },
             child: Text(
-              'Excluir',
+              'Sim',
               style: AppTypography.textPrimary.copyWith(
                 color: AppColors.stateError,
                 fontWeight: FontWeight.w600,

@@ -10,6 +10,7 @@ class ReminderCard extends StatelessWidget {
   final String time;
   final bool isActive;
   final IconData icon;
+  final String type;
   final VoidCallback onToggle;
   final VoidCallback onEdit;
   final VoidCallback onDelete;
@@ -22,6 +23,7 @@ class ReminderCard extends StatelessWidget {
     required this.time,
     required this.isActive,
     required this.icon,
+    required this.type,
     required this.onToggle,
     required this.onEdit,
     required this.onDelete,
@@ -119,9 +121,28 @@ class ReminderCard extends StatelessWidget {
           
           const SizedBox(height: 12),
           
-          // Tags de frequência e horário
-          Row(
+          // Tags de tipo, frequência e horário
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
+              // Tag de tipo
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppColors.buttonPrimary.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Text(
+                  type,
+                  style: AppTypography.textPrimary.copyWith(
+                    fontSize: 12,
+                    color: AppColors.buttonPrimary,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+              // Tag de frequência
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
@@ -137,7 +158,7 @@ class ReminderCard extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              // Tag de horário
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
