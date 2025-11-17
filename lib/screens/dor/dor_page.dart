@@ -4,6 +4,9 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_card.dart';
 import '../../core/widgets/app_button.dart';
+import '../../core/widgets/app_outlined_button.dart';
+import '../../core/widgets/app_dropdown.dart';
+import '../../core/widgets/app_text_field.dart';
 import 'indicar_local_page.dart';
 
 class DorPage extends StatefulWidget {
@@ -71,17 +74,14 @@ class _DorPageState extends State<DorPage> {
                       const SizedBox(width: 8),
                       Text(
                         'Como você está se sentindo hoje?',
-                        style: AppTypography.textPrimary.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: AppTypography.heading2Primary,
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Registre seu nível de dor',
-                    style: AppTypography.textDisabled.copyWith(fontSize: 12),
+                    style: AppTypography.textDisabled,
                   ),
                   const SizedBox(height: 20),
 
@@ -91,26 +91,19 @@ class _DorPageState extends State<DorPage> {
                     children: [
                       Text(
                         'Nível de Dor',
-                        style: AppTypography.textPrimary.copyWith(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: AppTypography.label,
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                             '${_nivelDor.toInt()}',
-                            style: AppTypography.textPrimary.copyWith(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.buttonPrimary,
-                            ),
+                            style: AppTypography.displayLarge,
                           ),
                           Text(
                             '/10',
-                            style: AppTypography.textDisabled.copyWith(
-                              fontSize: 14,
+                            style: AppTypography.heading2Primary.copyWith(
+                              color: AppColors.textDisabled,
                             ),
                           ),
                         ],
@@ -164,18 +157,12 @@ class _DorPageState extends State<DorPage> {
                       children: [
                         Text(
                           _getDescricaoDor(),
-                          style: AppTypography.textPrimary.copyWith(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.buttonPrimary,
-                          ),
+                          style: AppTypography.displayMedium,
                         ),
                         const SizedBox(height: 4),
                         Text(
                           _getSubtituloDor(),
-                          style: AppTypography.textDisabled.copyWith(
-                            fontSize: 12,
-                          ),
+                          style: AppTypography.textDisabled,
                         ),
                       ],
                     ),
@@ -184,7 +171,14 @@ class _DorPageState extends State<DorPage> {
 
                   // Botão indicar local da dor
                   Center(
-                    child: OutlinedButton.icon(
+                    child: AppOutlinedButton(
+                      label: 'Indicar local da dor',
+                      icon: SvgPicture.asset(
+                        'assets/icons/pain/locate-fixed.svg', 
+                        width: 18, 
+                        height: 18,
+                        colorFilter: const ColorFilter.mode(AppColors.buttonPrimary, BlendMode.srcIn),
+                      ),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -193,33 +187,6 @@ class _DorPageState extends State<DorPage> {
                           ),
                         );
                       },
-                      icon: SvgPicture.asset(
-                        'assets/icons/pain/locate-fixed.svg', 
-                        width: 18, 
-                        height: 18,
-                        colorFilter: ColorFilter.mode(AppColors.buttonPrimary, BlendMode.srcIn),
-                      ),
-                      label: Text(
-                        'Indicar local da dor',
-                        style: AppTypography.textPrimary.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.buttonPrimary,
-                        ),
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        side: BorderSide(
-                          color: AppColors.buttonPrimary,
-                          width: 1.5,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 12,
-                        ),
-                      ),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -227,43 +194,14 @@ class _DorPageState extends State<DorPage> {
                   // Campo de anotação
                   Text(
                     'Adicionar uma anotação',
-                    style: AppTypography.textPrimary.copyWith(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: AppTypography.label,
                   ),
                   const SizedBox(height: 8),
-                  TextField(
+                  AppTextField(
+                    label: '',
+                    hint: 'Ex.: Dor após a caminhada, degrau a mais...',
                     controller: _anotacaoController,
                     maxLines: 3,
-                    decoration: InputDecoration(
-                      hintText: 'Ex.: Dor após a caminhada, degrau a mais...',
-                      hintStyle: AppTypography.textDisabled.copyWith(
-                        fontSize: 12,
-                      ),
-                      filled: true,
-                      fillColor: Colors.white,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          color: AppColors.inputBackground,
-                        ),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          color: AppColors.inputBackground,
-                        ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(8),
-                        borderSide: BorderSide(
-                          color: AppColors.buttonPrimary,
-                          width: 1.5,
-                        ),
-                      ),
-                      contentPadding: const EdgeInsets.all(12),
-                    ),
                   ),
                   const SizedBox(height: 16),
 
@@ -306,69 +244,43 @@ class _DorPageState extends State<DorPage> {
                           const SizedBox(width: 8),
                           Text(
                             'Histórico',
-                            style: AppTypography.textPrimary.copyWith(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                            ),
+                            style: AppTypography.heading2Primary,
                           ),
                         ],
                       ),
                       // Dropdown de período
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceVariant,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: AppColors.buttonPrimary.withValues(alpha: 0.3),
-                            width: 1,
-                          ),
-                        ),
-                        child: DropdownButton<String>(
-                          value: _periodoHistorico,
-                          underline: const SizedBox(),
-                          isDense: true,
-                          icon: Icon(
-                            Icons.keyboard_arrow_down,
-                            size: 18,
-                            color: AppColors.buttonPrimary,
-                          ),
-                          style: AppTypography.textPrimary.copyWith(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.buttonPrimary,
-                          ),
-                          items: const [
-                            DropdownMenuItem(value: '7', child: Text('7 dias')),
-                            DropdownMenuItem(value: '14', child: Text('14 dias')),
-                            DropdownMenuItem(value: '30', child: Text('30 dias')),
-                            DropdownMenuItem(value: '60', child: Text('60 dias')),
-                            DropdownMenuItem(value: '90', child: Text('90 dias')),
-                            DropdownMenuItem(value: 'custom', child: Text('Personalizado')),
-                          ],
-                          onChanged: (value) {
-                            if (value == 'custom') {
-                              // TODO: Implementar seletor de data personalizado
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Seletor de período personalizado em breve'),
-                                  duration: Duration(seconds: 2),
-                                ),
-                              );
-                            } else {
-                              setState(() {
-                                _periodoHistorico = value!;
-                              });
-                            }
-                          },
-                        ),
+                      AppDropdown<String>(
+                        value: _periodoHistorico,
+                        items: const [
+                          DropdownMenuItem(value: '7', child: Text('7 dias')),
+                          DropdownMenuItem(value: '14', child: Text('14 dias')),
+                          DropdownMenuItem(value: '30', child: Text('30 dias')),
+                          DropdownMenuItem(value: '60', child: Text('60 dias')),
+                          DropdownMenuItem(value: '90', child: Text('90 dias')),
+                          DropdownMenuItem(value: 'custom', child: Text('Personalizado')),
+                        ],
+                        onChanged: (value) {
+                          if (value == 'custom') {
+                            // TODO: Implementar seletor de data personalizado
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Seletor de período personalizado em breve'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            setState(() {
+                              _periodoHistorico = value!;
+                            });
+                          }
+                        },
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Visualize o padrão da sua dor',
-                    style: AppTypography.textDisabled.copyWith(fontSize: 12),
+                    style: AppTypography.textDisabled,
                   ),
                   const SizedBox(height: 20),
 
@@ -395,9 +307,7 @@ class _DorPageState extends State<DorPage> {
                           const SizedBox(height: 8),
                           Text(
                             'Gráfico será exibido aqui',
-                            style: AppTypography.textDisabled.copyWith(
-                              fontSize: 12,
-                            ),
+                            style: AppTypography.textDisabled,
                           ),
                         ],
                       ),
@@ -426,17 +336,14 @@ class _DorPageState extends State<DorPage> {
                       const SizedBox(width: 8),
                       Text(
                         'Histórico Recente',
-                        style: AppTypography.textPrimary.copyWith(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                        ),
+                        style: AppTypography.heading2Primary,
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'Com base em seus registros anteriores',
-                    style: AppTypography.textDisabled.copyWith(fontSize: 12),
+                    style: AppTypography.textDisabled,
                   ),
                   const SizedBox(height: 20),
 
@@ -502,11 +409,7 @@ class _DorPageState extends State<DorPage> {
             child: Center(
               child: Text(
                 '$nivel',
-                style: AppTypography.textPrimary.copyWith(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.buttonPrimary,
-                ),
+                style: AppTypography.displayLarge,
               ),
             ),
           ),
@@ -519,15 +422,12 @@ class _DorPageState extends State<DorPage> {
               children: [
                 Text(
                   data,
-                  style: AppTypography.textDisabled.copyWith(fontSize: 11),
+                  style: AppTypography.labelSmall,
                 ),
                 const SizedBox(height: 4),
                 Text(
                   descricao,
-                  style: AppTypography.textPrimary.copyWith(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTypography.bodyMedium,
                 ),
               ],
             ),

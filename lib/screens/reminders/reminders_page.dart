@@ -59,7 +59,7 @@ class _RemindersPageState extends State<RemindersPage> {
         ),
         content: Text(
           'Tem certeza que deseja excluir este lembrete?',
-          style: AppTypography.textPrimary.copyWith(
+          style: AppTypography.bodyLarge.copyWith(
             color: AppColors.textDisabled,
           ),
         ),
@@ -68,7 +68,7 @@ class _RemindersPageState extends State<RemindersPage> {
             onPressed: () => Navigator.pop(context),
             child: Text(
               'Não',
-              style: AppTypography.textPrimary.copyWith(
+              style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textDisabled,
               ),
             ),
@@ -82,9 +82,8 @@ class _RemindersPageState extends State<RemindersPage> {
             },
             child: Text(
               'Sim',
-              style: AppTypography.textPrimary.copyWith(
+              style: AppTypography.captionPrimary.copyWith(
                 color: AppColors.stateError,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -183,16 +182,13 @@ class _RemindersPageState extends State<RemindersPage> {
                           children: [
                             Text(
                               'Lembretes',
-                              style: AppTypography.heading1Primary.copyWith(
-                                fontSize: 20,
-                              ),
+                              style: AppTypography.pageTitle,
                             ),
                             const SizedBox(height: 4),
                             Text(
                               'Não esqueça seus cuidados',
-                              style: AppTypography.textPrimary.copyWith(
+                              style: AppTypography.bodyLarge.copyWith(
                                 color: AppColors.textDisabled,
-                                fontSize: 14,
                               ),
                             ),
                           ],
@@ -234,9 +230,8 @@ class _RemindersPageState extends State<RemindersPage> {
                           const SizedBox(height: 8),
                           Text(
                             'Toque no botão + para criar',
-                            style: AppTypography.textPrimary.copyWith(
+                            style: AppTypography.bodyLarge.copyWith(
                               color: AppColors.textDisabled,
-                              fontSize: 14,
                             ),
                           ),
                         ],
@@ -438,7 +433,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   },
                   child: Text(
                     'Cancelar',
-                    style: AppTypography.textPrimary.copyWith(
+                    style: AppTypography.bodyMedium.copyWith(
                       color: AppColors.textDisabled,
                     ),
                   ),
@@ -452,9 +447,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   },
                   child: Text(
                     'Confirmar',
-                    style: AppTypography.textPrimary.copyWith(
+                    style: AppTypography.captionPrimary.copyWith(
                       color: AppColors.buttonPrimary,
-                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
@@ -487,9 +481,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
         child: Center(
           child: Text(
             day,
-            style: AppTypography.textPrimary.copyWith(
+            style: (isSelected ? AppTypography.captionPrimary : AppTypography.bodyMedium).copyWith(
               color: Colors.white,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
             ),
           ),
         ),
@@ -555,9 +548,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   const SizedBox(width: 12),
                   Text(
                     widget.reminder == null ? 'Adicionar Lembrete' : 'Editar Lembrete',
-                    style: AppTypography.heading2Primary.copyWith(
-                      fontSize: 18,
-                    ),
+                    style: AppTypography.displayMedium,
                   ),
                   const Spacer(),
                   IconButton(
@@ -589,7 +580,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 value: _selectedType,
                 decoration: InputDecoration(
                   hintText: 'Tipo de lembrete',
-                  hintStyle: AppTypography.textPrimary.copyWith(
+                  hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
@@ -641,7 +632,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 controller: _titleController,
                 decoration: InputDecoration(
                   hintText: _titlePlaceholder,
-                  hintStyle: AppTypography.textPrimary.copyWith(
+                  hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
@@ -679,7 +670,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 maxLines: 3,
                 decoration: InputDecoration(
                   hintText: _messagePlaceholder,
-                  hintStyle: AppTypography.textPrimary.copyWith(
+                  hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
@@ -716,7 +707,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 value: _selectedFrequency,
                 decoration: InputDecoration(
                   hintText: 'Frequência',
-                  hintStyle: AppTypography.textPrimary.copyWith(
+                  hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
@@ -779,7 +770,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
                   hintText: 'Horário (ex: 08:00)',
-                  hintStyle: AppTypography.textPrimary.copyWith(
+                  hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
                   prefixIcon: const Icon(
@@ -830,10 +821,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   ),
                   child: Text(
                     widget.reminder == null ? 'Criar Lembrete' : 'Salvar Alterações',
-                    style: AppTypography.textPrimary.copyWith(
+                    style: AppTypography.sectionTitle.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
                     ),
                   ),
                 ),
@@ -850,7 +839,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     ),
                     child: Text(
                       'Excluir Lembrete',
-                      style: AppTypography.heading2Primary.copyWith(
+                      style: AppTypography.sectionTitle.copyWith(
                         color: AppColors.stateError.withValues(alpha: 0.7),
                       ),
                     ),
@@ -881,7 +870,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
         ),
         content: Text(
           'Tem certeza que deseja excluir este lembrete?',
-          style: AppTypography.textPrimary.copyWith(
+          style: AppTypography.bodyLarge.copyWith(
             color: AppColors.textDisabled,
           ),
         ),
@@ -892,7 +881,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
             },
             child: Text(
               'Não',
-              style: AppTypography.textPrimary.copyWith(
+              style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textDisabled,
               ),
             ),
@@ -907,9 +896,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
             },
             child: Text(
               'Sim',
-              style: AppTypography.textPrimary.copyWith(
+              style: AppTypography.captionPrimary.copyWith(
                 color: AppColors.stateError,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ),

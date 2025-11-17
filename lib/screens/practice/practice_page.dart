@@ -156,18 +156,15 @@ class _PracticePageState extends State<PracticePage> {
                         const SizedBox(width: 12),
                         Text(
                           'Práticas de Bem-Estar',
-                          style: AppTypography.heading1Primary.copyWith(
-                            fontSize: 20,
-                          ),
+                          style: AppTypography.pageTitle,
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Text(
                       'Exercícios e técnicas para aliviar a dor',
-                      style: AppTypography.textPrimary.copyWith(
+                      style: AppTypography.bodyLarge.copyWith(
                         color: AppColors.textDisabled,
-                        fontSize: 14,
                       ),
                     ),
                   ],

@@ -23,9 +23,7 @@ class OsteoartriteDetailPage extends StatelessWidget {
         ),
         title: Text(
           'Voltar',
-          style: AppTypography.textPrimary.copyWith(
-            fontSize: 16,
-          ),
+          style: AppTypography.sectionTitle,
         ),
       ),
       body: SafeArea(
@@ -37,9 +35,7 @@ class OsteoartriteDetailPage extends StatelessWidget {
               // Título
               Text(
                 'O que é Osteoartrite?',
-                style: AppTypography.heading1Primary.copyWith(
-                  fontSize: 24,
-                ),
+                style: AppTypography.displayLarge,
               ),
               
               const SizedBox(height: 8),
@@ -127,10 +123,8 @@ class OsteoartriteDetailPage extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTypography.textPrimary.copyWith(
-          fontSize: 12,
+        style: AppTypography.label.copyWith(
           color: AppColors.buttonPrimary,
-          fontWeight: FontWeight.w500,
         ),
       ),
     );

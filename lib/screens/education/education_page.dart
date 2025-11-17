@@ -83,18 +83,15 @@ class _EducationPageState extends State<EducationPage> {
                         const SizedBox(width: 12),
                         Text(
                           'Educação',
-                          style: AppTypography.heading1Primary.copyWith(
-                            fontSize: 20,
-                          ),
+                          style: AppTypography.pageTitle,
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Text(
                       'Aprenda sobre osteoartrite e autocuidado',
-                      style: AppTypography.textPrimary.copyWith(
+                      style: AppTypography.bodyLarge.copyWith(
                         color: AppColors.textDisabled,
-                        fontSize: 14,
                       ),
                     ),
                   ],

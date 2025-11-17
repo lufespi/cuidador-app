@@ -24,9 +24,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
         ),
         title: Text(
           'Voltar',
-          style: AppTypography.textPrimary.copyWith(
-            fontSize: 16,
-          ),
+          style: AppTypography.sectionTitle,
         ),
       ),
       body: SafeArea(
@@ -38,9 +36,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               // Título e tags
               Text(
                 'Relaxamento Muscular',
-                style: AppTypography.heading1Primary.copyWith(
-                  fontSize: 22,
-                ),
+                style: AppTypography.practiceTitle,
               ),
               const SizedBox(height: 12),
               
@@ -123,10 +119,8 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
         ),
         label: Text(
           'Iniciar Sessão',
-          style: AppTypography.textPrimary.copyWith(
+          style: AppTypography.sectionTitle.copyWith(
             color: Colors.white,
-            fontWeight: FontWeight.w600,
-            fontSize: 16,
           ),
         ),
         style: ElevatedButton.styleFrom(
@@ -173,18 +167,15 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 title,
-                style: AppTypography.heading2Primary.copyWith(
-                  fontSize: 16,
-                ),
+                style: AppTypography.sectionTitle,
               ),
             ],
           ),
           const SizedBox(height: 12),
           Text(
             content,
-            style: AppTypography.textPrimary.copyWith(
+            style: AppTypography.bodyLarge.copyWith(
               color: AppColors.textDisabled,
-              fontSize: 14,
               height: 1.5,
             ),
           ),
@@ -221,9 +212,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 'Como fazer',
-                style: AppTypography.heading2Primary.copyWith(
-                  fontSize: 16,
-                ),
+                style: AppTypography.sectionTitle,
               ),
             ],
           ),
@@ -246,10 +235,8 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                     child: Center(
                       child: Text(
                         '$index',
-                        style: AppTypography.textPrimary.copyWith(
+                        style: AppTypography.captionPrimary.copyWith(
                           color: AppColors.buttonPrimary,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ),
@@ -258,9 +245,8 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                   Expanded(
                     child: Text(
                       step,
-                      style: AppTypography.textPrimary.copyWith(
+                      style: AppTypography.bodyLarge.copyWith(
                         color: AppColors.textDisabled,
-                        fontSize: 14,
                         height: 1.5,
                       ),
                     ),
@@ -302,18 +288,15 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               const SizedBox(width: 8),
               Text(
                 'Atenção',
-                style: AppTypography.heading2Primary.copyWith(
-                  fontSize: 16,
-                ),
+                style: AppTypography.sectionTitle,
               ),
             ],
           ),
           const SizedBox(height: 12),
           Text(
             warning,
-            style: AppTypography.textPrimary.copyWith(
+            style: AppTypography.bodyLarge.copyWith(
               color: AppColors.textDisabled,
-              fontSize: 14,
               height: 1.5,
             ),
           ),

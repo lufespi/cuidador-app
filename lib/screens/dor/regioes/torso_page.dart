@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/body_part_selector.dart';
+import '../../../core/widgets/app_button.dart';
 import 'head_page.dart';
 import 'left_arm_page.dart';
 import 'right_arm_page.dart';
@@ -95,9 +96,7 @@ class _TorsoPageState extends State<TorsoPage> {
             ),
             Text(
               'Toque na região onde você sente dor',
-              style: AppTypography.textPrimary.copyWith(
-                color: AppColors.textWhite,
-              ),
+              style: AppTypography.heading2Secondary,
             ),
           ],
         ),
@@ -139,25 +138,11 @@ class _TorsoPageState extends State<TorsoPage> {
           const SizedBox(height: 16),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context, _pontosSelecionados);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonPrimary,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: Text(
-                  'Confirmar Seleção',
-                  style: AppTypography.buttonPrimary,
-                ),
-              ),
+            child: AppButton(
+              label: 'Confirmar Seleção',
+              onPressed: () {
+                Navigator.pop(context, _pontosSelecionados);
+              },
             ),
           ),
         ],

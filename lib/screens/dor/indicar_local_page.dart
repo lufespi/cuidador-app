@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
+import '../../core/widgets/app_button.dart';
 import 'regioes/head_page.dart';
 import 'regioes/torso_page.dart';
 import 'regioes/left_arm_page.dart';
@@ -165,9 +166,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
             ),
             Text(
               'Toque no região onde você sente dor',
-              style: AppTypography.textPrimary.copyWith(
-                color: AppColors.textWhite,
-              ),
+              style: AppTypography.heading2Secondary,
             ),
           ],
         ),
@@ -190,33 +189,14 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
           // Botão Confirmar Região
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            child: SizedBox(
-              width: double.infinity,
-              height: 52,
-              child: ElevatedButton(
-                onPressed: _gruposSelecionados.isEmpty
-                    ? null
-                    : () {
-                        // TODO: Implementar confirmação de região
-                        Navigator.pop(context);
-                      },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.buttonPrimary,
-                  disabledBackgroundColor: AppColors.buttonPrimary.withValues(alpha: 0.3),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 0,
-                ),
-                child: Text(
-                  'Confirmar Região',
-                  style: AppTypography.buttonPrimary.copyWith(
-                    color: _gruposSelecionados.isEmpty
-                        ? AppColors.textWhite.withValues(alpha: 0.5)
-                        : AppColors.textWhite,
-                  ),
-                ),
-              ),
+            child: AppButton(
+              label: 'Confirmar Região',
+              onPressed: _gruposSelecionados.isEmpty
+                  ? null
+                  : () {
+                      // TODO: Implementar confirmação de região
+                      Navigator.pop(context);
+                    },
             ),
           ),
         ],
