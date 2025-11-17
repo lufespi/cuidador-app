@@ -5,6 +5,7 @@ import '../../core/theme/app_typography.dart';
 import '../dor/dor_page.dart';
 import '../practice/practice_page.dart';
 import '../education/education_page.dart';
+import '../reminders/reminders_page.dart';
 import '../settings/settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     const DorPage(),
     const PracticePage(),
     const EducationPage(),
-    const PlaceholderPage(title: 'Lembretes'),
+    const RemindersPage(),
     const SettingsPage(),
   ];
 

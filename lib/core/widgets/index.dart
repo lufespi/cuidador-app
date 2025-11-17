@@ -12,3 +12,4 @@ export 'practice_timer_dialog.dart';
 export 'education_card.dart';
 export 'content_section_card.dart';
 export 'highlight_card.dart';
+export 'reminder_card.dart';

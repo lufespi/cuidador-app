@@ -69,48 +69,33 @@ class _EducationPageState extends State<EducationPage> {
             // Header
             SliverToBoxAdapter(
               child: Padding(
-                padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        Container(
-                          width: 48,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceVariant,
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: const Icon(
-                            Icons.school_outlined,
-                            color: AppColors.buttonPrimary,
-                            size: 28,
-                          ),
+                        const Icon(
+                          Icons.school_outlined,
+                          color: AppColors.buttonPrimary,
+                          size: 24,
                         ),
-                        const SizedBox(width: 16),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Educação',
-                                style: AppTypography.heading1Primary.copyWith(
-                                  fontSize: 24,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                'Aprenda sobre osteoartrite e autocuidado',
-                                style: AppTypography.textPrimary.copyWith(
-                                  color: AppColors.textDisabled,
-                                  fontSize: 14,
-                                ),
-                              ),
-                            ],
+                        const SizedBox(width: 12),
+                        Text(
+                          'Educação',
+                          style: AppTypography.heading1Primary.copyWith(
+                            fontSize: 20,
                           ),
                         ),
                       ],
+                    ),
+                    const SizedBox(height: 12),
+                    Text(
+                      'Aprenda sobre osteoartrite e autocuidado',
+                      style: AppTypography.textPrimary.copyWith(
+                        color: AppColors.textDisabled,
+                        fontSize: 14,
+                      ),
                     ),
                   ],
                 ),
