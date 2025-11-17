@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../dor/dor_page.dart';
+import '../practice/practice_page.dart';
 import '../settings/settings_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _HomePageState extends State<HomePage> {
 
   final List<Widget> _pages = [
     const DorPage(),
-    const PlaceholderPage(title: 'Práticas'),
+    const PracticePage(),
     const PlaceholderPage(title: 'Educação'),
     const PlaceholderPage(title: 'Lembretes'),
     const SettingsPage(),
