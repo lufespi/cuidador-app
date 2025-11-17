@@ -21,6 +21,8 @@ class RightHandPage extends StatefulWidget {
 
 class _RightHandPageState extends State<RightHandPage> {
   final List<String> _pontosSelecionados = [];
+  // DEBUG: pontos clicados na imagem
+  final List<Offset> _pontosDebug = [];
 
   void _navegarParaParte(String parte) {
     Widget? page;
@@ -111,19 +113,87 @@ class _RightHandPageState extends State<RightHandPage> {
                   color: AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.buttonPrimary.withValues(alpha: 0.3),
+                    color: AppColors.buttonPrimary.withOpacity(0.3),
                     width: 2,
                   ),
                 ),
                 padding: const EdgeInsets.all(16),
-                child: Center(
-                  child: Transform.scale(
-                    scale: 1.5,
-                    child: Image.asset(
-                      'assets/images/body-parts/Right-Hand.png',
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return GestureDetector(
+                      onTapDown: (details) {
+                        final position = details.localPosition;
+                        setState(() {
+                          _pontosDebug.add(position);
+                        });
+                        debugPrint('═══════════════════════════════════════');
+                        debugPrint('🎯 POSIÇÃO CLICADA #${_pontosDebug.length}:');
+                        debugPrint('   X: ${position.dx.toStringAsFixed(2)}');
+                        debugPrint('   Y: ${position.dy.toStringAsFixed(2)}');
+                        debugPrint('   Container Width: ${constraints.maxWidth.toStringAsFixed(2)}');
+                        debugPrint('   Container Height: ${constraints.maxHeight.toStringAsFixed(2)}');
+                        debugPrint('   Percentual X: ${(position.dx / constraints.maxWidth * 100).toStringAsFixed(2)}%');
+                        debugPrint('   Percentual Y: ${(position.dy / constraints.maxHeight * 100).toStringAsFixed(2)}%');
+                        debugPrint('═══════════════════════════════════════\n');
+                      },
+                      child: Stack(
+                        children: [
+                          Center(
+                            child: Transform.scale(
+                              scale: 1.5,
+                              child: Image.asset(
+                                'assets/images/body-parts/Right-Hand.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
+                          ..._pontosDebug.asMap().entries.map((entry) {
+                            return Positioned(
+                              left: entry.value.dx - 10,
+                              top: entry.value.dy - 10,
+                              child: GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _pontosDebug.removeAt(entry.key);
+                                  });
+                                  debugPrint('❌ Ponto #${entry.key + 1} removido');
+                                },
+                                child: Container(
+                                  width: 20,
+                                  height: 20,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.buttonPrimary.withOpacity(0.8),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: AppColors.textWhite,
+                                      width: 1.5,
+                                    ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.buttonPrimary.withOpacity(0.6),
+                                        blurRadius: 8,
+                                        spreadRadius: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      '${entry.key + 1}',
+                                      style: AppTypography.textPrimary.copyWith(
+                                        color: AppColors.textWhite,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 9,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                        ],
+                      ),
+                    );
+                  },
                 ),
               ),
             ),

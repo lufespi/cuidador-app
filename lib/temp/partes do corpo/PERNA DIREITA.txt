@@ -1,0 +1,48 @@
+PERNA DIREITA
+
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #1:
+I/flutter (12065):    X: 123.05
+I/flutter (12065):    Y: 333.80
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 38.94%
+I/flutter (12065):    Percentual Y: 87.66%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #2:
+I/flutter (12065):    X: 151.45
+I/flutter (12065):    Y: 296.69
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 47.93%
+I/flutter (12065):    Percentual Y: 77.91%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #3:
+I/flutter (12065):    X: 156.85
+I/flutter (12065):    Y: 202.95
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 49.64%
+I/flutter (12065):    Percentual Y: 53.29%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #4:
+I/flutter (12065):    X: 171.97
+I/flutter (12065):    Y: 58.07
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 54.42%
+I/flutter (12065):    Percentual Y: 15.25%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 

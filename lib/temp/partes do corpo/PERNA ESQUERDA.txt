@@ -1,0 +1,50 @@
+PERNA ESQUERDA
+
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #1:
+I/flutter (12065):    X: 188.09
+I/flutter (12065):    Y: 326.51
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 59.52%
+I/flutter (12065):    Percentual Y: 85.74%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #2:
+I/flutter (12065):    X: 163.42
+I/flutter (12065):    Y: 295.64
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 51.71%
+I/flutter (12065):    Percentual Y: 77.64%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+3
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #3:
+I/flutter (12065):    X: 152.39
+I/flutter (12065):    Y: 198.64
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 48.23%
+I/flutter (12065):    Percentual Y: 52.16%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+3
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #4:
+I/flutter (12065):    X: 143.52
+I/flutter (12065):    Y: 57.02
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 45.42%
+I/flutter (12065):    Percentual Y: 14.97%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/VRI[MainActivity]@7bd682b(12065): call setFrameRateCategory for touch hint category=no preference, reason=boost timeout, vri=VRI[MainActivity]@7bd682b

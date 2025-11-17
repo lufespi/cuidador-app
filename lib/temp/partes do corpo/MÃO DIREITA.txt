@@ -1,0 +1,144 @@
+MÃO DIREITA
+
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #1:
+I/flutter (12065):    X: 81.22
+I/flutter (12065):    Y: 218.06
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 25.70%
+I/flutter (12065):    Percentual Y: 57.26%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #2:
+I/flutter (12065):    X: 107.20
+I/flutter (12065):    Y: 187.25
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 33.92%
+I/flutter (12065):    Percentual Y: 49.17%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #3:
+I/flutter (12065):    X: 125.41
+I/flutter (12065):    Y: 306.14
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 39.69%
+I/flutter (12065):    Percentual Y: 80.39%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #4:
+I/flutter (12065):    X: 135.07
+I/flutter (12065):    Y: 242.73
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 42.74%
+I/flutter (12065):    Percentual Y: 63.74%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #5:
+I/flutter (12065):    X: 168.56
+I/flutter (12065):    Y: 325.25
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 53.34%
+I/flutter (12065):    Percentual Y: 85.41%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #6:
+I/flutter (12065):    X: 177.43
+I/flutter (12065):    Y: 256.07
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 56.15%
+I/flutter (12065):    Percentual Y: 67.24%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #7:
+I/flutter (12065):    X: 203.62
+I/flutter (12065):    Y: 316.38
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 64.44%
+I/flutter (12065):    Percentual Y: 83.08%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #8:
+I/flutter (12065):    X: 201.21
+I/flutter (12065):    Y: 266.98
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 63.67%
+I/flutter (12065):    Percentual Y: 70.11%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #9:
+I/flutter (12065):    X: 234.54
+I/flutter (12065):    Y: 306.72
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 74.22%
+I/flutter (12065):    Percentual Y: 80.55%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #10:
+I/flutter (12065):    X: 231.08
+I/flutter (12065):    Y: 260.42
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 73.13%
+I/flutter (12065):    Percentual Y: 68.39%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #11:
+I/flutter (12065):    X: 182.84
+I/flutter (12065):    Y: 141.48
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 57.86%
+I/flutter (12065):    Percentual Y: 37.15%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
+2
+I/VRI[MainActivity]@7bd682b(12065): updatePointerIcon : PointerIcon{type=NOT_SPECIFIED, hotspotX=0.0, hotspotY=0.0}
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 🎯 POSIÇÃO CLICADA #12:
+I/flutter (12065):    X: 194.65
+I/flutter (12065):    Y: 55.40
+I/flutter (12065):    Container Width: 316.00
+I/flutter (12065):    Container Height: 380.80
+I/flutter (12065):    Percentual X: 61.60%
+I/flutter (12065):    Percentual Y: 14.55%
+I/flutter (12065): ═══════════════════════════════════════
+I/flutter (12065): 
