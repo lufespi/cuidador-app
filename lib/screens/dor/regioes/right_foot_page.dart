@@ -20,9 +20,34 @@ class RightFootPage extends StatefulWidget {
 }
 
 class _RightFootPageState extends State<RightFootPage> {
+  static final Map<String, List<String>> _selecoesSalvas = {};
+  static const String _chaveRegiao = 'Pé D.';
+  
   final List<String> _pontosSelecionados = [];
-  // DEBUG: pontos clicados na imagem
-  final List<Offset> _pontosDebug = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (_selecoesSalvas.containsKey(_chaveRegiao)) {
+      _pontosSelecionados.addAll(_selecoesSalvas[_chaveRegiao]!);
+    }
+  }
+
+  void _salvarSelecoes() {
+    _selecoesSalvas[_chaveRegiao] = List.from(_pontosSelecionados);
+  }
+  
+  // Pontos fixos clicáveis
+  final List<Map<String, dynamic>> _pontosFixos = [
+    {'xPercent': 18.96, 'yPercent': 83.85, 'label': 'Ponto 1'},
+    {'xPercent': 19.74, 'yPercent': 88.69, 'label': 'Ponto 2'},
+    {'xPercent': 24.24, 'yPercent': 90.90, 'label': 'Ponto 3'},
+    {'xPercent': 30.52, 'yPercent': 91.81, 'label': 'Ponto 4'},
+    {'xPercent': 36.88, 'yPercent': 91.20, 'label': 'Ponto 5'},
+    {'xPercent': 50.93, 'yPercent': 66.39, 'label': 'Ponto 6'},
+    {'xPercent': 70.82, 'yPercent': 11.69, 'label': 'Ponto 7'},
+    {'xPercent': 72.31, 'yPercent': 51.83, 'label': 'Ponto 8'},
+  ];
 
   void _navegarParaParte(String parte) {
     Widget? page;
@@ -120,78 +145,62 @@ class _RightFootPageState extends State<RightFootPage> {
                 padding: const EdgeInsets.all(16),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    return GestureDetector(
-                      onTapDown: (details) {
-                        final position = details.localPosition;
-                        setState(() {
-                          _pontosDebug.add(position);
-                        });
-                        debugPrint('═══════════════════════════════════════');
-                        debugPrint('🎯 POSIÇÃO CLICADA #${_pontosDebug.length}:');
-                        debugPrint('   X: ${position.dx.toStringAsFixed(2)}');
-                        debugPrint('   Y: ${position.dy.toStringAsFixed(2)}');
-                        debugPrint('   Container Width: ${constraints.maxWidth.toStringAsFixed(2)}');
-                        debugPrint('   Container Height: ${constraints.maxHeight.toStringAsFixed(2)}');
-                        debugPrint('   Percentual X: ${(position.dx / constraints.maxWidth * 100).toStringAsFixed(2)}%');
-                        debugPrint('   Percentual Y: ${(position.dy / constraints.maxHeight * 100).toStringAsFixed(2)}%');
-                        debugPrint('═══════════════════════════════════════\n');
-                      },
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Transform.scale(
-                              scale: 2.0,
-                              child: Image.asset(
-                                'assets/images/body-parts/Right-Foot.png',
-                                fit: BoxFit.contain,
-                              ),
+                    return Stack(
+                      children: [
+                        Center(
+                          child: Transform.scale(
+                            scale: 2.0,
+                            child: Image.asset(
+                              'assets/images/body-parts/Right-Foot.png',
+                              fit: BoxFit.contain,
                             ),
                           ),
-                          ..._pontosDebug.asMap().entries.map((entry) {
-                            return Positioned(
-                              left: entry.value.dx - 10,
-                              top: entry.value.dy - 10,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _pontosDebug.removeAt(entry.key);
-                                  });
-                                  debugPrint('❌ Ponto #${entry.key + 1} removido');
-                                },
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.buttonPrimary.withOpacity(0.8),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppColors.textWhite,
-                                      width: 1.5,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.buttonPrimary.withOpacity(0.6),
-                                        blurRadius: 8,
-                                        spreadRadius: 1,
-                                      ),
-                                    ],
+                        ),
+                        // Pontos fixos clicáveis
+                        ..._pontosFixos.map((ponto) {
+                          final left = constraints.maxWidth * (ponto['xPercent'] / 100) - 10;
+                          final top = constraints.maxHeight * (ponto['yPercent'] / 100) - 10;
+                          final isSelected = _pontosSelecionados.contains(ponto['label']);
+                          return Positioned(
+                            left: left,
+                            top: top,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (isSelected) {
+                                    _pontosSelecionados.remove(ponto['label']);
+                                  } else {
+                                    _pontosSelecionados.add(ponto['label']);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.stateError.withOpacity(0.9)
+                                      : AppColors.buttonPrimary.withOpacity(0.8),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: AppColors.textWhite,
+                                    width: 1.5,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      '${entry.key + 1}',
-                                      style: AppTypography.textPrimary.copyWith(
-                                        color: AppColors.textWhite,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 9,
-                                      ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: (isSelected
+                                          ? AppColors.stateError
+                                          : AppColors.buttonPrimary).withOpacity(0.6),
+                                      blurRadius: 8,
+                                      spreadRadius: 1,
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                            );
-                          }).toList(),
-                        ],
-                      ),
+                            ),
+                          );
+                        }),
+                      ],
                     );
                   },
                 ),
@@ -213,6 +222,7 @@ class _RightFootPageState extends State<RightFootPage> {
               height: 52,
               child: ElevatedButton(
                 onPressed: () {
+                  _salvarSelecoes();
                   Navigator.pop(context, _pontosSelecionados);
                 },
                 style: ElevatedButton.styleFrom(

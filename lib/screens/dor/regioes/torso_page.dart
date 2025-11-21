@@ -21,9 +21,36 @@ class TorsoPage extends StatefulWidget {
 }
 
 class _TorsoPageState extends State<TorsoPage> {
+  // Map estático para manter seleções entre navegações
+  static final Map<String, List<String>> _selecoesSalvas = {};
+  static const String _chaveRegiao = 'Torso';
+  
   final List<String> _pontosSelecionados = [];
-  // DEBUG: pontos clicados na imagem
-  final List<Offset> _pontosDebug = [];
+
+  @override
+  void initState() {
+    super.initState();
+    if (_selecoesSalvas.containsKey(_chaveRegiao)) {
+      _pontosSelecionados.addAll(_selecoesSalvas[_chaveRegiao]!);
+    }
+  }
+
+  void _salvarSelecoes() {
+    _selecoesSalvas[_chaveRegiao] = List.from(_pontosSelecionados);
+  }
+  
+  // Pontos fixos clicáveis
+  final List<Map<String, dynamic>> _pontosFixos = [
+    {'xPercent': 51.03, 'yPercent': 13.55, 'label': 'Ponto 1'},
+    {'xPercent': 49.65, 'yPercent': 34.27, 'label': 'Ponto 2'},
+    {'xPercent': 65.82, 'yPercent': 34.77, 'label': 'Ponto 3'},
+    {'xPercent': 34.32, 'yPercent': 35.35, 'label': 'Ponto 4'},
+    {'xPercent': 28.11, 'yPercent': 18.06, 'label': 'Ponto 5'},
+    {'xPercent': 70.35, 'yPercent': 16.67, 'label': 'Ponto 6'},
+    {'xPercent': 50.40, 'yPercent': 54.42, 'label': 'Ponto 7'},
+    {'xPercent': 66.45, 'yPercent': 73.05, 'label': 'Ponto 8'},
+    {'xPercent': 36.96, 'yPercent': 72.50, 'label': 'Ponto 9'},
+  ];
 
   final List<Map<String, String>> _bodyParts = [
     {'imagePath': 'assets/images/body-parts/Head.png', 'label': 'Cabeça'},
@@ -120,78 +147,62 @@ class _TorsoPageState extends State<TorsoPage> {
                 padding: const EdgeInsets.all(16),
                 child: LayoutBuilder(
                   builder: (context, constraints) {
-                    return GestureDetector(
-                      onTapDown: (details) {
-                        final position = details.localPosition;
-                        setState(() {
-                          _pontosDebug.add(position);
-                        });
-                        debugPrint('═══════════════════════════════════════');
-                        debugPrint('🎯 POSIÇÃO CLICADA #${_pontosDebug.length}:');
-                        debugPrint('   X: ${position.dx.toStringAsFixed(2)}');
-                        debugPrint('   Y: ${position.dy.toStringAsFixed(2)}');
-                        debugPrint('   Container Width: ${constraints.maxWidth.toStringAsFixed(2)}');
-                        debugPrint('   Container Height: ${constraints.maxHeight.toStringAsFixed(2)}');
-                        debugPrint('   Percentual X: ${(position.dx / constraints.maxWidth * 100).toStringAsFixed(2)}%');
-                        debugPrint('   Percentual Y: ${(position.dy / constraints.maxHeight * 100).toStringAsFixed(2)}%');
-                        debugPrint('═══════════════════════════════════════\n');
-                      },
-                      child: Stack(
-                        children: [
-                          Center(
-                            child: Transform.scale(
-                              scale: 1.5,
-                              child: Image.asset(
-                                'assets/images/body-parts/Torso.png',
-                                fit: BoxFit.contain,
-                              ),
+                    return Stack(
+                      children: [
+                        Center(
+                          child: Transform.scale(
+                            scale: 1.5,
+                            child: Image.asset(
+                              'assets/images/body-parts/Torso.png',
+                              fit: BoxFit.contain,
                             ),
                           ),
-                          ..._pontosDebug.asMap().entries.map((entry) {
-                            return Positioned(
-                              left: entry.value.dx - 10,
-                              top: entry.value.dy - 10,
-                              child: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _pontosDebug.removeAt(entry.key);
-                                  });
-                                  debugPrint('❌ Ponto #${entry.key + 1} removido');
-                                },
-                                child: Container(
-                                  width: 20,
-                                  height: 20,
-                                  decoration: BoxDecoration(
-                                    color: AppColors.buttonPrimary.withOpacity(0.8),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: AppColors.textWhite,
-                                      width: 1.5,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: AppColors.buttonPrimary.withOpacity(0.6),
-                                        blurRadius: 8,
-                                        spreadRadius: 1,
-                                      ),
-                                    ],
+                        ),
+                        // Pontos fixos clicáveis
+                        ..._pontosFixos.map((ponto) {
+                          final left = constraints.maxWidth * (ponto['xPercent'] / 100) - 10;
+                          final top = constraints.maxHeight * (ponto['yPercent'] / 100) - 10;
+                          final isSelected = _pontosSelecionados.contains(ponto['label']);
+                          return Positioned(
+                            left: left,
+                            top: top,
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (isSelected) {
+                                    _pontosSelecionados.remove(ponto['label']);
+                                  } else {
+                                    _pontosSelecionados.add(ponto['label']);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                width: 20,
+                                height: 20,
+                                decoration: BoxDecoration(
+                                  color: isSelected
+                                      ? AppColors.stateError.withOpacity(0.9)
+                                      : AppColors.buttonPrimary.withOpacity(0.8),
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: AppColors.textWhite,
+                                    width: 1.5,
                                   ),
-                                  child: Center(
-                                    child: Text(
-                                      '${entry.key + 1}',
-                                      style: AppTypography.textPrimary.copyWith(
-                                        color: AppColors.textWhite,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 9,
-                                      ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: (isSelected
+                                          ? AppColors.stateError
+                                          : AppColors.buttonPrimary).withOpacity(0.6),
+                                      blurRadius: 8,
+                                      spreadRadius: 1,
                                     ),
-                                  ),
+                                  ],
                                 ),
                               ),
-                            );
-                          }).toList(),
-                        ],
-                      ),
+                            ),
+                          );
+                        }).toList(),
+                      ],
                     );
                   },
                 ),
@@ -211,6 +222,7 @@ class _TorsoPageState extends State<TorsoPage> {
             child: AppButton(
               label: 'Confirmar Seleção',
               onPressed: () {
+                _salvarSelecoes();
                 Navigator.pop(context, _pontosSelecionados);
               },
             ),
