@@ -113,7 +113,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceVariant,
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
@@ -296,7 +296,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                             filled: true,
                             fillColor: Theme.of(context).brightness == Brightness.dark
                                 ? const Color(0xFF2E3838)
-                                : Colors.white,
+                                : Theme.of(context).colorScheme.surface,
                             isDense: true,
                             constraints: const BoxConstraints(minHeight: 48),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

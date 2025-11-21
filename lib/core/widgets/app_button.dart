@@ -84,7 +84,7 @@ class AppButton extends StatelessWidget {
   }) : this(
     key: key,
     label: label,
-    onPressed: isActive ? onPressed : null,
+    onPressed: onPressed,
     kind: isActive ? AppButtonKind.buttonPrimary : AppButtonKind.buttonForm,
     block: true,
     height: 40,
@@ -190,11 +190,17 @@ class AppButton extends StatelessWidget {
       );
     }
 
-    // Para botão de abas (buttonForm), usa estilo de heading
+    // Para botão de abas (buttonForm), usa estilo de heading com cor do tema
     if (kind == AppButtonKind.buttonForm) {
-      return Text(
-        label,
-        style: AppTypography.heading2Primary,
+      return Builder(
+        builder: (context) {
+          return Text(
+            label,
+            style: AppTypography.heading2Primary.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
+          );
+        },
       );
     }
 
