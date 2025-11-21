@@ -69,6 +69,40 @@ class AppColorsDark {
 }
 
 // ============================================================================
+// CORES HIGH CONTRAST MODE (Alto Contraste)
+// ============================================================================
+class AppColorsHighContrast {
+  // === Botões e ações principais ===
+  static const Color buttonPrimary = Color(0xFFFFFF00);        // amarelo vibrante para máximo contraste
+  static const Color buttonPrimaryVariant = Color(0xFF00FFFF); // ciano/azul claro para alternativa
+  static const Color buttonSecondary = Color(0xFFFFFFFF);      // branco para botões secundários
+  static const Color buttonSurface = Color(0xFF000000);        // preto para superfície de botão
+  static const Color buttonText = Color(0xFF000000);           // texto preto em botões amarelos
+
+  // === Fundo e superfícies ===
+  static const Color background = Color(0xFF000000);           // preto puro para fundo
+  static const Color surface = Color(0xFF000000);              // preto puro para cartões
+  static const Color surfaceVariant = Color(0xFF1A1A1A);       // cinza muito escuro para variação
+
+  // === Inputs e campos de formulário ===
+  static const Color inputBackground = Color(0xFF000000);      // preto para inputs
+
+  // === Textos ===
+  static const Color textPrimary = Color(0xFFFFFFFF);          // branco puro para texto principal
+  static const Color textSecondary = Color(0xFFFFFF00);        // amarelo para links e destaques
+  static const Color textWhite = Color(0xFFFFFFFF);            // branco
+  static const Color textDisabled = Color(0xFFCCCCCC);         // cinza claro para texto desabilitado
+
+  // === Bordas e divisores ===
+  static const Color border = Color(0xFFFFFF00);               // amarelo para bordas (alto contraste)
+
+  // === Estados e feedback ===
+  static const Color stateSuccess = Color(0xFF00FF00);         // verde puro para sucesso
+  static const Color stateWarning = Color(0xFFFFFF00);         // amarelo para aviso
+  static const Color stateError = Color(0xFFFF0000);           // vermelho puro para erro
+}
+
+// ============================================================================
 // CLASSE DE COMPATIBILIDADE (mantém código existente funcionando)
 // ============================================================================
 // DEPRECATED: Use AppColorsLight ou AppColorsDark diretamente

@@ -73,7 +73,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Confirmar Alteração',
                     style: AppTypography.heading1Primary,
                   ),

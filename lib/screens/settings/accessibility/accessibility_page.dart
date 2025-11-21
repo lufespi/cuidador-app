@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/theme/theme_provider.dart' as app_theme;
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/app_button.dart';
@@ -18,6 +20,19 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
   double _fontSizeLevel = 3; // 0-6, onde 3 é médio
   bool _highContrast = false;
   bool _textToSpeech = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Carrega o estado atual do alto contraste e tamanho de fonte
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+      setState(() {
+        _highContrast = themeProvider.isHighContrastEnabled;
+        _fontSizeLevel = themeProvider.fontSizeLevel;
+      });
+    });
+  }
 
   String _getFontSizeLabel() {
     const labels = ['Muito Pequeno', 'Pequeno', 'Pequeno-Médio', 'Médio', 'Médio-Grande', 'Grande', 'Muito Grande'];
@@ -169,6 +184,8 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                                     max: 6,
                                     divisions: 6,
                                     onChanged: (value) {
+                                      final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+                                      themeProvider.setFontSizeLevel(value);
                                       setState(() {
                                         _fontSizeLevel = value;
                                       });
@@ -236,6 +253,8 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                         AppToggle(
                           value: _highContrast,
                           onChanged: (value) {
+                            final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+                            themeProvider.setHighContrast(value);
                             setState(() {
                               _highContrast = value;
                             });

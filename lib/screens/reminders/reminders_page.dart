@@ -573,11 +573,13 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     size: 24,
                   ),
                   const SizedBox(width: 12),
-                  Text(
-                    widget.reminder == null ? l10n.addReminder : l10n.editReminder,
-                    style: AppTypography.displayMedium,
+                  Expanded(
+                    child: Text(
+                      widget.reminder == null ? l10n.addReminder : l10n.editReminder,
+                      style: AppTypography.displayMedium,
+                    ),
                   ),
-                  const Spacer(),
+                  const SizedBox(width: 8),
                   IconButton(
                     onPressed: () => Navigator.pop(context),
                     icon: const Icon(Icons.close),

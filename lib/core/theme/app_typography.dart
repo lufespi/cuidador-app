@@ -3,151 +3,166 @@ import 'package:flutter/material.dart';
 // Define toda tipografia do aplicativo, os nomes seguem o uso semântico (título, corpo, botão, etc)
 // IMPORTANTE: As cores não são definidas aqui para permitir adaptação ao tema
 // Use .copyWith(color: ...) quando precisar de cor específica
+// Os tamanhos de fonte podem ser ajustados globalmente usando o multiplicador do ThemeProvider
 
 class AppTypography {
+  /// Multiplicador global de tamanho de fonte (padrão: 1.0)
+  /// Use ThemeProvider.fontSizeMultiplier para obter o valor ajustado pelo usuário
+  static double _fontSizeMultiplier = 1.0;
+  
+  /// Define o multiplicador global de tamanho de fonte
+  /// Deve ser chamado quando o ThemeProvider notificar mudanças
+  static void setFontSizeMultiplier(double multiplier) {
+    _fontSizeMultiplier = multiplier;
+  }
+  
+  /// Aplica o multiplicador ao tamanho de fonte
+  static double _applyMultiplier(double baseSize) {
+    return baseSize * _fontSizeMultiplier;
+  }
   // === Títulos ===
-  static const TextStyle heading1Primary = TextStyle(
+  static TextStyle get heading1Primary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: _applyMultiplier(16),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle heading1Secondary = TextStyle(
+  static TextStyle get heading1Secondary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: _applyMultiplier(16),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onPrimary
   );
 
-  static const TextStyle heading2Primary = TextStyle(
+  static TextStyle get heading2Primary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: _applyMultiplier(14),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle heading2Secondary = TextStyle(
+  static TextStyle get heading2Secondary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: _applyMultiplier(14),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onPrimary
   );
   
   // == Textos de corpo ==
-  static const TextStyle textPrimary = TextStyle(
+  static TextStyle get textPrimary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: _applyMultiplier(12),
     fontWeight: FontWeight.normal,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle textDisabled = TextStyle(
+  static TextStyle get textDisabled => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: _applyMultiplier(12),
     fontWeight: FontWeight.normal,
     // color removida - usar onSurface.withValues(alpha: 0.6)
   );
 
-  static const TextStyle textLink = TextStyle(
+  static TextStyle get textLink => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: _applyMultiplier(12),
     fontWeight: FontWeight.w600,
     decoration: TextDecoration.underline,
     // decorationColor e color removidas - usar Theme.of(context).colorScheme.primary
   );
 
   // === Botões ===
-  static const TextStyle buttonPrimary = TextStyle(
+  static TextStyle get buttonPrimary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: _applyMultiplier(14),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onPrimary
   );
 
-  static const TextStyle buttonSecondary = TextStyle(
+  static TextStyle get buttonSecondary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: _applyMultiplier(16),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.primary
   );
 
-  static const TextStyle buttonDisabled = TextStyle(
+  static TextStyle get buttonDisabled => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: _applyMultiplier(14),
     fontWeight: FontWeight.w600,
     // color removida - usar onSurface.withValues(alpha: 0.6)
   );
 
   // === Estilos específicos para formulários e labels ===
-  static const TextStyle label = TextStyle(
+  static TextStyle get label => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: _applyMultiplier(12),
     fontWeight: FontWeight.w500,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle labelSmall = TextStyle(
+  static TextStyle get labelSmall => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 11,
+    fontSize: _applyMultiplier(11),
     fontWeight: FontWeight.normal,
     // color removida - usar onSurface.withValues(alpha: 0.6)
   );
 
   // === Estilos de destaque ===
-  static const TextStyle displayLarge = TextStyle(
+  static TextStyle get displayLarge => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 24,
+    fontSize: _applyMultiplier(24),
     fontWeight: FontWeight.w700,
     // color removida - usar Theme.of(context).colorScheme.primary
   );
 
-  static const TextStyle displayMedium = TextStyle(
+  static TextStyle get displayMedium => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: _applyMultiplier(16),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.primary
   );
 
-  static const TextStyle bodyMedium = TextStyle(
+  static TextStyle get bodyMedium => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 13,
+    fontSize: _applyMultiplier(13),
     fontWeight: FontWeight.w500,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle captionPrimary = TextStyle(
+  static TextStyle get captionPrimary => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 12,
+    fontSize: _applyMultiplier(12),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.primary
   );
 
   // === Estilos para páginas de práticas ===
-  static const TextStyle pageTitle = TextStyle(
+  static TextStyle get pageTitle => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 20,
+    fontSize: _applyMultiplier(20),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle practiceTitle = TextStyle(
+  static TextStyle get practiceTitle => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 22,
+    fontSize: _applyMultiplier(22),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle sectionTitle = TextStyle(
+  static TextStyle get sectionTitle => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 16,
+    fontSize: _applyMultiplier(16),
     fontWeight: FontWeight.w600,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );
 
-  static const TextStyle bodyLarge = TextStyle(
+  static TextStyle get bodyLarge => TextStyle(
     fontFamily: 'Inter',
-    fontSize: 14,
+    fontSize: _applyMultiplier(14),
     fontWeight: FontWeight.normal,
     // color removida - usar Theme.of(context).colorScheme.onSurface
   );

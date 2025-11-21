@@ -215,6 +215,22 @@ class _LoginPageState extends State<LoginPage> {
                     style: AppTypography.textLink,
                   ),
                 ),
+              
+              const SizedBox(height: 24),
+              
+              // Copyright (marca d'água)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  l10n.copyrightText,
+                  style: AppTypography.textPrimary.copyWith(
+                    color: AppColors.textDisabled,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              
+              const SizedBox(height: 24),
             ],
           ),
         ),

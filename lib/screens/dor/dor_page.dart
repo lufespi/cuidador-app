@@ -74,9 +74,11 @@ class _DorPageState extends State<DorPage> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        l10n.painPageTitle,
-                        style: AppTypography.heading2Primary,
+                      Expanded(
+                        child: Text(
+                          l10n.painPageTitle,
+                          style: AppTypography.heading2Primary,
+                        ),
                       ),
                     ],
                   ),
@@ -91,12 +93,16 @@ class _DorPageState extends State<DorPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        l10n.painLevel,
-                        style: AppTypography.label,
+                      Flexible(
+                        child: Text(
+                          l10n.painLevel,
+                          style: AppTypography.label,
+                        ),
                       ),
+                      const SizedBox(width: 8),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
                             '${_nivelDor.toInt()}',
@@ -239,23 +245,27 @@ class _DorPageState extends State<DorPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          SvgPicture.asset(
-                            'assets/icons/pain/activity.svg',
-                            width: 20,
-                            height: 20,
-                            colorFilter: const ColorFilter.mode(
-                              AppColors.buttonPrimary,
-                              BlendMode.srcIn,
+                      Expanded(
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/pain/activity.svg',
+                              width: 20,
+                              height: 20,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.buttonPrimary,
+                                BlendMode.srcIn,
+                              ),
                             ),
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            l10n.history,
-                            style: AppTypography.heading2Primary,
-                          ),
-                        ],
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                l10n.history,
+                                style: AppTypography.heading2Primary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       // Dropdown de período
                       AppDropdown<String>(
@@ -343,9 +353,11 @@ class _DorPageState extends State<DorPage> {
                         ),
                       ),
                       const SizedBox(width: 8),
-                      Text(
-                        l10n.recentHistory,
-                        style: AppTypography.heading2Primary,
+                      Expanded(
+                        child: Text(
+                          l10n.recentHistory,
+                          style: AppTypography.heading2Primary,
+                        ),
                       ),
                     ],
                   ),

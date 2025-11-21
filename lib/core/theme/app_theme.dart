@@ -167,4 +167,119 @@ class AppTheme {
       ),
     );
   }
+
+  /// Configuração do tema High Contrast Mode (Alto Contraste)
+  static ThemeData get highContrastTheme {
+    return ThemeData(
+      useMaterial3: true,
+      brightness: Brightness.dark,
+      
+      // Esquema de cores
+      colorScheme: const ColorScheme.dark(
+        primary: AppColorsHighContrast.buttonPrimary,
+        onPrimary: AppColorsHighContrast.buttonText,
+        secondary: AppColorsHighContrast.buttonSecondary,
+        onSecondary: AppColorsHighContrast.buttonText,
+        surface: AppColorsHighContrast.surface,
+        onSurface: AppColorsHighContrast.textPrimary,
+        error: AppColorsHighContrast.stateError,
+        onError: AppColorsHighContrast.textWhite,
+        outline: AppColorsHighContrast.border,
+      ),
+      
+      // Cor de fundo padrão
+      scaffoldBackgroundColor: AppColorsHighContrast.background,
+      
+      // AppBar
+      appBarTheme: const AppBarTheme(
+        backgroundColor: AppColorsHighContrast.background,
+        foregroundColor: AppColorsHighContrast.textPrimary,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: IconThemeData(
+          color: AppColorsHighContrast.buttonPrimary,
+        ),
+      ),
+      
+      // Cards
+      cardColor: AppColorsHighContrast.surface,
+      
+      // Input Decoration
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: AppColorsHighContrast.inputBackground,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: AppColorsHighContrast.border,
+            width: 2,
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: AppColorsHighContrast.border,
+            width: 2,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(
+            color: AppColorsHighContrast.buttonPrimary,
+            width: 3,
+          ),
+        ),
+        labelStyle: const TextStyle(
+          color: AppColorsHighContrast.textPrimary,
+        ),
+        hintStyle: const TextStyle(
+          color: AppColorsHighContrast.textDisabled,
+        ),
+      ),
+      
+      // Botões
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: AppColorsHighContrast.buttonPrimary,
+          foregroundColor: AppColorsHighContrast.buttonText,
+          elevation: 0,
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(
+              color: AppColorsHighContrast.buttonPrimary,
+              width: 2,
+            ),
+          ),
+        ),
+      ),
+      
+      // Text Button
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(
+          foregroundColor: AppColorsHighContrast.textSecondary,
+        ),
+      ),
+      
+      // SnackBar
+      snackBarTheme: const SnackBarThemeData(
+        backgroundColor: AppColorsHighContrast.stateSuccess,
+        contentTextStyle: TextStyle(
+          color: AppColorsHighContrast.buttonText,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      
+      // Divider
+      dividerTheme: const DividerThemeData(
+        color: AppColorsHighContrast.border,
+        thickness: 2,
+      ),
+      
+      // Icon
+      iconTheme: const IconThemeData(
+        color: AppColorsHighContrast.buttonPrimary,
+      ),
+    );
+  }
 }
