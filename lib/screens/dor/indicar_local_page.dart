@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_button.dart';
+import '../../l10n/app_localizations.dart';
 import 'regioes/head_page.dart';
 import 'regioes/torso_page.dart';
 import 'regioes/left_arm_page.dart';
@@ -148,6 +149,8 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         backgroundColor: AppColors.buttonPrimary,
@@ -160,11 +163,11 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Indicar o Local da Dor',
+              l10n.indicatePainLocation,
               style: AppTypography.heading1Secondary,
             ),
             Text(
-              'Toque no região onde você sente dor',
+              l10n.selectPainArea,
               style: AppTypography.heading2Secondary,
             ),
           ],
@@ -189,7 +192,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: AppButton(
-              label: 'Confirmar Região',
+              label: l10n.confirmSelection,
               onPressed: _gruposSelecionados.isEmpty
                   ? null
                   : () {

@@ -4,12 +4,15 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LiangongDetailPage extends StatelessWidget {
   const LiangongDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -18,7 +21,7 @@ class LiangongDetailPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -30,7 +33,7 @@ class LiangongDetailPage extends StatelessWidget {
             children: [
               // Título e tags
               Text(
-                'LianGong - Rotação de Ombros',
+                l10n.practiceLiangongTitle,
                 style: AppTypography.practiceTitle,
               ),
               const SizedBox(height: 12),
@@ -40,9 +43,9 @@ class LiangongDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.category('LianGong'),
+                  AppTag.category(l10n.categoryLianGong),
                   AppTag.info('8 min', icon: Icons.access_time),
-                  AppTag.info('Intermediário'),
+                  AppTag.info(l10n.levelIntermediate),
                 ],
               ),
               
@@ -53,8 +56,8 @@ class LiangongDetailPage extends StatelessWidget {
                 context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
-                title: 'Benefícios',
-                content: 'Melhora mobilidade dos ombros, reduz tensão na região cervical e alivia dores nas costas superiores.',
+                title: l10n.benefits,
+                content: l10n.practiceLiangongBenefits,
               ),
               
               const SizedBox(height: 16),
@@ -62,12 +65,13 @@ class LiangongDetailPage extends StatelessWidget {
               // Card de Como fazer
               _buildStepsCard(
                 context: context,
+                l10n: l10n,
                 steps: [
-                'Fique em pé, pés afastados',
-                'Relaxe os ombros',
-                'Faça círculos lentos para frente (10x)',
-                'Faça círculos lentos para trás (10x)',
-                'Descanse',
+                l10n.practiceLiangongStep1,
+                l10n.practiceLiangongStep2,
+                l10n.practiceLiangongStep3,
+                l10n.practiceLiangongStep4,
+                l10n.practiceLiangongStep5,
               ]),
               
               const SizedBox(height: 16),
@@ -75,13 +79,14 @@ class LiangongDetailPage extends StatelessWidget {
               // Card de Atenção
               _buildWarningCard(
                 context: context,
-                warning: 'Movimentos devem ser lentos e controlados.',
+                l10n: l10n,
+                warning: l10n.practiceLiangongWarning,
               ),
               
               const SizedBox(height: 24),
               
               // Botão Iniciar Sessão
-              _buildStartButton(context),
+              _buildStartButton(context, l10n),
             ],
           ),
         ),
@@ -89,7 +94,7 @@ class LiangongDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(BuildContext context) {
+  Widget _buildStartButton(BuildContext context, AppLocalizations l10n) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -97,9 +102,9 @@ class LiangongDetailPage extends StatelessWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const PracticeTimerDialog(
+            builder: (context) => PracticeTimerDialog(
               durationInMinutes: 8,
-              practiceTitle: 'LianGong - Rotação de Ombros',
+              practiceTitle: l10n.practiceLiangongTitle,
             ),
           );
         },
@@ -108,7 +113,7 @@ class LiangongDetailPage extends StatelessWidget {
           color: Colors.white,
         ),
         label: Text(
-          'Iniciar Sessão',
+          l10n.startSession,
           style: AppTypography.sectionTitle.copyWith(
             color: Colors.white,
           ),
@@ -177,6 +182,7 @@ class LiangongDetailPage extends StatelessWidget {
 
   Widget _buildStepsCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required List<String> steps,
   }) {
     return Container(
@@ -205,7 +211,7 @@ class LiangongDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Como fazer',
+                l10n.howToDo,
                 style: AppTypography.sectionTitle,
               ),
             ],
@@ -256,6 +262,7 @@ class LiangongDetailPage extends StatelessWidget {
 
   Widget _buildWarningCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required String warning,
   }) {
     return Container(
@@ -284,7 +291,7 @@ class LiangongDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Atenção',
+                l10n.attention,
                 style: AppTypography.sectionTitle,
               ),
             ],

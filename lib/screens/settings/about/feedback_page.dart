@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -17,7 +18,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _messageController = TextEditingController();
-  String _selectedType = 'Sugestão';
+  String _selectedType = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializar com chave de tradução
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _selectedType = 'suggestion'; // Usar key ao invés de texto
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -28,11 +40,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
   }
 
   void _submitFeedback() {
+    final l10n = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       // TODO: Implementar envio de feedback
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Feedback enviado com sucesso!'),
+        SnackBar(
+          content: Text(l10n.feedbackSentSuccess),
           backgroundColor: AppColors.buttonPrimary,
         ),
       );
@@ -42,6 +55,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -50,7 +64,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Feedback',
+          l10n.feedbackTitle,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -68,12 +82,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sua opinião é importante!',
+                        l10n.yourOpinionMatters,
                         style: AppTypography.heading1Primary,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'Compartilhe suas sugestões, reporte problemas ou envie elogios. Seu feedback nos ajuda a melhorar o aplicativo.',
+                        l10n.feedbackInstructions,
                         style: AppTypography.textPrimary,
                       ),
                     ],
@@ -89,7 +103,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     children: [
                       // Tipo de Feedback
                       Text(
-                        'Tipo de Feedback',
+                        l10n.feedbackType,
                         style: AppTypography.heading2Primary,
                       ),
                       const SizedBox(height: 8),
@@ -105,7 +119,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ],
                         ),
                         child: DropdownButtonFormField<String>(
-                          value: _selectedType,
+                          value: _selectedType.isEmpty ? null : _selectedType,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).brightness == Brightness.dark
@@ -131,12 +145,12 @@ class _FeedbackPageState extends State<FeedbackPage> {
                             ),
                           ),
                           style: AppTypography.textPrimary,
-                          items: ['Sugestão', 'Problema', 'Elogio', 'Outro']
-                              .map((type) => DropdownMenuItem(
-                                    value: type,
-                                    child: Text(type),
-                                  ))
-                              .toList(),
+                          items: [
+                            DropdownMenuItem(value: 'suggestion', child: Text(l10n.suggestion)),
+                            DropdownMenuItem(value: 'problem', child: Text(l10n.problem)),
+                            DropdownMenuItem(value: 'compliment', child: Text(l10n.compliment)),
+                            DropdownMenuItem(value: 'other', child: Text(l10n.other)),
+                          ],
                           onChanged: (value) {
                             setState(() {
                               _selectedType = value!;
@@ -149,8 +163,8 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       
                       // Nome
                       AppTextField(
-                        label: 'Nome (opcional)',
-                        hint: 'Seu nome',
+                        label: l10n.nameOptional,
+                        hint: l10n.yourName,
                         controller: _nameController,
                       ),
                       
@@ -158,14 +172,14 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       
                       // E-mail
                       AppTextField(
-                        label: 'E-mail (opcional)',
-                        hint: 'seu@email.com',
+                        label: l10n.emailOptional,
+                        hint: l10n.emailHint,
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         validator: (value) {
                           if (value != null && value.isNotEmpty) {
                             if (!value.contains('@')) {
-                              return 'E-mail inválido';
+                              return l10n.errorInvalidEmail;
                             }
                           }
                           return null;
@@ -176,16 +190,16 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       
                       // Mensagem
                       AppTextField(
-                        label: 'Mensagem *',
-                        hint: 'Descreva seu feedback aqui...',
+                        label: l10n.messageRequired,
+                        hint: l10n.describeFeedback,
                         controller: _messageController,
                         maxLines: 6,
                         validator: (value) {
                           if (value == null || value.trim().isEmpty) {
-                            return 'Por favor, descreva seu feedback';
+                            return l10n.feedbackRequired;
                           }
                           if (value.trim().length < 10) {
-                            return 'A mensagem deve ter pelo menos 10 caracteres';
+                            return l10n.feedbackMinLength;
                           }
                           return null;
                         },
@@ -195,7 +209,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       
                       // Botão Enviar
                       AppButton(
-                        label: 'Enviar Feedback',
+                        label: l10n.sendFeedback,
                         onPressed: _submitFeedback,
                         height: 48,
                       ),

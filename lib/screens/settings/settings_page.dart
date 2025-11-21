@@ -3,6 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/index.dart';
+import '../../l10n/app_localizations.dart';
+import '../auth/login/login_page.dart';
 import 'account/account_page.dart';
 import 'accessibility/accessibility_page.dart';
 import 'notifications/notifications_page.dart';
@@ -16,6 +18,8 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -43,14 +47,14 @@ class SettingsPage extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Ajustes',
+                          l10n.settingsTitle,
                           style: AppTypography.heading1Primary,
                         ),
                       ],
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      'Acessibilidade e preferências',
+                      l10n.settingsSubtitle,
                       style: AppTypography.textPrimary.copyWith(
                         color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
@@ -67,8 +71,8 @@ class SettingsPage extends StatelessWidget {
                     // Itens do menu
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/user-round.svg',
-                  title: 'Conta',
-                  subtitle: 'Gerencie suas informações pessoais.',
+                  title: l10n.account,
+                  subtitle: l10n.accountDescription,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -78,8 +82,8 @@ class SettingsPage extends StatelessWidget {
                 ),
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/person-standing.svg',
-                  title: 'Acessibilidade',
-                  subtitle: 'Ajuste o aplicativo para melhor atender suas necessidades.',
+                  title: l10n.accessibility,
+                  subtitle: l10n.accessibilityDescription,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -89,8 +93,8 @@ class SettingsPage extends StatelessWidget {
                 ),
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/bell-ring.svg',
-                  title: 'Notificações e Alertas',
-                  subtitle: 'Receba lembretes quando precisar.',
+                  title: l10n.notificationsAndAlerts,
+                  subtitle: l10n.notificationsDescription,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -100,8 +104,8 @@ class SettingsPage extends StatelessWidget {
                 ),
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/lock-keyhole.svg',
-                  title: 'Privacidade e Segurança',
-                  subtitle: 'Controle de dados e permissões.',
+                  title: l10n.privacyAndSecurity,
+                  subtitle: l10n.privacyDescription,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -111,8 +115,8 @@ class SettingsPage extends StatelessWidget {
                 ),
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/palette.svg',
-                  title: 'Tema e Aparência',
-                  subtitle: 'Personalize cores e modo de exibição.',
+                  title: l10n.themeAndAppearance,
+                  subtitle: l10n.themeDescription,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -122,8 +126,8 @@ class SettingsPage extends StatelessWidget {
                 ),
                 SettingsMenuItem(
                   iconPath: 'assets/icons/settings/globe.svg',
-                  title: 'Idioma',
-                  subtitle: 'Selecione o idioma do aplicativo.',
+                  title: l10n.language,
+                  subtitle: l10n.languageDescriptionShort,
                   onTap: () {
                     Navigator.push(
                       context,
@@ -133,8 +137,8 @@ class SettingsPage extends StatelessWidget {
                 ),
                     SettingsMenuItem(
                       iconPath: 'assets/icons/settings/info.svg',
-                      title: 'Sobre o Aplicativo',
-                      subtitle: 'Saiba mais sobre o CuidaDor.',
+                      title: l10n.aboutApp,
+                      subtitle: l10n.aboutDescription,
                       showDivider: false, // Último item não tem divider
                       onTap: () {
                         Navigator.push(
@@ -153,13 +157,12 @@ class SettingsPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: TextButton(
                   onPressed: () {
-                    // TODO: Implementar logout
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
                         title: Center(
                           child: Text(
-                            'Sair da sua conta?',
+                            l10n.logoutConfirmTitle,
                             style: AppTypography.heading1Primary,
                           ),
                         ),
@@ -176,14 +179,20 @@ class SettingsPage extends StatelessWidget {
                               width: double.infinity,
                               child: TextButton(
                                 onPressed: () {
+                                  // Fecha o dialog
                                   Navigator.pop(context);
-                                  // TODO: Implementar ação de logout
+                                  
+                                  // Remove todas as rotas e navega para o login
+                                  Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(builder: (context) => const LoginPage()),
+                                    (Route<dynamic> route) => false,
+                                  );
                                 },
                                 style: TextButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 14),
                                 ),
                                 child: Text(
-                                  'Sair',
+                                  l10n.logout,
                                   style: AppTypography.heading2Primary.copyWith(
                                     color: AppColors.stateError,
                                   ),
@@ -203,7 +212,7 @@ class SettingsPage extends StatelessWidget {
                                   padding: const EdgeInsets.symmetric(vertical: 14),
                                 ),
                                 child: Text(
-                                  'Cancelar',
+                                  l10n.cancel,
                                   style: AppTypography.heading2Primary,
                                 ),
                               ),
@@ -227,7 +236,7 @@ class SettingsPage extends StatelessWidget {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        'Sair',
+                        l10n.logout,
                         style: AppTypography.heading2Primary.copyWith(
                           color: AppColors.stateError.withValues(alpha: 0.7),
                         ),

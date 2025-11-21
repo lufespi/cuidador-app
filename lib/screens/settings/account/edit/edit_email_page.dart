@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -44,6 +45,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
   }
 
   void _showPasswordDialog() {
+    final l10n = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       showDialog(
         context: context,
@@ -85,7 +87,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _passwordController,
-                    label: 'Senha Atual',
+                    label: l10n.currentPassword,
                     obscureText: true,
                   ),
                   const SizedBox(height: 24),
@@ -98,7 +100,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          'Cancelar',
+                          l10n.cancel,
                           style: AppTypography.textPrimary.copyWith(
                             color: AppColors.textDisabled,
                           ),
@@ -114,7 +116,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                           }
                         },
                         child: Text(
-                          'Confirmar',
+                          l10n.confirm,
                           style: AppTypography.textPrimary.copyWith(
                             color: AppColors.buttonPrimary,
                             fontWeight: FontWeight.w600,
@@ -133,10 +135,11 @@ class _EditEmailPageState extends State<EditEmailPage> {
   }
 
   void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar alteração do e-mail
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Email atualizado com sucesso!'),
+      SnackBar(
+        content: Text(l10n.emailUpdatedSuccess),
       ),
     );
     Navigator.pop(context, _emailController.text);
@@ -144,6 +147,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -152,7 +156,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar E-mail',
+          l10n.editEmail,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -173,10 +177,10 @@ class _EditEmailPageState extends State<EditEmailPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'E-mail',
-                                style: AppTypography.heading2Primary,
-                              ),
+                            Text(
+                              l10n.email,
+                              style: AppTypography.heading2Primary,
+                            ),
                               const SizedBox(height: 8),
                               Text(
                                 'Digite seu endereço de e-mail. Enviaremos um código de verificação para confirmar.',
@@ -189,7 +193,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
                               
                               AppTextField(
                                 controller: _emailController,
-                                label: 'E-mail',
+                                label: l10n.email,
                                 keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
@@ -247,7 +251,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _showPasswordDialog : null,
                 height: 52,
               ),

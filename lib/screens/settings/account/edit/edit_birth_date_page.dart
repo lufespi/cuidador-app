@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_button.dart';
 
@@ -86,10 +87,11 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
   }
 
   void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar alteração da data de nascimento
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Data de nascimento atualizada com sucesso!'),
+      SnackBar(
+        content: Text(l10n.birthDateUpdatedSuccess),
       ),
     );
     Navigator.pop(context, _formatDate(_selectedDate));
@@ -97,6 +99,7 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -105,7 +108,7 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar Data de Nascimento',
+          l10n.editBirthDate,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -125,13 +128,13 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Data de Nascimento',
+                              l10n.birthdate,
                               style: AppTypography.heading2Primary,
                             ),
                             const SizedBox(height: 8),
-                            Text(
+                            const Text(
                               'Selecione sua data de nascimento.',
-                              style: AppTypography.textPrimary.copyWith(
+                              style: TextStyle(
                                 color: AppColors.textDisabled,
                                 height: 1.4,
                               ),
@@ -190,7 +193,7 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),

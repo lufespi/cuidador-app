@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -70,11 +71,12 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
     final diagnosis = _selectedDiagnosis == 'Outro diagnóstico'
         ? _otherDiagnosisController.text
         : _selectedDiagnosis;
+    final l10n = AppLocalizations.of(context)!;
         
     // TODO: Salvar alteração do diagnóstico
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Diagnóstico principal atualizado com sucesso!'),
+      SnackBar(
+        content: Text(l10n.diagnosisUpdatedSuccess),
       ),
     );
     Navigator.pop(context, diagnosis);
@@ -132,6 +134,7 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -140,7 +143,7 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar Diagnóstico Principal',
+          l10n.editDiagnosis,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -162,7 +165,7 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Diagnóstico Principal',
+                                l10n.primaryDiagnosis,
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
@@ -181,7 +184,7 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
                                 const SizedBox(height: 12),
                                 AppTextField(
                                   controller: _otherDiagnosisController,
-                                  label: 'Especifique o diagnóstico',
+                                  label: l10n.specifyNewDiagnosis,
                                   maxLines: 2,
                                   validator: (value) {
                                     if (_selectedDiagnosis == 'Outro diagnóstico' &&
@@ -208,7 +211,7 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),

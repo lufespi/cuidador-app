@@ -4,12 +4,15 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/content_section_card.dart';
 import '../../../core/widgets/highlight_card.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ExerciseDetailPage extends StatelessWidget {
   const ExerciseDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -23,7 +26,7 @@ class ExerciseDetailPage extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -35,7 +38,7 @@ class ExerciseDetailPage extends StatelessWidget {
             children: [
               // Título
               Text(
-                'Exercícios e Movimento',
+                l10n.educationTopicExercise,
                 style: AppTypography.displayLarge,
               ),
               
@@ -46,8 +49,8 @@ class ExerciseDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.info('Exercício'),
-                  AppTag.info('Movimento'),
+                  AppTag.info(l10n.educationTagExercise),
+                  AppTag.info(l10n.educationTagMovement),
                 ],
               ),
               
@@ -74,53 +77,53 @@ class ExerciseDetailPage extends StatelessWidget {
               
               // Conteúdo
               ContentSectionCard(
-                title: 'Benefícios do Exercício',
+                title: l10n.exerciseBenefits,
                 icon: Icons.star_outline,
                 iconColor: const Color(0xFFF2A700),
-                content: 'O exercício regular é fundamental para gerenciar a osteoartrite. Ele ajuda a fortalecer os músculos ao redor das articulações, manter a flexibilidade, reduzir a dor e melhorar o humor.',
+                content: l10n.exerciseBenefitsText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Tipos de Exercícios Recomendados',
+                title: l10n.exerciseRecommendedTypes,
                 icon: Icons.fitness_center_outlined,
-                content: '• Exercícios aeróbicos de baixo impacto (caminhada, natação, ciclismo)\n• Exercícios de fortalecimento muscular\n• Alongamentos e exercícios de flexibilidade\n• Exercícios de equilíbrio\n• Atividades aquáticas\n• Tai Chi e Yoga adaptados',
+                content: l10n.exerciseRecommendedTypesText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Frequência Recomendada',
+                title: l10n.exerciseRecommendedFrequency,
                 icon: Icons.calendar_today_outlined,
-                content: '• Aeróbico: 30 minutos, 5 dias por semana\n• Fortalecimento: 2-3 vezes por semana\n• Flexibilidade: Diariamente\n• Sempre respeite seus limites e descanse quando necessário',
+                content: l10n.exerciseRecommendedFrequencyText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Dicas para Começar',
+                title: l10n.exerciseTipsToStart,
                 icon: Icons.lightbulb_outline,
                 iconColor: const Color(0xFFF2A700),
-                content: '• Comece devagar e aumente gradualmente\n• Aqueça antes e alongue depois\n• Escolha atividades de baixo impacto\n• Use calçados adequados\n• Ouça seu corpo e pare se sentir dor\n• Mantenha-se consistente',
+                content: l10n.exerciseTipsToStartText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Quando Evitar Exercícios',
+                title: l10n.exerciseWhenToAvoid,
                 icon: Icons.block_outlined,
                 iconColor: AppColors.stateError,
-                content: '• Durante crises de inflamação aguda\n• Se houver dor intensa\n• Após lesões não tratadas\n• Sempre consulte seu médico antes de iniciar um novo programa de exercícios',
+                content: l10n.exerciseWhenToAvoidText,
               ),
               
               const SizedBox(height: 24),
               
               // Card de destaque
-              const HighlightCard(
+              HighlightCard(
                 icon: Icons.balance_outlined,
-                iconColor: Color(0xFFF2A700),
-                content: 'O movimento é essencial, mas é importante encontrar o equilíbrio certo. Nem muito pouco, nem demais.',
+                iconColor: const Color(0xFFF2A700),
+                content: l10n.exerciseHighlight,
               ),
             ],
           ),

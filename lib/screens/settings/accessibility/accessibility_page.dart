@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -24,10 +25,11 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
   }
 
   void _handleSave() {
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar preferências de acessibilidade
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Preferências salvas com sucesso!'),
+      SnackBar(
+        content: Text(l10n.successPreferencesSaved),
       ),
     );
     Navigator.pop(context);
@@ -35,6 +37,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -43,7 +46,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Acessibilidade',
+          l10n.accessibility,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -72,7 +75,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Preferências de Acessibilidade',
+                          l10n.accessibilityPreferences,
                           style: AppTypography.heading2Primary,
                         ),
                       ],
@@ -81,7 +84,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                     
                     // Descrição
                     Text(
-                      'Ajuste a interface para melhor atender suas necessidades.',
+                      l10n.adjustInterfaceForNeeds,
                       style: AppTypography.textPrimary.copyWith(
                         color: AppColors.textDisabled,
                       ),
@@ -90,7 +93,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                     
                     // Tamanho da Fonte
                     Text(
-                      'Tamanho da Fonte: ${_getFontSizeLabel()}',
+                      l10n.fontSizeWith(_getFontSizeLabel()),
                       style: AppTypography.textPrimary.copyWith(
                         fontWeight: FontWeight.w600,
                       ),
@@ -112,10 +115,10 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                       ),
                       child: Center(
                         child: Text(
-                          'Bem vindo ao CuidaDor!\nCriado por Luis Fernando e Kaue Müller',
+                          l10n.previewText,
                           textAlign: TextAlign.center,
                           style: AppTypography.textPrimary.copyWith(
-                            fontSize: 6 + (_fontSizeLevel * 2), // Nível 3 (médio) = 6 + (3*2) = 12px (padrão textPrimary)
+                            fontSize: 6 + (_fontSizeLevel * 2),
                           ),
                         ),
                       ),
@@ -218,13 +221,13 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Alto Contraste',
+                                l10n.highContrast,
                                 style: AppTypography.textPrimary.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
-                                'Melhor visibilidade para textos',
+                                l10n.highContrastDescription,
                                 style: AppTypography.textDisabled,
                               ),
                             ],
@@ -256,13 +259,13 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Texto-Para-Fala',
+                                l10n.textToSpeech,
                                 style: AppTypography.textPrimary.copyWith(
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
-                                'Leitura de textos em voz alta',
+                                l10n.textToSpeechDescription,
                                 style: AppTypography.textDisabled,
                               ),
                             ],
@@ -288,7 +291,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: AppButton(
-                  label: 'Salvar Alterações',
+                  label: l10n.saveChanges,
                   onPressed: _handleSave,
                 ),
               ),

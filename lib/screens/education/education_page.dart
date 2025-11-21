@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/education_card.dart';
+import '../../l10n/app_localizations.dart';
 import 'osteoartrite/osteoartrite_detail_page.dart';
 import 'nutrition/nutrition_detail_page.dart';
 import 'exercise/exercise_detail_page.dart';
@@ -15,26 +16,28 @@ class EducationPage extends StatefulWidget {
 
 class _EducationPageState extends State<EducationPage> {
   
-  final List<Map<String, dynamic>> _educationTopics = [
-    {
-      'title': 'O que é Osteoartrite?',
-      'imagePath': 'assets/images/old-woman.png',
-      'tags': ['Introdução', 'Básico'],
-      'type': 'osteoartrite',
-    },
-    {
-      'title': 'Nutrição e Saúde das Articulações',
-      'imagePath': 'assets/images/doctor.png',
-      'tags': ['Dieta', 'Nutrição'],
-      'type': 'nutrition',
-    },
-    {
-      'title': 'Exercícios e Movimento',
-      'imagePath': 'assets/images/woman-exercise.png',
-      'tags': ['Exercício', 'Movimento'],
-      'type': 'exercise',
-    },
-  ];
+  List<Map<String, dynamic>> _getEducationTopics(AppLocalizations l10n) {
+    return [
+      {
+        'title': l10n.educationTopicOsteoarthritis,
+        'imagePath': 'assets/images/old-woman.png',
+        'tags': [l10n.educationTagIntroduction, l10n.educationTagBasic],
+        'type': 'osteoartrite',
+      },
+      {
+        'title': l10n.educationTopicNutrition,
+        'imagePath': 'assets/images/doctor.png',
+        'tags': [l10n.educationTagDiet, l10n.educationTagNutrition],
+        'type': 'nutrition',
+      },
+      {
+        'title': l10n.educationTopicExercise,
+        'imagePath': 'assets/images/woman-exercise.png',
+        'tags': [l10n.educationTagExercise, l10n.educationTagMovement],
+        'type': 'exercise',
+      },
+    ];
+  }
 
   void _showTopicDetails(Map<String, dynamic> topic) {
     Widget page;
@@ -61,6 +64,9 @@ class _EducationPageState extends State<EducationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final educationTopics = _getEducationTopics(l10n);
+    
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -81,14 +87,14 @@ class _EducationPageState extends State<EducationPage> {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          'Educação',
+                          l10n.educationTitle,
                           style: AppTypography.pageTitle,
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Aprenda sobre osteoartrite e autocuidado',
+                      l10n.educationSubtitle,
                       style: AppTypography.bodyLarge.copyWith(
                         color: AppColors.textDisabled,
                       ),
@@ -104,7 +110,7 @@ class _EducationPageState extends State<EducationPage> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final topic = _educationTopics[index];
+                    final topic = educationTopics[index];
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 16),
                       child: EducationCard(
@@ -115,7 +121,7 @@ class _EducationPageState extends State<EducationPage> {
                       ),
                     );
                   },
-                  childCount: _educationTopics.length,
+                  childCount: educationTopics.length,
                 ),
               ),
             ),

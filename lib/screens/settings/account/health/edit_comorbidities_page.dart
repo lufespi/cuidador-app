@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -86,13 +87,14 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    final l10n = AppLocalizations.of(context)!;
 
     final comorbidities = _getCurrentComorbiditiesText();
     
     // TODO: Salvar alteração das comorbidades
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Comorbidades atualizadas com sucesso!'),
+      SnackBar(
+        content: Text(l10n.comorbiditiesUpdatedSuccess),
       ),
     );
     Navigator.pop(context, comorbidities);
@@ -154,6 +156,7 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -162,7 +165,7 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar Comorbidades',
+          l10n.editComorbidities,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -184,12 +187,12 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Comorbidades',
+                                l10n.comorbidities,
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Selecione todas que se aplicam',
+                                l10n.selectAllThatApply,
                                 style: AppTypography.textPrimary.copyWith(
                                   color: AppColors.textDisabled,
                                   height: 1.4,
@@ -230,7 +233,7 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),

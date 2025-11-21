@@ -4,12 +4,15 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
+import '../../../l10n/app_localizations.dart';
 
 class ToqueCalmanteDetailPage extends StatelessWidget {
   const ToqueCalmanteDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -18,7 +21,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -30,7 +33,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
             children: [
               // Título e tags
               Text(
-                'Toque Calmante',
+                l10n.practiceTouchTitle,
                 style: AppTypography.practiceTitle,
               ),
               const SizedBox(height: 12),
@@ -40,9 +43,9 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.category('Toque'),
+                  AppTag.category(l10n.categoryTouch),
                   AppTag.info('5 min', icon: Icons.access_time),
-                  AppTag.info('Iniciante'),
+                  AppTag.info(l10n.levelBeginner),
                 ],
               ),
               
@@ -53,8 +56,8 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
                 context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
-                title: 'Benefícios',
-                content: 'Conforto imediato',
+                title: l10n.benefits,
+                content: l10n.practiceTouchBenefits,
               ),
               
               const SizedBox(height: 16),
@@ -62,12 +65,13 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
               // Card de Como fazer
               _buildStepsCard(
                 context: context,
+                l10n: l10n,
                 steps: [
-                'Esfregue as mãos até aquecer',
-                'Coloque as mãos nos locais doloridos',
-                'Faça movimentos circulares suaves',
-                'Respire profundamente',
-                'Imagine o calor aliviando a dor',
+                l10n.practiceTouchStep1,
+                l10n.practiceTouchStep2,
+                l10n.practiceTouchStep3,
+                l10n.practiceTouchStep4,
+                l10n.practiceTouchStep5,
               ]),
               
               const SizedBox(height: 16),
@@ -75,13 +79,14 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
               // Card de Atenção
               _buildWarningCard(
                 context: context,
-                warning: 'Pode usar óleo morno',
+                l10n: l10n,
+                warning: l10n.practiceTouchWarning,
               ),
               
               const SizedBox(height: 24),
               
               // Botão Iniciar Sessão
-              _buildStartButton(context),
+              _buildStartButton(context, l10n),
             ],
           ),
         ),
@@ -89,7 +94,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(BuildContext context) {
+  Widget _buildStartButton(BuildContext context, AppLocalizations l10n) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -97,9 +102,9 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const PracticeTimerDialog(
+            builder: (context) => PracticeTimerDialog(
               durationInMinutes: 5,
-              practiceTitle: 'Toque Calmante',
+              practiceTitle: l10n.practiceTouchTitle,
             ),
           );
         },
@@ -108,7 +113,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
           color: Colors.white,
         ),
         label: Text(
-          'Iniciar Sessão',
+          l10n.startSession,
           style: AppTypography.sectionTitle.copyWith(
             color: Colors.white,
           ),
@@ -177,6 +182,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
 
   Widget _buildStepsCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required List<String> steps,
   }) {
     return Container(
@@ -205,7 +211,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Como fazer',
+                l10n.howToDo,
                 style: AppTypography.sectionTitle,
               ),
             ],
@@ -256,6 +262,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
 
   Widget _buildWarningCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required String warning,
   }) {
     return Container(
@@ -280,7 +287,7 @@ class ToqueCalmanteDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Atenção',
+                l10n.attention,
                 style: AppTypography.sectionTitle,
               ),
             ],

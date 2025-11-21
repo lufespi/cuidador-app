@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_button.dart';
 
@@ -47,10 +48,11 @@ class _EditGenderPageState extends State<EditGenderPage> {
   }
 
   void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar alteração do sexo
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Gênero atualizado com sucesso!'),
+      SnackBar(
+        content: Text(l10n.genderUpdatedSuccess),
       ),
     );
     Navigator.pop(context, _selectedGender);
@@ -131,6 +133,7 @@ class _EditGenderPageState extends State<EditGenderPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -139,7 +142,7 @@ class _EditGenderPageState extends State<EditGenderPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar Sexo',
+          l10n.editGender,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -159,13 +162,13 @@ class _EditGenderPageState extends State<EditGenderPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Sexo',
+                              l10n.gender,
                               style: AppTypography.heading2Primary,
                             ),
                             const SizedBox(height: 8),
-                            Text(
+                            const Text(
                               'Selecione seu sexo.',
-                              style: AppTypography.textPrimary.copyWith(
+                              style: TextStyle(
                                 color: AppColors.textDisabled,
                                 height: 1.4,
                               ),
@@ -195,7 +198,7 @@ class _EditGenderPageState extends State<EditGenderPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),

@@ -3,11 +3,16 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/theme_provider.dart' as app_theme;
+import 'core/l10n/locale_provider.dart';
+import 'l10n/app_localizations.dart';
 import 'screens/auth/index.dart';
 
 void main() => runApp(
-  ChangeNotifierProvider(
-    create: (_) => app_theme.ThemeProvider(),
+  MultiProvider(
+    providers: [
+      ChangeNotifierProvider(create: (_) => app_theme.ThemeProvider()),
+      ChangeNotifierProvider(create: (_) => LocaleProvider()),
+    ],
     child: const CuidaDorApp(),
   ),
 );
@@ -18,6 +23,7 @@ class CuidaDorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<app_theme.ThemeProvider>(context);
+    final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
       title: 'CuidaDor',
@@ -25,15 +31,17 @@ class CuidaDorApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: _getThemeMode(themeProvider.themeMode),
+      locale: localeProvider.locale,
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
         Locale('pt', 'BR'),
+        Locale('en', 'US'),
       ],
-      locale: const Locale('pt', 'BR'),
       home: const LoginPage(),
     );
   }

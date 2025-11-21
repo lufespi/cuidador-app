@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/app_button.dart';
@@ -48,9 +49,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Alterações salvas com sucesso!'),
+      SnackBar(
+        content: Text(l10n.changesSuccessfullySaved),
       ),
     );
     Navigator.pop(context);
@@ -58,6 +60,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -66,7 +69,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Notificações e Alertas',
+          l10n.notificationsAndReminders,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -508,7 +511,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _saveChanges,
                 height: 52,
               ),

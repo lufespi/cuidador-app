@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/app_button.dart';
+import '../about/terms_page.dart';
 
 class PrivacyPage extends StatefulWidget {
   const PrivacyPage({super.key});
@@ -20,20 +22,20 @@ class _PrivacyPageState extends State<PrivacyPage> {
   bool _emailNotificationsEnabled = false;
 
   void _viewPrivacyPolicy() {
-    // TODO: Navegar para página de política de privacidade
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Abrindo Política de Privacidade...'),
-        backgroundColor: AppColors.buttonPrimary,
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const TermsPage(),
       ),
     );
   }
 
   void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar preferências de privacidade
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Preferências salvas com sucesso!'),
+      SnackBar(
+        content: Text(l10n.successPreferencesSaved),
       ),
     );
     Navigator.pop(context);
@@ -41,6 +43,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -49,7 +52,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Privacidade e Segurança',
+          l10n.privacyAndSecurity,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -78,15 +81,17 @@ class _PrivacyPageState extends State<PrivacyPage> {
                             size: 24,
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            'Coleta de Dados',
-                            style: AppTypography.heading1Primary,
+                          Expanded(
+                            child: Text(
+                              l10n.dataCollectionTitle,
+                              style: AppTypography.heading1Primary,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Gerencie como deseja compartilhar seus dados de uso da aplicação de acordo com a Lei Geral de Proteção de Dados',
+                        l10n.dataCollectionDescription,
                         style: AppTypography.textPrimary.copyWith(
                           color: AppColors.textDisabled,
                           fontSize: 13,
@@ -105,14 +110,14 @@ class _PrivacyPageState extends State<PrivacyPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Compartilhar minhas estatísticas',
+                                  l10n.shareMyStatistics,
                                   style: AppTypography.textPrimary.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
-                                  'Seus dados são protegidos e utilizados apenas para os propósitos descritos na política de privacidade.',
+                                  l10n.shareMyStatisticsDesc,
                                   style: AppTypography.textPrimary.copyWith(
                                     color: AppColors.textDisabled,
                                     fontSize: 12,
@@ -149,14 +154,14 @@ class _PrivacyPageState extends State<PrivacyPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Compartilhar somente dados de diagnóstico',
+                                  l10n.shareDiagnosticDataOnly,
                                   style: AppTypography.textPrimary.copyWith(
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
-                                  'Serão coletados apenas dados do aplicativo para fins de melhoria do aplicativo.',
+                                  l10n.shareDiagnosticDataOnlyDesc,
                                   style: AppTypography.textPrimary.copyWith(
                                     color: AppColors.textDisabled,
                                     fontSize: 12,
@@ -206,7 +211,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
                               ),
                               const SizedBox(width: 8),
                               Text(
-                                'Ver Política de Privacidade',
+                                l10n.viewPrivacyPolicy,
                                 style: AppTypography.textPrimary.copyWith(
                                   color: AppColors.buttonPrimary,
                                   fontWeight: FontWeight.w600,
@@ -235,15 +240,17 @@ class _PrivacyPageState extends State<PrivacyPage> {
                             size: 24,
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            'Preferências de E-mail',
-                            style: AppTypography.heading1Primary,
+                          Expanded(
+                            child: Text(
+                              l10n.emailPreferences,
+                              style: AppTypography.heading1Primary,
+                            ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 12),
                       Text(
-                        'Gerencie se deseja receber notificações por e-mail',
+                        l10n.emailPreferencesDesc,
                         style: AppTypography.textPrimary.copyWith(
                           color: AppColors.textDisabled,
                           fontSize: 13,
@@ -258,7 +265,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Receber notificações por e-mail',
+                              l10n.receiveEmailNotifications,
                               style: AppTypography.textPrimary.copyWith(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -290,7 +297,7 @@ class _PrivacyPageState extends State<PrivacyPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _saveChanges,
                 height: 52,
               ),

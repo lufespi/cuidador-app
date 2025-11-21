@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -45,6 +46,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
   }
 
   void _showPasswordDialog() {
+    final l10n = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
       showDialog(
         context: context,
@@ -71,7 +73,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Confirmar Alteração',
                     style: AppTypography.heading1Primary,
                   ),
@@ -86,7 +88,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
                   const SizedBox(height: 16),
                   AppTextField(
                     controller: _passwordController,
-                    label: 'Senha Atual',
+                    label: l10n.currentPassword,
                     obscureText: true,
                   ),
                   const SizedBox(height: 24),
@@ -99,7 +101,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
                           Navigator.of(context).pop();
                         },
                         child: Text(
-                          'Cancelar',
+                          l10n.cancel,
                           style: AppTypography.textPrimary.copyWith(
                             color: AppColors.textDisabled,
                           ),
@@ -115,7 +117,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
                           }
                         },
                         child: Text(
-                          'Confirmar',
+                          l10n.confirm,
                           style: AppTypography.textPrimary.copyWith(
                             color: AppColors.buttonPrimary,
                             fontWeight: FontWeight.w600,
@@ -134,10 +136,11 @@ class _EditPhonePageState extends State<EditPhonePage> {
   }
 
   void _saveChanges() {
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar alteração do telefone
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Telefone atualizado com sucesso!'),
+      SnackBar(
+        content: Text(l10n.phoneUpdatedSuccess),
       ),
     );
     Navigator.pop(context, _phoneController.text);
@@ -145,6 +148,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -153,7 +157,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar Telefone',
+          l10n.editPhone,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -174,10 +178,10 @@ class _EditPhonePageState extends State<EditPhonePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                'Telefone',
-                                style: AppTypography.heading2Primary,
-                              ),
+                            Text(
+                              l10n.phone,
+                              style: AppTypography.heading2Primary,
+                            ),
                               const SizedBox(height: 8),
                               Text(
                                 'Digite seu número de telefone com DDD.',
@@ -190,7 +194,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
                               
                               AppTextField(
                                 controller: _phoneController,
-                                label: 'Telefone',
+                                label: l10n.phone,
                                 keyboardType: TextInputType.phone,
                                 inputFormatters: [
                                   FilteringTextInputFormatter.digitsOnly,
@@ -237,7 +241,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _showPasswordDialog : null,
                 height: 52,
               ),

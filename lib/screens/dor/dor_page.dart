@@ -7,6 +7,7 @@ import '../../core/widgets/app_button.dart';
 import '../../core/widgets/app_outlined_button.dart';
 import '../../core/widgets/app_dropdown.dart';
 import '../../core/widgets/app_text_field.dart';
+import '../../l10n/app_localizations.dart';
 import 'indicar_local_page.dart';
 
 class DorPage extends StatefulWidget {
@@ -27,26 +28,28 @@ class _DorPageState extends State<DorPage> {
     super.dispose();
   }
 
-  String _getDescricaoDor() {
-    if (_nivelDor == 0) return 'Sem Dor';
-    if (_nivelDor >= 1 && _nivelDor <= 2) return 'Dor Mínima';
-    if (_nivelDor >= 3 && _nivelDor <= 4) return 'Dor Leve';
-    if (_nivelDor >= 5 && _nivelDor <= 6) return 'Dor Moderada';
-    if (_nivelDor >= 7 && _nivelDor <= 8) return 'Dor Intensa';
-    return 'Dor Insuportável'; // 9-10
+  String _getDescricaoDor(AppLocalizations l10n) {
+    if (_nivelDor == 0) return l10n.painNoPain;
+    if (_nivelDor >= 1 && _nivelDor <= 2) return l10n.painMinimal;
+    if (_nivelDor >= 3 && _nivelDor <= 4) return l10n.painMild;
+    if (_nivelDor >= 5 && _nivelDor <= 6) return l10n.painModerate;
+    if (_nivelDor >= 7 && _nivelDor <= 8) return l10n.painSevere;
+    return l10n.painUnbearable; // 9-10
   }
 
-  String _getSubtituloDor() {
-    if (_nivelDor == 0) return 'Você está completamente confortável, sem nenhum desconforto';
-    if (_nivelDor >= 1 && _nivelDor <= 2) return 'Dor muito leve que você consegue ignorar.\n\nExemplo: Pequena coceira, leve desconforto ao sentar em posição errada.';
-    if (_nivelDor >= 3 && _nivelDor <= 4) return 'Dor perceptível mas não impede suas atividades.\n\nExemplo: Dor de cabeça leve, pequena dor muscular após exercício.\n\nVocê consegue trabalhar e se concentrar normalmente';
-    if (_nivelDor >= 5 && _nivelDor <= 6) return 'Dor que interfere nas atividades mas você ainda consegue realizá-las.\n\nExemplo: Dor de dente chata, torção de tornozelo, cólica menstrual moderada,\n\nVocê pode precisar de analgésico simples,\nDificulta concentração em tarefas complexas.';
-    if (_nivelDor >= 7 && _nivelDor <= 8) return 'Dor que domina seus sentidos e limita significativamente suas atividades.\n\nExemplo: Enxaqueca forte, cólica renal, fratura óssea.\n\nVocê não consegue ignorar a dor,\nDificuldade para dormir ou realizar atividades básicas,\nPrecisa de medicação mais forte.';
-    return 'A pior dor imaginável, você não consegue fazer nada além de lidar com ela.\n\nExemplo: Apendicite aguda, trabalho de parto em transição, queimaduras graves.\n\nPode causar choque, náuseas, vômitos.\nRequer atendimento médico imediato. \n\nMuitas pessoas nunca experimentaram esse nível de dor.'; // 9-10
+  String _getSubtituloDor(AppLocalizations l10n) {
+    if (_nivelDor == 0) return l10n.painNoPainDesc;
+    if (_nivelDor >= 1 && _nivelDor <= 2) return l10n.painMinimalDesc;
+    if (_nivelDor >= 3 && _nivelDor <= 4) return l10n.painMildDesc;
+    if (_nivelDor >= 5 && _nivelDor <= 6) return l10n.painModerateDesc;
+    if (_nivelDor >= 7 && _nivelDor <= 8) return l10n.painSevereDesc;
+    return l10n.painUnbearableDesc; // 9-10
   }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -72,14 +75,14 @@ class _DorPageState extends State<DorPage> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Como você está se sentindo hoje?',
+                        l10n.painPageTitle,
                         style: AppTypography.heading2Primary,
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Registre seu nível de dor',
+                    l10n.painPageSubtitle,
                     style: AppTypography.textDisabled,
                   ),
                   const SizedBox(height: 20),
@@ -89,7 +92,7 @@ class _DorPageState extends State<DorPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Nível de Dor',
+                        l10n.painLevel,
                         style: AppTypography.label,
                       ),
                       Row(
@@ -161,14 +164,14 @@ class _DorPageState extends State<DorPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _getDescricaoDor(),
+                          _getDescricaoDor(l10n),
                           style: AppTypography.displayMedium.copyWith(
                             color: const Color(0xFF28BDBD),
                           ),
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          _getSubtituloDor(),
+                          _getSubtituloDor(l10n),
                           style: AppTypography.textDisabled,
                         ),
                       ],
@@ -179,7 +182,7 @@ class _DorPageState extends State<DorPage> {
                   // Botão indicar local da dor
                   Center(
                     child: AppOutlinedButton(
-                      label: 'Indicar local da dor',
+                      label: l10n.indicatePainLocation,
                       icon: SvgPicture.asset(
                         'assets/icons/pain/locate-fixed.svg', 
                         width: 18, 
@@ -200,13 +203,13 @@ class _DorPageState extends State<DorPage> {
 
                   // Campo de anotação
                   Text(
-                    'Adicionar uma anotação',
+                    l10n.addAnnotation,
                     style: AppTypography.label,
                   ),
                   const SizedBox(height: 8),
                   AppTextField(
                     label: '',
-                    hint: 'Ex.: Dor após a caminhada, degrau a mais...',
+                    hint: l10n.annotationHint,
                     controller: _anotacaoController,
                     maxLines: 3,
                   ),
@@ -214,12 +217,12 @@ class _DorPageState extends State<DorPage> {
 
                   // Botão Salvar Registro
                   AppButton(
-                    label: 'Salvar Registro',
+                    label: l10n.saveRecord,
                     onPressed: () {
                       // Lógica para salvar registro
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Registro salvo com sucesso!'),
+                        SnackBar(
+                          content: Text(l10n.recordSavedSuccess),
                         ),
                       );
                     },
@@ -249,7 +252,7 @@ class _DorPageState extends State<DorPage> {
                           ),
                           const SizedBox(width: 8),
                           Text(
-                            'Histórico',
+                            l10n.history,
                             style: AppTypography.heading2Primary,
                           ),
                         ],
@@ -257,21 +260,21 @@ class _DorPageState extends State<DorPage> {
                       // Dropdown de período
                       AppDropdown<String>(
                         value: _periodoHistorico,
-                        items: const [
-                          DropdownMenuItem(value: '7', child: Text('7 dias')),
-                          DropdownMenuItem(value: '14', child: Text('14 dias')),
-                          DropdownMenuItem(value: '30', child: Text('30 dias')),
-                          DropdownMenuItem(value: '60', child: Text('60 dias')),
-                          DropdownMenuItem(value: '90', child: Text('90 dias')),
-                          DropdownMenuItem(value: 'custom', child: Text('Personalizado')),
+                        items: [
+                          DropdownMenuItem(value: '7', child: Text('7 ${l10n.days}')),
+                          DropdownMenuItem(value: '14', child: Text('14 ${l10n.days}')),
+                          DropdownMenuItem(value: '30', child: Text('30 ${l10n.days}')),
+                          DropdownMenuItem(value: '60', child: Text('60 ${l10n.days}')),
+                          DropdownMenuItem(value: '90', child: Text('90 ${l10n.days}')),
+                          DropdownMenuItem(value: 'custom', child: Text(l10n.customPeriod)),
                         ],
                         onChanged: (value) {
                           if (value == 'custom') {
                             // TODO: Implementar seletor de data personalizado
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text('Seletor de período personalizado em breve'),
-                                duration: Duration(seconds: 2),
+                              SnackBar(
+                                content: Text(l10n.customPeriodSoon),
+                                duration: const Duration(seconds: 2),
                               ),
                             );
                           } else {
@@ -285,7 +288,7 @@ class _DorPageState extends State<DorPage> {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Visualize o padrão da sua dor',
+                    l10n.visualizePainPattern,
                     style: AppTypography.textDisabled,
                   ),
                   const SizedBox(height: 20),
@@ -312,7 +315,7 @@ class _DorPageState extends State<DorPage> {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Gráfico será exibido aqui',
+                            l10n.chartWillBeDisplayed,
                             style: AppTypography.textDisabled,
                           ),
                         ],
@@ -341,14 +344,14 @@ class _DorPageState extends State<DorPage> {
                       ),
                       const SizedBox(width: 8),
                       Text(
-                        'Histórico Recente',
+                        l10n.recentHistory,
                         style: AppTypography.heading2Primary,
                       ),
                     ],
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    'Com base em seus registros anteriores',
+                    l10n.basedOnPreviousRecords,
                     style: AppTypography.textDisabled,
                   ),
                   const SizedBox(height: 20),
@@ -357,21 +360,21 @@ class _DorPageState extends State<DorPage> {
                   _buildRegistroRecente(
                     nivel: 7,
                     data: '26 de out de 11:13',
-                    descricao: 'Dor após exercício',
+                    descricao: l10n.painAfterExercise,
                     cor: AppColors.stateError,
                   ),
                   const SizedBox(height: 12),
                   _buildRegistroRecente(
                     nivel: 6,
                     data: '23 de out de 14:25',
-                    descricao: 'Rigidez matinal',
+                    descricao: l10n.morningStiffness,
                     cor: AppColors.stateWarning,
                   ),
                   const SizedBox(height: 12),
                   _buildRegistroRecente(
                     nivel: 5,
                     data: '20 de out de 16:32',
-                    descricao: 'Dor moderada após caminhada',
+                    descricao: l10n.moderatePainAfterWalk,
                     cor: AppColors.stateWarning,
                   ),
                 ],

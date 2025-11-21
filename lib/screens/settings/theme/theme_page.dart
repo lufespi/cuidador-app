@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart' hide ThemeMode;
 import 'package:provider/provider.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/theme_provider.dart';
@@ -23,6 +24,7 @@ class _ThemePageState extends State<ThemePage> {
   }
 
   void _saveTheme() async {
+    final l10n = AppLocalizations.of(context)!;
     final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
     await themeProvider.setThemeMode(_selectedTheme);
     
@@ -31,13 +33,13 @@ class _ThemePageState extends State<ThemePage> {
     String message = '';
     switch (_selectedTheme) {
       case ThemeMode.light:
-        message = 'Modo Claro ativado';
+        message = l10n.lightModeActivated;
         break;
       case ThemeMode.dark:
-        message = 'Modo Escuro ativado';
+        message = l10n.darkModeActivated;
         break;
       case ThemeMode.system:
-        message = 'Tema do Sistema ativado';
+        message = l10n.systemThemeActivated;
         break;
     }
     
@@ -51,6 +53,7 @@ class _ThemePageState extends State<ThemePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -59,7 +62,7 @@ class _ThemePageState extends State<ThemePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Tema e Aparência',
+          l10n.themeAndAppearance,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -88,14 +91,14 @@ class _ThemePageState extends State<ThemePage> {
                                 ),
                                 const SizedBox(width: 8),
                                 Text(
-                                  'Modo de Exibição',
+                                  l10n.displayMode,
                                   style: AppTypography.heading1Primary,
                                 ),
                               ],
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              'Escolha entre o modo claro, escuro ou automático para melhor conforto visual',
+                              l10n.displayModeDescription,
                               style: AppTypography.textPrimary.copyWith(
                                 color: AppColors.textDisabled,
                                 fontSize: 13,
@@ -108,8 +111,8 @@ class _ThemePageState extends State<ThemePage> {
                             _buildThemeOption(
                               value: ThemeMode.light,
                               icon: Icons.light_mode,
-                              title: 'Modo Claro',
-                              description: 'Interface clara e vibrante',
+                              title: l10n.lightMode,
+                              description: l10n.lightModeDescription,
                             ),
                             
                             const SizedBox(height: 12),
@@ -118,8 +121,8 @@ class _ThemePageState extends State<ThemePage> {
                             _buildThemeOption(
                               value: ThemeMode.dark,
                               icon: Icons.dark_mode,
-                              title: 'Modo Escuro',
-                              description: 'Interface escura e confortável',
+                              title: l10n.darkMode,
+                              description: l10n.darkModeDescription,
                             ),
                             
                             const SizedBox(height: 12),
@@ -128,8 +131,8 @@ class _ThemePageState extends State<ThemePage> {
                             _buildThemeOption(
                               value: ThemeMode.system,
                               icon: Icons.brightness_auto,
-                              title: 'Automático',
-                              description: 'Segue configuração do sistema',
+                              title: l10n.automaticMode,
+                              description: l10n.automaticModeDescription,
                             ),
                           ],
                         ),
@@ -146,7 +149,7 @@ class _ThemePageState extends State<ThemePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _saveTheme,
                 height: 52,
               ),
@@ -217,24 +220,29 @@ class _ThemePageState extends State<ThemePage> {
                         : AppColors.textDisabled,
                   ),
                   const SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title,
-                        style: AppTypography.textPrimary.copyWith(
-                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-                        ),
-                      ),
-                      if (description.isNotEmpty)
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          description,
+                          title,
                           style: AppTypography.textPrimary.copyWith(
-                            fontSize: 12,
-                            color: AppColors.textDisabled,
+                            fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                           ),
                         ),
-                    ],
+                        if (description.isNotEmpty)
+                          Text(
+                            description,
+                            style: AppTypography.textPrimary.copyWith(
+                              fontSize: 12,
+                              color: AppColors.textDisabled,
+                            ),
+                            softWrap: true,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                      ],
+                    ),
                   ),
                 ],
               ),

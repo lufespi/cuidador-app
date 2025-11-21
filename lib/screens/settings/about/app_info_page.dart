@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -8,6 +9,7 @@ class AppInfoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -16,7 +18,7 @@ class AppInfoPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Sobre o Aplicativo',
+          l10n.aboutTheApp,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -32,12 +34,12 @@ class AppInfoPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Objetivo',
+                      l10n.appObjective,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'O Cuidador App foi desenvolvido para auxiliar cuidadores de idosos no acompanhamento diário de suas atividades, saúde e bem-estar. O aplicativo oferece ferramentas para registro de dor, lembretes de medicamentos, exercícios práticos e orientações educacionais.',
+                      l10n.appObjectiveDescription,
                       style: AppTypography.textPrimary,
                     ),
                   ],
@@ -52,15 +54,15 @@ class AppInfoPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Funcionalidades',
+                      l10n.features,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 12),
-                    _buildFeatureItem('Registro e acompanhamento de dor'),
-                    _buildFeatureItem('Lembretes de medicamentos e cuidados'),
-                    _buildFeatureItem('Práticas e exercícios guiados'),
-                    _buildFeatureItem('Conteúdo educacional'),
-                    _buildFeatureItem('Recursos de acessibilidade'),
+                    _buildFeatureItem(l10n.featurePainTracking),
+                    _buildFeatureItem(l10n.featureReminders),
+                    _buildFeatureItem(l10n.featurePractices),
+                    _buildFeatureItem(l10n.featureEducation),
+                    _buildFeatureItem(l10n.featureAccessibility),
                   ],
                 ),
               ),

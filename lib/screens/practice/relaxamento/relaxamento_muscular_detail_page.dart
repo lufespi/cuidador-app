@@ -4,12 +4,15 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
+import '../../../l10n/app_localizations.dart';
 
 class RelaxamentoMuscularDetailPage extends StatelessWidget {
   const RelaxamentoMuscularDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -18,7 +21,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -30,7 +33,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
             children: [
               // Título e tags
               Text(
-                'Relaxamento Muscular',
+                l10n.practiceRelaxationTitle,
                 style: AppTypography.practiceTitle,
               ),
               const SizedBox(height: 12),
@@ -40,9 +43,9 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.category('Relaxamento'),
+                  AppTag.category(l10n.categoryRelaxation),
                   AppTag.info('10-15 min', icon: Icons.access_time),
-                  AppTag.info('Intermediário'),
+                  AppTag.info(l10n.levelIntermediate),
                 ],
               ),
               
@@ -53,8 +56,8 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                 context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
-                title: 'Benefícios',
-                content: 'Alivia tensão e dor muscular',
+                title: l10n.benefits,
+                content: l10n.practiceRelaxationBenefits,
               ),
               
               const SizedBox(height: 16),
@@ -62,10 +65,11 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               // Card de Como fazer
               _buildStepsCard(
                 context: context,
+                l10n: l10n,
                 steps: [
-                'Deite-se confortavelmente',
-                'Comece pelos pés:\n  • Contraia os músculos por 5 segundos\n  • Relaxe completamente por 10 segundos',
-                'Suba pelo corpo:\n  • Panturrilhas\n  • Coxas\n  • Barriga\n  • Mãos e braços\n  • Ombros\n  • Rosto',
+                l10n.practiceRelaxationStep1,
+                l10n.practiceRelaxationStep2,
+                l10n.practiceRelaxationStep3,
               ]),
               
               const SizedBox(height: 16),
@@ -73,13 +77,14 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               // Card de Atenção
               _buildWarningCard(
                 context: context,
-                warning: 'Não force articulações doloridas',
+                l10n: l10n,
+                warning: l10n.practiceRelaxationWarning,
               ),
               
               const SizedBox(height: 24),
               
               // Botão Iniciar Sessão
-              _buildStartButton(context),
+              _buildStartButton(context, l10n),
             ],
           ),
         ),
@@ -87,7 +92,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(BuildContext context) {
+  Widget _buildStartButton(BuildContext context, AppLocalizations l10n) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -95,9 +100,9 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const PracticeTimerDialog(
+            builder: (context) => PracticeTimerDialog(
               durationInMinutes: 12,
-              practiceTitle: 'Relaxamento Muscular',
+              practiceTitle: l10n.practiceRelaxationTitle,
             ),
           );
         },
@@ -106,7 +111,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
           color: Colors.white,
         ),
         label: Text(
-          'Iniciar Sessão',
+          l10n.startSession,
           style: AppTypography.sectionTitle.copyWith(
             color: Colors.white,
           ),
@@ -175,6 +180,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
 
   Widget _buildStepsCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required List<String> steps,
   }) {
     return Container(
@@ -203,7 +209,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Como fazer',
+                l10n.howToDo,
                 style: AppTypography.sectionTitle,
               ),
             ],
@@ -254,6 +260,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
 
   Widget _buildWarningCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required String warning,
   }) {
     return Container(
@@ -282,7 +289,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Atenção',
+                l10n.attention,
                 style: AppTypography.sectionTitle,
               ),
             ],

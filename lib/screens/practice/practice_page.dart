@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/practice_card.dart';
+import '../../l10n/app_localizations.dart';
 import 'respiratorio/respiratorio_detail_page.dart';
 import 'alongamento/alongamento_detail_page.dart';
 import 'liangong/liangong_detail_page.dart';
@@ -20,78 +21,80 @@ class PracticePage extends StatefulWidget {
 
 class _PracticePageState extends State<PracticePage> {
   
-  final List<Map<String, dynamic>> _practices = [
-    {
-      'title': 'Respiração 4-7-8',
-      'description': 'Acalma o sistema nervoso, reduz ansiedade e pode melhorar a percepção da dor. Ideal antes de dormir.',
-      'iconPath': 'assets/icons/practice/wind.svg',
-      'iconColor': const Color(0xFF3B82F6), // Azul
-      'category': 'Respiração',
-      'duration': '5 min',
-      'level': 'Iniciante',
-      'type': 'respiratorio',
-    },
-    {
-      'title': 'Alongamento de Mãos',
-      'description': 'Bom para rigidez matinal. Melhora mobilidade das articulações dos dedos.',
-      'iconPath': 'assets/icons/practice/sparkles.svg',
-      'iconColor': const Color(0xFF8B5CF6), // Roxo
-      'category': 'Alongamento',
-      'duration': '5 min',
-      'level': 'Iniciante',
-      'type': 'alongamento',
-    },
-    {
-      'title': 'LianGong - Rotação de Ombros',
-      'description': 'Melhora mobilidade dos ombros, reduz tensão na região cervical.',
-      'iconPath': 'assets/icons/practice/heart.svg',
-      'iconColor': const Color(0xFFEC4899), // Rosa
-      'category': 'LianGong',
-      'duration': '8 min',
-      'level': 'Intermediário',
-      'type': 'liangong',
-    },
-    {
-      'title': 'Respiração Profunda',
-      'description': 'Reduz tensão e ansiedade através da respiração diafragmática controlada.',
-      'iconPath': 'assets/icons/practice/wind.svg',
-      'iconColor': const Color(0xFF3B82F6), // Azul
-      'category': 'Respiração',
-      'duration': '5 min',
-      'level': 'Iniciante',
-      'type': 'respiratorio_profundo',
-    },
-    {
-      'title': 'Suspiro de Alívio',
-      'description': 'Libera tensão rapidamente através de suspiros profundos e audíveis.',
-      'iconPath': 'assets/icons/practice/wind.svg',
-      'iconColor': const Color(0xFF3B82F6), // Azul
-      'category': 'Respiração',
-      'duration': '2 min',
-      'level': 'Iniciante',
-      'type': 'suspiro',
-    },
-    {
-      'title': 'Relaxamento Muscular',
-      'description': 'Alivia tensão muscular através de contração e relaxamento progressivo.',
-      'iconPath': 'assets/icons/practice/sparkles.svg',
-      'iconColor': const Color(0xFF10B981), // Verde
-      'category': 'Relaxamento',
-      'duration': '10-15 min',
-      'level': 'Intermediário',
-      'type': 'relaxamento',
-    },
-    {
-      'title': 'Toque Calmante',
-      'description': 'Proporciona conforto imediato através do calor das mãos e toques suaves.',
-      'iconPath': 'assets/icons/practice/heart.svg',
-      'iconColor': const Color(0xFF06B6D4), // Ciano
-      'category': 'Toque',
-      'duration': '5 min',
-      'level': 'Iniciante',
-      'type': 'toque',
-    },
-  ];
+  List<Map<String, dynamic>> _getPractices(AppLocalizations l10n) {
+    return [
+      {
+        'title': l10n.practice478Title,
+        'description': l10n.practice478Description,
+        'iconPath': 'assets/icons/practice/wind.svg',
+        'iconColor': const Color(0xFF3B82F6),
+        'category': l10n.categoryBreathing,
+        'duration': '5 min',
+        'level': l10n.levelBeginner,
+        'type': 'respiratorio',
+      },
+      {
+        'title': l10n.practiceStretchingTitle,
+        'description': l10n.practiceStretchingDescription,
+        'iconPath': 'assets/icons/practice/sparkles.svg',
+        'iconColor': const Color(0xFF8B5CF6),
+        'category': l10n.categoryStretching,
+        'duration': '5 min',
+        'level': l10n.levelBeginner,
+        'type': 'alongamento',
+      },
+      {
+        'title': l10n.practiceLiangongTitle,
+        'description': l10n.practiceLiangongDescription,
+        'iconPath': 'assets/icons/practice/heart.svg',
+        'iconColor': const Color(0xFFEC4899),
+        'category': l10n.categoryLianGong,
+        'duration': '8 min',
+        'level': l10n.levelIntermediate,
+        'type': 'liangong',
+      },
+      {
+        'title': l10n.practiceDeepBreathingTitle,
+        'description': l10n.practiceDeepBreathingDescription,
+        'iconPath': 'assets/icons/practice/wind.svg',
+        'iconColor': const Color(0xFF3B82F6),
+        'category': l10n.categoryBreathing,
+        'duration': '5 min',
+        'level': l10n.levelBeginner,
+        'type': 'respiratorio_profundo',
+      },
+      {
+        'title': l10n.practiceSighTitle,
+        'description': l10n.practiceSighDescription,
+        'iconPath': 'assets/icons/practice/wind.svg',
+        'iconColor': const Color(0xFF3B82F6),
+        'category': l10n.categoryBreathing,
+        'duration': '2 min',
+        'level': l10n.levelBeginner,
+        'type': 'suspiro',
+      },
+      {
+        'title': l10n.practiceRelaxationTitle,
+        'description': l10n.practiceRelaxationDescription,
+        'iconPath': 'assets/icons/practice/sparkles.svg',
+        'iconColor': const Color(0xFF10B981),
+        'category': l10n.categoryRelaxation,
+        'duration': '10-15 min',
+        'level': l10n.levelIntermediate,
+        'type': 'relaxamento',
+      },
+      {
+        'title': l10n.practiceTouchTitle,
+        'description': l10n.practiceTouchDescription,
+        'iconPath': 'assets/icons/practice/heart.svg',
+        'iconColor': const Color(0xFF06B6D4),
+        'category': l10n.categoryTouch,
+        'duration': '5 min',
+        'level': l10n.levelBeginner,
+        'type': 'toque',
+      },
+    ];
+  }
 
   void _showPracticeDetails(Map<String, dynamic> practice) {
     Widget page;
@@ -130,6 +133,9 @@ class _PracticePageState extends State<PracticePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final practices = _getPractices(l10n);
+    
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
@@ -154,14 +160,14 @@ class _PracticePageState extends State<PracticePage> {
                         ),
                         const SizedBox(width: 12),
                         Text(
-                          'Práticas de Bem-Estar',
+                          l10n.practicesTitle,
                           style: AppTypography.pageTitle,
                         ),
                       ],
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Exercícios e técnicas para aliviar a dor',
+                      l10n.practicesSubtitle,
                       style: AppTypography.bodyLarge.copyWith(
                         color: AppColors.textDisabled,
                       ),
@@ -177,7 +183,7 @@ class _PracticePageState extends State<PracticePage> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
-                    final practice = _practices[index];
+                    final practice = practices[index];
                     return PracticeCard(
                       iconPath: practice['iconPath'],
                       iconBackgroundColor: practice['iconColor'],
@@ -189,7 +195,7 @@ class _PracticePageState extends State<PracticePage> {
                       onTap: () => _showPracticeDetails(practice),
                     );
                   },
-                  childCount: _practices.length,
+                  childCount: practices.length,
                 ),
               ),
             ),

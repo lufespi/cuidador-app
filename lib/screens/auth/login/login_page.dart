@@ -5,6 +5,7 @@ import '../../../core/widgets/app_logo.dart';
 import '../../../core/widgets/app_tab_slider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../l10n/app_localizations.dart';
 import '../register/register_page_step_1.dart';
 import '../../home/home_page.dart';
 
@@ -108,6 +109,8 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -119,7 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                 iconSize: 120,
                 imagePath: 'assets/images/cuidador-main-logo.png',
                 title: null,
-                subtitle: 'Gerencie sua saúde osteoarticular',
+                subtitle: l10n.welcomeBack,
                 subtitleStyle: AppTypography.heading2Primary.copyWith(
                   color: const Color(0xFF858585),
                 ),
@@ -127,13 +130,13 @@ class _LoginPageState extends State<LoginPage> {
               const SizedBox(height: 48),
 
               // Abas de Login/Cadastro
-              _buildTabButtons(),
+              _buildTabButtons(l10n),
               const SizedBox(height: 32),
 
               // Email
               AppTextField(
-                label: 'E-mail',
-                hint: 'seu@email.com',
+                label: l10n.email,
+                hint: l10n.emailHint,
                 controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
               ),
@@ -141,8 +144,8 @@ class _LoginPageState extends State<LoginPage> {
 
               // Senha
               AppTextField(
-                label: 'Senha',
-                hint: '••••••',
+                label: l10n.password,
+                hint: l10n.passwordHint,
                 controller: _senhaController,
                 obscureText: !_showPassword,
                 suffixIcon: IconButton(
@@ -160,8 +163,8 @@ class _LoginPageState extends State<LoginPage> {
               if (_activeTabIndex == 1) ...[
                 const SizedBox(height: 16),
                 AppTextField(
-                  label: 'Confirmar Senha',
-                  hint: '••••••',
+                  label: l10n.confirmPassword,
+                  hint: l10n.passwordHint,
                   controller: _confirmarSenhaController,
                   obscureText: !_showConfirmPassword,
                   suffixIcon: IconButton(
@@ -202,13 +205,13 @@ class _LoginPageState extends State<LoginPage> {
                 TextButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Funcionalidade em desenvolvimento'),
+                      SnackBar(
+                        content: Text(l10n.errorFillAllFields),
                       ),
                     );
                   },
-                  child: const Text(
-                    'Esqueci minha senha',
+                  child: Text(
+                    l10n.forgotPassword,
                     style: AppTypography.textLink,
                   ),
                 ),
@@ -220,9 +223,9 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   /// Constrói o slider de abas (Entrar / Criar Conta)
-  Widget _buildTabButtons() {
+  Widget _buildTabButtons(AppLocalizations l10n) {
     return AppTabSlider(
-      tabs: const ['Entrar', 'Criar Conta'],
+      tabs: [l10n.login, l10n.createAccount],
       activeIndex: _activeTabIndex,
       onTabChanged: (index) {
         setState(() {

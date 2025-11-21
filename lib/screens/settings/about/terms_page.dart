@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
 
@@ -7,6 +8,7 @@ class TermsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -15,7 +17,7 @@ class TermsPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Termos e Privacidade',
+          l10n.termsAndPrivacyTitle,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -31,21 +33,21 @@ class TermsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Termos de Uso',
+                      l10n.termsOfUseTitle,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Ao utilizar este aplicativo, você concorda com os seguintes termos:',
+                      l10n.termsIntro,
                       style: AppTypography.textPrimary,
                     ),
                     const SizedBox(height: 12),
-                    _buildTermItem('1. Finalidade', 
-                      'O aplicativo destina-se exclusivamente ao auxílio de cuidadores, não substituindo orientação médica profissional.'),
-                    _buildTermItem('2. Responsabilidade', 
-                      'As informações registradas são de responsabilidade do usuário. O desenvolvedor não se responsabiliza por decisões tomadas com base nos dados do aplicativo.'),
-                    _buildTermItem('3. Uso Adequado', 
-                      'O aplicativo deve ser utilizado de forma ética e responsável, respeitando as orientações médicas estabelecidas.'),
+                    _buildTermItem(l10n.termPurposeTitle, 
+                      l10n.termPurposeDesc),
+                    _buildTermItem(l10n.termResponsibilityTitle, 
+                      l10n.termResponsibilityDesc),
+                    _buildTermItem(l10n.termProperUseTitle, 
+                      l10n.termProperUseDesc),
                   ],
                 ),
               ),
@@ -58,18 +60,18 @@ class TermsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Política de Privacidade',
+                      l10n.privacyPolicyTitle,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 12),
-                    _buildTermItem('Coleta de Dados', 
-                      'Os dados inseridos no aplicativo são armazenados de forma segura e poderão ser sincronizados com um banco de dados para backup e acesso em múltiplos dispositivos.'),
-                    _buildTermItem('Uso dos Dados', 
-                      'As informações coletadas são utilizadas exclusivamente para o funcionamento das funcionalidades do aplicativo e para fornecer uma melhor experiência ao usuário.'),
-                    _buildTermItem('Compartilhamento', 
-                      'Seus dados pessoais não serão compartilhados com terceiros sem o seu consentimento explícito, exceto quando exigido por lei.'),
-                    _buildTermItem('Segurança', 
-                      'O aplicativo utiliza autenticação por senha para proteger o acesso aos seus dados. Mantenha sua senha segura e não a compartilhe com terceiros.'),
+                    _buildTermItem(l10n.privacyDataCollectionTitle, 
+                      l10n.privacyDataCollectionDesc),
+                    _buildTermItem(l10n.privacyDataUsageTitle, 
+                      l10n.privacyDataUsageDesc),
+                    _buildTermItem(l10n.privacySharingTitle, 
+                      l10n.privacySharingDesc),
+                    _buildTermItem(l10n.privacySecurityTitle, 
+                      l10n.privacySecurityDesc),
                   ],
                 ),
               ),
@@ -82,12 +84,12 @@ class TermsPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Dúvidas ou Sugestões',
+                      l10n.questionsOrSuggestionsTitle,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Para esclarecimentos sobre os termos de uso ou política de privacidade, utilize a seção de Feedback no menu Sobre.',
+                      l10n.questionsOrSuggestionsDesc,
                       style: AppTypography.textPrimary,
                     ),
                   ],

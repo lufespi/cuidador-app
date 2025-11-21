@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -8,6 +9,7 @@ class TeamPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -16,7 +18,7 @@ class TeamPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Equipe e Desenvolvimento',
+          l10n.teamAndDevelopment,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -32,7 +34,7 @@ class TeamPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Desenvolvedores',
+                      l10n.developers,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 16),
@@ -72,7 +74,7 @@ class TeamPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Responsável pela gestão do projeto, design e desenvolvimento front-end da aplicação utilizando Flutter.',
+                                l10n.luisFernandoRole,
                                 style: AppTypography.textPrimary,
                                 textAlign: TextAlign.justify,
                               ),
@@ -119,7 +121,7 @@ class TeamPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Responsável pelo desenvolvimento back-end, integração de APIs e gerenciamento de banco de dados da aplicação.',
+                                l10n.kaueMullerRole,
                                 style: AppTypography.textPrimary,
                                 textAlign: TextAlign.justify,
                               ),
@@ -140,12 +142,12 @@ class TeamPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Sobre o Projeto',
+                      l10n.aboutTheProject,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 12),
                     Text(
-                      'Esse projeto foi desenvolvido como trabalho final da disciplina de Desenvolvimento de Aplicativos Móveis, ministrado pelo professor Gilson Augusto Helfer, com o objetivo de apoiar o autocuidado e o manejo da dor em pessoas com osteoartrite. Oferecendo ferramentas para monitoramento da dor, práticas terapêuticas guiadas e conteúdo educativo baseado em evidências científicas.\n\nDesenvolvido com Flutter, o aplicativo oferece uma experiência nativa tanto para Android quanto iOS, garantindo desempenho e usabilidade em diferentes plataformas.',
+                      l10n.projectDescription,
                       style: AppTypography.textPrimary,
                       textAlign: TextAlign.justify,
                     ),
@@ -161,7 +163,7 @@ class TeamPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Tecnologias Utilizadas',
+                      l10n.technologiesUsed,
                       style: AppTypography.heading1Primary,
                     ),
                     const SizedBox(height: 16),

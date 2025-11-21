@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/l10n/locale_provider.dart';
+import '../../../l10n/app_localizations.dart';
 
 class LanguagePage extends StatefulWidget {
   const LanguagePage({super.key});
@@ -14,11 +17,19 @@ class LanguagePage extends StatefulWidget {
 class _LanguagePageState extends State<LanguagePage> {
   String _selectedLanguage = 'pt';
 
+  @override
+  void initState() {
+    super.initState();
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    _selectedLanguage = localeProvider.locale.languageCode;
+  }
+
   void _selectLanguage(String languageCode) {
+    final l10n = AppLocalizations.of(context)!;
     if (languageCode == 'es') {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Español - Não está disponível no momento.'),
+        SnackBar(
+          content: Text(l10n.languageNotAvailable(l10n.spanish)),
         ),
       );
       return;
@@ -29,14 +40,25 @@ class _LanguagePageState extends State<LanguagePage> {
   }
 
   void _applyLanguage() {
-    // TODO: Implementar mudança de idioma
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+    final l10n = AppLocalizations.of(context)!;
+    
+    Locale newLocale;
+    String languageName;
+    
+    if (_selectedLanguage == 'pt') {
+      newLocale = const Locale('pt', 'BR');
+      languageName = l10n.portuguese;
+    } else {
+      newLocale = const Locale('en', 'US');
+      languageName = l10n.english;
+    }
+    
+    localeProvider.setLocale(newLocale);
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          _selectedLanguage == 'pt'
-              ? 'Idioma Português (Brasil) aplicado'
-              : 'English (United States) language applied',
-        ),
+        content: Text(l10n.languageApplied(languageName)),
         backgroundColor: AppColors.buttonPrimary,
       ),
     );
@@ -45,6 +67,8 @@ class _LanguagePageState extends State<LanguagePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -53,7 +77,7 @@ class _LanguagePageState extends State<LanguagePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Idioma',
+          l10n.language,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -73,12 +97,12 @@ class _LanguagePageState extends State<LanguagePage> {
                         children: [
                           // Título e descrição
                           Text(
-                            'Seleção de Idioma',
+                            l10n.languageSelection,
                             style: AppTypography.heading1Primary,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Você pode alterar o idioma de sua preferência',
+                            l10n.languageDescription,
                             style: AppTypography.textPrimary.copyWith(
                               color: AppColors.textDisabled,
                             ),
@@ -90,8 +114,8 @@ class _LanguagePageState extends State<LanguagePage> {
                           _buildLanguageOption(
                             code: 'pt',
                             flag: 'BR',
-                            language: 'Português',
-                            country: 'Brasil',
+                            language: l10n.portuguese,
+                            country: l10n.brazil,
                             isSelected: _selectedLanguage == 'pt',
                             isEnabled: true,
                           ),
@@ -108,8 +132,8 @@ class _LanguagePageState extends State<LanguagePage> {
                           _buildLanguageOption(
                             code: 'es',
                             flag: 'ES',
-                            language: 'Español',
-                            country: 'Spanish',
+                            language: l10n.spanish,
+                            country: l10n.spain,
                             isSelected: _selectedLanguage == 'es',
                             isEnabled: false,
                           ),
@@ -126,8 +150,8 @@ class _LanguagePageState extends State<LanguagePage> {
                           _buildLanguageOption(
                             code: 'en',
                             flag: 'US',
-                            language: 'English',
-                            country: 'United States',
+                            language: l10n.english,
+                            country: l10n.unitedStates,
                             isSelected: _selectedLanguage == 'en',
                             isEnabled: true,
                           ),
@@ -145,7 +169,9 @@ class _LanguagePageState extends State<LanguagePage> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
-                                  'Alguns textos podem não estar totalmente traduzidos. Estamos trabalhando para adicionar suporte completo a todos os idiomas.',
+                                  _selectedLanguage == 'pt'
+                                      ? 'Alguns textos podem não estar totalmente traduzidos. Estamos trabalhando para adicionar suporte completo a todos os idiomas.'
+                                      : 'Some texts may not be fully translated. We are working to add full support for all languages.',
                                   style: AppTypography.textPrimary.copyWith(
                                     color: AppColors.textDisabled,
                                   ),
@@ -167,7 +193,7 @@ class _LanguagePageState extends State<LanguagePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Aplicar Idioma',
+                label: _selectedLanguage == 'pt' ? 'Aplicar Idioma' : 'Apply Language',
                 onPressed: _applyLanguage,
                 height: 52,
               ),

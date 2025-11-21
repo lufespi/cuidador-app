@@ -4,12 +4,15 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/content_section_card.dart';
 import '../../../core/widgets/highlight_card.dart';
+import '../../../l10n/app_localizations.dart';
 
 class OsteoartriteDetailPage extends StatelessWidget {
   const OsteoartriteDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -23,7 +26,7 @@ class OsteoartriteDetailPage extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -35,7 +38,7 @@ class OsteoartriteDetailPage extends StatelessWidget {
             children: [
               // Título
               Text(
-                'O que é Osteoartrite?',
+                l10n.educationTopicOsteoarthritis,
                 style: AppTypography.displayLarge,
               ),
               
@@ -46,8 +49,8 @@ class OsteoartriteDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.info('Introdução'),
-                  AppTag.info('Básico'),
+                  AppTag.info(l10n.educationTagIntroduction),
+                  AppTag.info(l10n.educationTagBasic),
                 ],
               ),
               
@@ -74,41 +77,41 @@ class OsteoartriteDetailPage extends StatelessWidget {
               
               // Conteúdo
               ContentSectionCard(
-                title: 'Definição',
+                title: l10n.osteoarthritisDefinition,
                 icon: Icons.description_outlined,
-                content: 'A osteoartrite, também conhecida como artrose, é uma doença degenerativa das articulações que afeta principalmente a cartilagem. É o tipo mais comum de artrite e pode causar dor, rigidez e limitação de movimento.',
+                content: l10n.osteoarthritisDefinitionText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Causas Principais',
+                title: l10n.osteoarthritisMainCauses,
                 icon: Icons.help_outline,
-                content: '• Envelhecimento natural\n• Sobrepeso e obesidade\n• Lesões articulares anteriores\n• Uso repetitivo das articulações\n• Fatores genéticos\n• Deformidades ósseas',
+                content: l10n.osteoarthritisMainCausesText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Sintomas Comuns',
+                title: l10n.osteoarthritisCommonSymptoms,
                 icon: Icons.health_and_safety_outlined,
-                content: '• Dor nas articulações durante ou após movimento\n• Rigidez, especialmente ao acordar\n• Perda de flexibilidade\n• Sensação de atrito ao mover a articulação\n• Inchaço ao redor da articulação',
+                content: l10n.osteoarthritisCommonSymptomsText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Articulações Mais Afetadas',
+                title: l10n.osteoarthritisMostAffected,
                 icon: Icons.location_on_outlined,
-                content: '• Joelhos\n• Quadris\n• Mãos e dedos\n• Coluna vertebral\n• Dedos dos pés',
+                content: l10n.osteoarthritisMostAffectedText,
               ),
               
               const SizedBox(height: 24),
               
               // Card de destaque
-              const HighlightCard(
+              HighlightCard(
                 icon: Icons.info_outline,
-                content: 'Embora não tenha cura, a osteoartrite pode ser gerenciada com tratamento adequado, exercícios e mudanças no estilo de vida.',
+                content: l10n.osteoarthritisHighlight,
               ),
             ],
           ),

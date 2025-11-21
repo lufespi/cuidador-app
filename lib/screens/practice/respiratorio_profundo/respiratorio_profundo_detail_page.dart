@@ -4,12 +4,15 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
+import '../../../l10n/app_localizations.dart';
 
 class RespiratorioRapidoDetailPage extends StatelessWidget {
   const RespiratorioRapidoDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -18,7 +21,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -30,7 +33,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
             children: [
               // Título e tags
               Text(
-                'Respiração Profunda',
+                l10n.practiceDeepBreathingTitle,
                 style: AppTypography.practiceTitle,
               ),
               const SizedBox(height: 12),
@@ -40,9 +43,9 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.category('Respiração'),
+                  AppTag.category(l10n.categoryBreathing),
                   AppTag.info('5 min', icon: Icons.access_time),
-                  AppTag.info('Iniciante'),
+                  AppTag.info(l10n.levelBeginner),
                 ],
               ),
               
@@ -53,8 +56,8 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
                 context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
-                title: 'Benefícios',
-                content: 'Reduz tensão e ansiedade',
+                title: l10n.benefits,
+                content: l10n.practiceDeepBreathingBenefits,
               ),
               
               const SizedBox(height: 16),
@@ -62,13 +65,14 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
               // Card de Como fazer
               _buildStepsCard(
                 context: context,
+                l10n: l10n,
                 steps: [
-                'Sente-se confortavelmente ou deite',
-                'Coloque uma mão na barriga',
-                'Inspire pelo nariz contando até 4',
-                'Sinta a barriga subir (não o peito)',
-                'Expire pela boca contando até 6',
-                'Repita 10 vezes',
+                l10n.practiceDeepBreathingStep1,
+                l10n.practiceDeepBreathingStep2,
+                l10n.practiceDeepBreathingStep3,
+                l10n.practiceDeepBreathingStep4,
+                l10n.practiceDeepBreathingStep5,
+                l10n.practiceDeepBreathingStep6,
               ]),
               
               const SizedBox(height: 16),
@@ -76,13 +80,14 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
               // Card de Atenção
               _buildWarningCard(
                 context: context,
-                warning: 'Faça antes de dormir',
+                l10n: l10n,
+                warning: l10n.practiceDeepBreathingWarning,
               ),
               
               const SizedBox(height: 24),
               
               // Botão Iniciar Sessão
-              _buildStartButton(context),
+              _buildStartButton(context, l10n),
             ],
           ),
         ),
@@ -90,7 +95,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(BuildContext context) {
+  Widget _buildStartButton(BuildContext context, AppLocalizations l10n) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -98,9 +103,9 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const PracticeTimerDialog(
+            builder: (context) => PracticeTimerDialog(
               durationInMinutes: 5,
-              practiceTitle: 'Respiração Profunda',
+              practiceTitle: l10n.practiceDeepBreathingTitle,
             ),
           );
         },
@@ -109,7 +114,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
           color: Colors.white,
         ),
         label: Text(
-          'Iniciar Sessão',
+          l10n.startSession,
           style: AppTypography.sectionTitle.copyWith(
             color: Colors.white,
           ),
@@ -178,6 +183,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
 
   Widget _buildStepsCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required List<String> steps,
   }) {
     return Container(
@@ -206,7 +212,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Como fazer',
+                l10n.howToDo,
                 style: AppTypography.sectionTitle,
               ),
             ],
@@ -257,6 +263,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
 
   Widget _buildWarningCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required String warning,
   }) {
     return Container(
@@ -281,7 +288,7 @@ class RespiratorioRapidoDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Atenção',
+                l10n.attention,
                 style: AppTypography.sectionTitle,
               ),
             ],

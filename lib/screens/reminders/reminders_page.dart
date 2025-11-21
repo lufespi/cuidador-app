@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/reminder_card.dart';
+import '../../l10n/app_localizations.dart';
 
 class RemindersPage extends StatefulWidget {
   const RemindersPage({super.key});
@@ -46,6 +47,8 @@ class _RemindersPageState extends State<RemindersPage> {
   }
 
   void _deleteReminder(int index) {
+    final l10n = AppLocalizations.of(context)!;
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -54,11 +57,11 @@ class _RemindersPageState extends State<RemindersPage> {
           borderRadius: BorderRadius.circular(16),
         ),
         title: Text(
-          'Excluir Lembrete',
+          l10n.deleteReminder,
           style: AppTypography.heading2Primary,
         ),
         content: Text(
-          'Tem certeza que deseja excluir este lembrete?',
+          l10n.deleteReminderConfirmation,
           style: AppTypography.bodyLarge.copyWith(
             color: AppColors.textDisabled,
           ),
@@ -67,7 +70,7 @@ class _RemindersPageState extends State<RemindersPage> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Não',
+              l10n.no,
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textDisabled,
               ),
@@ -81,7 +84,7 @@ class _RemindersPageState extends State<RemindersPage> {
               Navigator.pop(context);
             },
             child: Text(
-              'Sim',
+              l10n.yes,
               style: AppTypography.captionPrimary.copyWith(
                 color: AppColors.stateError,
               ),
@@ -117,22 +120,22 @@ class _RemindersPageState extends State<RemindersPage> {
     );
   }
 
-  String _getReminderTypeLabel(String type) {
+  String _getReminderTypeLabel(String type, AppLocalizations l10n) {
     switch (type) {
       case 'exercise':
-        return 'Exercício';
+        return l10n.reminderTypeExercise;
       case 'medication':
-        return 'Medicação';
+        return l10n.reminderTypeMedication;
       case 'appointment':
-        return 'Consulta';
+        return l10n.reminderTypeAppointment;
       case 'practice':
-        return 'Prática';
+        return l10n.reminderTypePractice;
       case 'hydration':
-        return 'Hidratação';
+        return l10n.reminderTypeHydration;
       case 'diet':
-        return 'Dieta';
+        return l10n.reminderTypeDiet;
       default:
-        return 'Lembrete';
+        return l10n.reminderTypeLabel;
     }
   }
 
@@ -157,6 +160,8 @@ class _RemindersPageState extends State<RemindersPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -180,12 +185,12 @@ class _RemindersPageState extends State<RemindersPage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Lembretes',
+                              l10n.remindersTitle,
                               style: AppTypography.pageTitle,
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Não esqueça seus cuidados',
+                              l10n.remindersSubtitle,
                               style: AppTypography.bodyLarge.copyWith(
                                 color: AppColors.textDisabled,
                               ),
@@ -221,14 +226,14 @@ class _RemindersPageState extends State<RemindersPage> {
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Nenhum lembrete criado',
+                            l10n.noReminders,
                             style: AppTypography.heading2Primary.copyWith(
                               color: AppColors.textDisabled,
                             ),
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Toque no botão + para criar',
+                            l10n.noRemindersDescription,
                             style: AppTypography.bodyLarge.copyWith(
                               color: AppColors.textDisabled,
                             ),
@@ -248,7 +253,7 @@ class _RemindersPageState extends State<RemindersPage> {
                           time: reminder['time'],
                           isActive: reminder['isActive'],
                           icon: _getReminderIcon(reminder['type']),
-                          type: _getReminderTypeLabel(reminder['type']),
+                          type: _getReminderTypeLabel(reminder['type'], l10n),
                           onToggle: () => _toggleReminder(index),
                           onEdit: () => _editReminder(index),
                           onDelete: () => _deleteReminder(index),
@@ -285,71 +290,86 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
   final _descriptionController = TextEditingController();
   final _timeController = TextEditingController();
   String _selectedType = 'exercise';
-  String _selectedFrequency = 'Diário';
+  String? _selectedFrequency;
 
-  final List<Map<String, dynamic>> _reminderTypes = [
-    {'value': 'exercise', 'label': 'Exercício'},
-    {'value': 'medication', 'label': 'Medicação'},
-    {'value': 'appointment', 'label': 'Consulta'},
-    {'value': 'practice', 'label': 'Prática'},
-    {'value': 'hydration', 'label': 'Hidratação'},
-    {'value': 'diet', 'label': 'Dieta'},
-  ];
-
-  // Exemplos de título e mensagem por tipo
-  final Map<String, Map<String, String>> _placeholdersByType = {
-    'exercise': {
-      'title': 'Caminhada Matinal',
-      'message': 'Faça 30 minutos de caminhada leve',
-    },
-    'medication': {
-      'title': 'Tomar Medicamento',
-      'message': 'Medicação prescrita pelo médico',
-    },
-    'appointment': {
-      'title': 'Consulta Médica',
-      'message': 'Lembre-se de levar exames e documentos',
-    },
-    'practice': {
-      'title': 'Respiração 4-7-8',
-      'message': 'Faça 5 minutos de exercícios respiratórios',
-    },
-    'hydration': {
-      'title': 'Beber Água',
-      'message': 'Hidrate-se com um copo de água',
-    },
-    'diet': {
-      'title': 'Lanche Saudável',
-      'message': 'Coma uma fruta ou alimento nutritivo',
-    },
-  };
-
-  final List<String> _frequencies = [
-    'Diário',
-    'Dias úteis',
-    'Fins de semana',
-    'Personalizado',
-  ];
-
-  // Dias da semana para frequência personalizada
-  final Map<String, bool> _selectedDays = {
-    'Segunda-feira': false,
-    'Terça-feira': false,
-    'Quarta-feira': false,
-    'Quinta-feira': false,
-    'Sexta-feira': false,
-    'Sábado': false,
-    'Domingo': false,
-  };
+  List<Map<String, dynamic>> _reminderTypes = [];
+  List<String> _frequencies = [];
+  Map<String, bool> _selectedDays = {};
+  Map<String, Map<String, String>> _placeholdersByType = {};
 
   @override
   void initState() {
     super.initState();
+    
+    // Inicializa depois que o context está disponível
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final l10n = AppLocalizations.of(context)!;
+      
+      setState(() {
+        _reminderTypes = [
+          {'value': 'exercise', 'label': l10n.reminderTypeExercise},
+          {'value': 'medication', 'label': l10n.reminderTypeMedication},
+          {'value': 'appointment', 'label': l10n.reminderTypeAppointment},
+          {'value': 'practice', 'label': l10n.reminderTypePractice},
+          {'value': 'hydration', 'label': l10n.reminderTypeHydration},
+          {'value': 'diet', 'label': l10n.reminderTypeDiet},
+        ];
+
+        _placeholdersByType = {
+          'exercise': {
+            'title': l10n.exampleMorningWalk,
+            'message': l10n.exampleMorningWalkDesc,
+          },
+          'medication': {
+            'title': l10n.exampleTakeMedication,
+            'message': l10n.exampleTakeMedicationDesc,
+          },
+          'appointment': {
+            'title': l10n.exampleMedicalAppointment,
+            'message': l10n.exampleMedicalAppointmentDesc,
+          },
+          'practice': {
+            'title': l10n.exampleBreathing478,
+            'message': l10n.exampleBreathing478Desc,
+          },
+          'hydration': {
+            'title': l10n.exampleDrinkWater,
+            'message': l10n.exampleDrinkWaterDesc,
+          },
+          'diet': {
+            'title': l10n.exampleHealthySnack,
+            'message': l10n.exampleHealthySnackDesc,
+          },
+        };
+
+        _frequencies = [
+          l10n.reminderDaily,
+          l10n.reminderWeekdays,
+          l10n.reminderWeekends,
+          l10n.reminderCustom,
+        ];
+
+        _selectedDays = {
+          l10n.monday: false,
+          l10n.tuesday: false,
+          l10n.wednesday: false,
+          l10n.thursday: false,
+          l10n.friday: false,
+          l10n.saturday: false,
+          l10n.sunday: false,
+        };
+        
+        // Define frequência inicial
+        if (_selectedFrequency == null) {
+          _selectedFrequency = _frequencies[0]; // Primeiro item por padrão
+        }
+      });
+    });
+    
     if (widget.reminder != null) {
       _titleController.text = widget.reminder!['title'];
       _descriptionController.text = widget.reminder!['description'];
       _selectedType = widget.reminder!['type'];
-      _selectedFrequency = widget.reminder!['frequency'];
       _timeController.text = widget.reminder!['time'];
     } else {
       // Valor padrão
@@ -366,14 +386,18 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
   }
 
   String get _titlePlaceholder {
-    return _placeholdersByType[_selectedType]?['title'] ?? 'Título do lembrete';
+    return _placeholdersByType[_selectedType]?['title'] ?? 
+           AppLocalizations.of(context)!.reminderTitlePlaceholder;
   }
 
   String get _messagePlaceholder {
-    return _placeholdersByType[_selectedType]?['message'] ?? 'Descrição do lembrete';
+    return _placeholdersByType[_selectedType]?['message'] ?? 
+           AppLocalizations.of(context)!.reminderDescriptionPlaceholder;
   }
 
   void _showWeekdaysDialog() {
+    final l10n = AppLocalizations.of(context)!;
+    
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -387,7 +411,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 borderRadius: BorderRadius.circular(16),
               ),
               title: Text(
-                'Selecionar Dias',
+                l10n.selectDays,
                 style: AppTypography.heading1Primary,
               ),
               content: SingleChildScrollView(
@@ -431,7 +455,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    'Cancelar',
+                    l10n.cancel,
                     style: AppTypography.bodyMedium.copyWith(
                       color: AppColors.textDisabled,
                     ),
@@ -445,7 +469,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     Navigator.of(context).pop();
                   },
                   child: Text(
-                    'Confirmar',
+                    l10n.confirm,
                     style: AppTypography.captionPrimary.copyWith(
                       color: AppColors.buttonPrimary,
                     ),
@@ -490,16 +514,18 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
   }
 
   void _save() {
+    final l10n = AppLocalizations.of(context)!;
+    
     if (_titleController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, insira um título')),
+        SnackBar(content: Text(l10n.pleaseEnterTitle)),
       );
       return;
     }
 
     if (_timeController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Por favor, insira um horário')),
+        SnackBar(content: Text(l10n.pleaseEnterTime)),
       );
       return;
     }
@@ -520,6 +546,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     // Obter dimensões da tela para criar quadrado
     final screenSize = MediaQuery.of(context).size;
     final dialogSize = screenSize.width * 0.9; // 90% da largura da tela
@@ -546,7 +574,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    widget.reminder == null ? 'Adicionar Lembrete' : 'Editar Lembrete',
+                    widget.reminder == null ? l10n.addReminder : l10n.editReminder,
                     style: AppTypography.displayMedium,
                   ),
                   const Spacer(),
@@ -580,7 +608,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               DropdownButtonFormField<String>(
                 value: _selectedType,
                 decoration: InputDecoration(
-                  hintText: 'Tipo de lembrete',
+                  hintText: l10n.reminderTypeHint,
                   hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
@@ -713,7 +741,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               DropdownButtonFormField<String>(
                 value: _selectedFrequency,
                 decoration: InputDecoration(
-                  hintText: 'Frequência',
+                  hintText: l10n.reminderFrequencyHint,
                   hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
@@ -758,13 +786,13 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                       _selectedFrequency = value;
                       
                       // Reseta os dias selecionados se mudar para outra opção
-                      if (value != 'Personalizado') {
+                      if (value != AppLocalizations.of(context)!.reminderCustom) {
                         _selectedDays.updateAll((key, val) => false);
                       }
                     });
                     
                     // Abre o popup se for personalizado
-                    if (value == 'Personalizado') {
+                    if (value == AppLocalizations.of(context)!.reminderCustom) {
                       _showWeekdaysDialog();
                     }
                   }
@@ -778,7 +806,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                 controller: _timeController,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
-                  hintText: 'Horário (ex: 08:00)',
+                  hintText: l10n.reminderTimeHint,
                   hintStyle: AppTypography.bodyLarge.copyWith(
                     color: AppColors.textDisabled,
                   ),
@@ -831,7 +859,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     ),
                   ),
                   child: Text(
-                    widget.reminder == null ? 'Criar Lembrete' : 'Salvar Alterações',
+                    widget.reminder == null ? l10n.createReminder : l10n.saveChanges,
                     style: AppTypography.sectionTitle.copyWith(
                       color: Colors.white,
                     ),
@@ -849,7 +877,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                       padding: const EdgeInsets.symmetric(vertical: 12),
                     ),
                     child: Text(
-                      'Excluir Lembrete',
+                      l10n.deleteReminder,
                       style: AppTypography.sectionTitle.copyWith(
                         color: AppColors.stateError.withValues(alpha: 0.7),
                       ),
@@ -868,6 +896,8 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
   }
 
   void _showDeleteConfirmation() {
+    final l10n = AppLocalizations.of(context)!;
+    
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -876,11 +906,11 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
           borderRadius: BorderRadius.circular(16),
         ),
         title: Text(
-          'Excluir Lembrete',
+          l10n.deleteReminder,
           style: AppTypography.heading2Primary,
         ),
         content: Text(
-          'Tem certeza que deseja excluir este lembrete?',
+          l10n.deleteReminderConfirmation,
           style: AppTypography.bodyLarge.copyWith(
             color: AppColors.textDisabled,
           ),
@@ -891,7 +921,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               Navigator.pop(context); // Apenas fecha o dialog de confirmação
             },
             child: Text(
-              'Não',
+              l10n.no,
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textDisabled,
               ),
@@ -906,7 +936,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               }
             },
             child: Text(
-              'Sim',
+              l10n.yes,
               style: AppTypography.captionPrimary.copyWith(
                 color: AppColors.stateError,
               ),

@@ -4,12 +4,15 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
+import '../../../l10n/app_localizations.dart';
 
 class SuspiroAlivioDetailPage extends StatelessWidget {
   const SuspiroAlivioDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -18,7 +21,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -30,7 +33,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
             children: [
               // Título e tags
               Text(
-                'Suspiro de Alívio',
+                l10n.practiceSighTitle,
                 style: AppTypography.practiceTitle,
               ),
               const SizedBox(height: 12),
@@ -40,9 +43,9 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.category('Respiração'),
+                  AppTag.category(l10n.categoryBreathing),
                   AppTag.info('2 min', icon: Icons.access_time),
-                  AppTag.info('Iniciante'),
+                  AppTag.info(l10n.levelBeginner),
                 ],
               ),
               
@@ -53,8 +56,8 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
                 context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
-                title: 'Benefícios',
-                content: 'Libera tensão rápida',
+                title: l10n.benefits,
+                content: l10n.practiceSighBenefits,
               ),
               
               const SizedBox(height: 16),
@@ -62,11 +65,12 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
               // Card de Como fazer
               _buildStepsCard(
                 context: context,
+                l10n: l10n,
                 steps: [
-                'Inspire profundamente pelo nariz',
-                'Solte o ar pela boca com um suspiro sonoro',
-                'Deixe os ombros caírem',
-                'Repita 5 vezes',
+                l10n.practiceSighStep1,
+                l10n.practiceSighStep2,
+                l10n.practiceSighStep3,
+                l10n.practiceSighStep4,
               ]),
               
               const SizedBox(height: 16),
@@ -74,13 +78,14 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
               // Card de Atenção
               _buildWarningCard(
                 context: context,
-                warning: '"Aaaah..." - solte o som!',
+                l10n: l10n,
+                warning: l10n.practiceSighWarning,
               ),
               
               const SizedBox(height: 24),
               
               // Botão Iniciar Sessão
-              _buildStartButton(context),
+              _buildStartButton(context, l10n),
             ],
           ),
         ),
@@ -88,7 +93,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(BuildContext context) {
+  Widget _buildStartButton(BuildContext context, AppLocalizations l10n) {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton.icon(
@@ -96,9 +101,9 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
           showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const PracticeTimerDialog(
+            builder: (context) => PracticeTimerDialog(
               durationInMinutes: 2,
-              practiceTitle: 'Suspiro de Alívio',
+              practiceTitle: l10n.practiceSighTitle,
             ),
           );
         },
@@ -107,7 +112,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
           color: Colors.white,
         ),
         label: Text(
-          'Iniciar Sessão',
+          l10n.startSession,
           style: AppTypography.sectionTitle.copyWith(
             color: Colors.white,
           ),
@@ -176,6 +181,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
 
   Widget _buildStepsCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required List<String> steps,
   }) {
     return Container(
@@ -204,7 +210,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Como fazer',
+                l10n.howToDo,
                 style: AppTypography.sectionTitle,
               ),
             ],
@@ -255,6 +261,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
 
   Widget _buildWarningCard({
     required BuildContext context,
+    required AppLocalizations l10n,
     required String warning,
   }) {
     return Container(
@@ -279,7 +286,7 @@ class SuspiroAlivioDetailPage extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                'Atenção',
+                l10n.attention,
                 style: AppTypography.sectionTitle,
               ),
             ],

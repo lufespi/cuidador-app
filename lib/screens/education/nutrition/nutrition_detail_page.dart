@@ -4,12 +4,15 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/content_section_card.dart';
 import '../../../core/widgets/highlight_card.dart';
+import '../../../l10n/app_localizations.dart';
 
 class NutritionDetailPage extends StatelessWidget {
   const NutritionDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
@@ -23,7 +26,7 @@ class NutritionDetailPage extends StatelessWidget {
           ),
         ),
         title: Text(
-          'Voltar',
+          l10n.back,
           style: AppTypography.sectionTitle,
         ),
       ),
@@ -35,7 +38,7 @@ class NutritionDetailPage extends StatelessWidget {
             children: [
               // Título
               Text(
-                'Nutrição e Saúde das Articulações',
+                l10n.educationTopicNutrition,
                 style: AppTypography.displayLarge,
               ),
               
@@ -46,8 +49,8 @@ class NutritionDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  AppTag.info('Dieta'),
-                  AppTag.info('Nutrição'),
+                  AppTag.info(l10n.educationTagDiet),
+                  AppTag.info(l10n.educationTagNutrition),
                 ],
               ),
               
@@ -74,52 +77,52 @@ class NutritionDetailPage extends StatelessWidget {
               
               // Conteúdo
               ContentSectionCard(
-                title: 'Importância da Nutrição',
+                title: l10n.nutritionImportance,
                 icon: Icons.favorite_outline,
-                content: 'Uma dieta equilibrada desempenha papel fundamental na saúde das articulações. Os alimentos certos podem ajudar a reduzir inflamação, fortalecer ossos e cartilagens, e controlar o peso corporal.',
+                content: l10n.nutritionImportanceText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Alimentos Recomendados',
+                title: l10n.nutritionRecommendedFoods,
                 icon: Icons.check_circle_outline,
                 iconColor: AppColors.stateSuccess,
-                content: '• Peixes ricos em ômega-3 (salmão, sardinha)\n• Frutas vermelhas e cítricas\n• Vegetais verde-escuros\n• Nozes e sementes\n• Azeite de oliva extravirgem\n• Alimentos ricos em vitamina D\n• Chá verde\n• Gengibre e cúrcuma',
+                content: l10n.nutritionRecommendedFoodsText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Alimentos a Evitar',
+                title: l10n.nutritionFoodsToAvoid,
                 icon: Icons.cancel_outlined,
                 iconColor: AppColors.stateError,
-                content: '• Açúcares refinados\n• Alimentos processados\n• Gorduras trans\n• Excesso de sal\n• Carnes vermelhas em excesso\n• Bebidas açucaradas',
+                content: l10n.nutritionFoodsToAvoidText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Hidratação',
+                title: l10n.nutritionHydration,
                 icon: Icons.water_drop_outlined,
                 iconColor: const Color(0xFF06B6D4),
-                content: 'Beber água suficiente é essencial para manter as articulações lubrificadas. A cartilagem contém cerca de 80% de água, e a desidratação pode aumentar o atrito nas articulações.',
+                content: l10n.nutritionHydrationText,
               ),
               
               const SizedBox(height: 16),
               
               ContentSectionCard(
-                title: 'Suplementos Úteis',
+                title: l10n.nutritionSupplements,
                 icon: Icons.medication_outlined,
-                content: '• Glucosamina e condroitina\n• Colágeno tipo II\n• Vitamina D e cálcio\n• Ômega-3\n• Vitamina C\n\nConsulte sempre um profissional de saúde antes de iniciar qualquer suplementação.',
+                content: l10n.nutritionSupplementsText,
               ),
               
               const SizedBox(height: 24),
               
               // Card de destaque
-              const HighlightCard(
+              HighlightCard(
                 icon: Icons.scale_outlined,
-                content: 'Manter um peso saudável reduz a carga nas articulações e pode diminuir significativamente a dor.',
+                content: l10n.nutritionHighlight,
               ),
             ],
           ),

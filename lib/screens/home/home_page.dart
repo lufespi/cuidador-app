@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
+import '../../l10n/app_localizations.dart';
 import '../dor/dor_page.dart';
 import '../practice/practice_page.dart';
 import '../education/education_page.dart';
@@ -70,6 +71,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
@@ -85,23 +88,23 @@ class _HomePageState extends State<HomePage> {
         items: [
           BottomNavigationBarItem(
             icon: _buildNavIcon('assets/icons/navigation-bar/activity.svg', 0),
-            label: 'Dor',
+            label: l10n.navPain,
           ),
           BottomNavigationBarItem(
             icon: _buildNavIcon('assets/icons/navigation-bar/heart.svg', 1, filled: true),
-            label: 'Práticas',
+            label: l10n.navPractices,
           ),
           BottomNavigationBarItem(
             icon: _buildNavIcon('assets/icons/navigation-bar/book-open.svg', 2, filled: true),
-            label: 'Educação',
+            label: l10n.navEducation,
           ),
           BottomNavigationBarItem(
             icon: _buildNavIcon('assets/icons/navigation-bar/bell.svg', 3, filled: true),
-            label: 'Lembretes',
+            label: l10n.navReminders,
           ),
           BottomNavigationBarItem(
             icon: _buildNavIcon('assets/icons/navigation-bar/settings.svg', 4, filled: true),
-            label: 'Ajustes',
+            label: l10n.navSettings,
           ),
         ],
       ),

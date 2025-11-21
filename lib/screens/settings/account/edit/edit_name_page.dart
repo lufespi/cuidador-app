@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -54,11 +55,12 @@ class _EditNamePageState extends State<EditNamePage> {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    final l10n = AppLocalizations.of(context)!;
     // TODO: Salvar alteração do nome
     final fullName = '${_firstNameController.text} ${_lastNameController.text}';
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Nome atualizado com sucesso!'),
+      SnackBar(
+        content: Text(l10n.nameUpdatedSuccess),
       ),
     );
     Navigator.pop(context, {
@@ -70,6 +72,7 @@ class _EditNamePageState extends State<EditNamePage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -78,7 +81,7 @@ class _EditNamePageState extends State<EditNamePage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Editar Nome',
+          l10n.editName,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -100,13 +103,13 @@ class _EditNamePageState extends State<EditNamePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Nome Completo',
+                                l10n.name,
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
-                              Text(
+                              const Text(
                                 'Digite seu nome e sobrenome.',
-                                style: AppTypography.textPrimary.copyWith(
+                                style: TextStyle(
                                   color: AppColors.textDisabled,
                                   height: 1.4,
                                 ),
@@ -115,7 +118,7 @@ class _EditNamePageState extends State<EditNamePage> {
                               
                               AppTextField(
                                 controller: _firstNameController,
-                                label: 'Nome',
+                                label: l10n.firstName,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Por favor, insira seu nome';
@@ -128,7 +131,7 @@ class _EditNamePageState extends State<EditNamePage> {
                               
                               AppTextField(
                                 controller: _lastNameController,
-                                label: 'Sobrenome',
+                                label: l10n.lastName,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
                                     return 'Por favor, insira seu sobrenome';
@@ -152,7 +155,7 @@ class _EditNamePageState extends State<EditNamePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Salvar Alterações',
+                label: l10n.saveChanges,
                 onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),

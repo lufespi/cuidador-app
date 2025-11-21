@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -12,6 +13,7 @@ class AboutPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -20,7 +22,7 @@ class AboutPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Sobre o Aplicativo',
+          l10n.aboutTheApp,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -48,7 +50,7 @@ class AboutPage extends StatelessWidget {
                     
                     // Versão
                     Text(
-                      'Versão 1.0.0',
+                      '${l10n.appVersion} 1.0.0',
                       style: AppTypography.textPrimary.copyWith(
                         color: AppColors.textDisabled,
                       ),
@@ -69,7 +71,7 @@ class AboutPage extends StatelessWidget {
                     // Campo Sobre o Aplicativo
                     _buildAboutField(
                       context: context,
-                      label: 'Sobre o Aplicativo',
+                      label: l10n.aboutAppInfo,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -92,7 +94,7 @@ class AboutPage extends StatelessWidget {
                     // Campo Equipe e Desenvolvimento
                     _buildAboutField(
                       context: context,
-                      label: 'Equipe e Desenvolvimento',
+                      label: l10n.teamAndDevelopment,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -115,7 +117,7 @@ class AboutPage extends StatelessWidget {
                     // Campo Termos e Política de Privacidade
                     _buildAboutField(
                       context: context,
-                      label: 'Termos e Política de Privacidade',
+                      label: l10n.termsAndPrivacy,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -138,7 +140,7 @@ class AboutPage extends StatelessWidget {
                     // Campo Feedback
                     _buildAboutField(
                       context: context,
-                      label: 'Feedback',
+                      label: l10n.feedbackTitle,
                       onTap: () {
                         Navigator.push(
                           context,
@@ -159,7 +161,7 @@ class AboutPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  '© Todos os Direitos Reservados - 2025\nDesenvolvido por Luis Fernando Souza Pinto e Kaue Müller',
+                  l10n.copyrightText,
                   style: AppTypography.textPrimary.copyWith(
                     color: AppColors.textDisabled,
                   ),

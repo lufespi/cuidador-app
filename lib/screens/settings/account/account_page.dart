@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_colors.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
 import 'edit/edit_name_page.dart';
@@ -152,6 +153,7 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -160,7 +162,7 @@ class _AccountPageState extends State<AccountPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Conta',
+          l10n.account,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -190,7 +192,7 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Informações Pessoais',
+                          l10n.personalInformation,
                           style: AppTypography.heading1Primary,
                         ),
                       ],
@@ -200,7 +202,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Nome
                     _buildAccountField(
                       context: context,
-                      label: 'Nome',
+                      label: l10n.name,
                       value: _userFullName,
                       onTap: _navigateToEditName,
                     ),
@@ -217,7 +219,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Data de Nascimento
                     _buildAccountField(
                       context: context,
-                      label: 'Data de Nascimento',
+                      label: l10n.birthdate,
                       value: _userBirthDate,
                       onTap: _navigateToEditBirthDate,
                     ),
@@ -234,7 +236,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Sexo
                     _buildAccountField(
                       context: context,
-                      label: 'Sexo',
+                      label: l10n.gender,
                       value: _userGender,
                       onTap: _navigateToEditGender,
                     ),
@@ -251,7 +253,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Telefone
                     _buildAccountField(
                       context: context,
-                      label: 'Telefone',
+                      label: l10n.phone,
                       value: _userPhone,
                       onTap: _navigateToEditPhone,
                     ),
@@ -268,7 +270,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo E-mail
                     _buildAccountField(
                       context: context,
-                      label: 'E-mail',
+                      label: l10n.email,
                       value: _userEmail,
                       onTap: _navigateToEditEmail,
                       isLast: true,
@@ -299,7 +301,7 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Dados de Saúde',
+                          l10n.healthData,
                           style: AppTypography.heading1Primary,
                         ),
                       ],
@@ -309,7 +311,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Diagnóstico Principal
                     _buildAccountField(
                       context: context,
-                      label: 'Diagnóstico Principal',
+                      label: l10n.primaryDiagnosis,
                       value: _userDiagnosis,
                       onTap: _navigateToEditDiagnosis,
                     ),
@@ -326,7 +328,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Comorbidades
                     _buildAccountField(
                       context: context,
-                      label: 'Comorbidades',
+                      label: l10n.comorbidities,
                       value: _userComorbidities,
                       onTap: _navigateToEditComorbidities,
                       isLast: true,
@@ -357,7 +359,7 @@ class _AccountPageState extends State<AccountPage> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          'Opções da Conta',
+                          l10n.securityAndPrivacy,
                           style: AppTypography.heading1Primary,
                         ),
                       ],
@@ -367,7 +369,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Opção Alterar senha
                     _buildAccountField(
                       context: context,
-                      label: 'Alterar senha',
+                      label: l10n.changePassword,
                       onTap: _navigateToEditPassword,
                     ),
                     
@@ -383,7 +385,7 @@ class _AccountPageState extends State<AccountPage> {
                     // Campo Excluir Conta (com texto em vermelho)
                     _buildAccountField(
                       context: context,
-                      label: 'Excluir minha conta',
+                      label: l10n.deleteMyAccount,
                       onTap: () => _showDeleteAccountDialog(context),
                       isLast: true,
                       isDestructive: true,
@@ -402,12 +404,13 @@ class _AccountPageState extends State<AccountPage> {
 
   /// Mostra dialog de confirmação para excluir conta
   void _showDeleteAccountDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: Center(
           child: Text(
-            'Excluir sua conta?',
+            l10n.deleteMyAccount,
             style: AppTypography.heading1Primary,
           ),
         ),
@@ -415,7 +418,7 @@ class _AccountPageState extends State<AccountPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Esta ação é irreversível. Todos os seus dados serão permanentemente excluídos.',
+              l10n.accountDeletionWarning,
               style: AppTypography.textPrimary,
               textAlign: TextAlign.center,
             ),
@@ -432,8 +435,8 @@ class _AccountPageState extends State<AccountPage> {
                   Navigator.pop(context);
                   // TODO: Implementar exclusão de conta
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Função de exclusão em desenvolvimento'),
+                    SnackBar(
+                      content: Text(l10n.deleteAccountDevelopment),
                     ),
                   );
                 },
@@ -441,7 +444,7 @@ class _AccountPageState extends State<AccountPage> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(
-                  'Excluir conta',
+                  l10n.deleteMyAccount,
                   style: AppTypography.heading2Primary.copyWith(
                     color: AppColors.stateError,
                   ),
@@ -461,7 +464,7 @@ class _AccountPageState extends State<AccountPage> {
                   padding: const EdgeInsets.symmetric(vertical: 14),
                 ),
                 child: Text(
-                  'Cancelar',
+                  l10n.cancel,
                   style: AppTypography.heading2Primary,
                 ),
               ),

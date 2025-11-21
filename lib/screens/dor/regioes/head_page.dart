@@ -3,6 +3,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/body_part_selector.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../l10n/app_localizations.dart';
 import 'torso_page.dart';
 import 'left_arm_page.dart';
 import 'right_arm_page.dart';
@@ -41,6 +42,21 @@ class _HeadPageState extends State<HeadPage> {
     _selecoesSalvas[_chaveRegiao] = List.from(_pontosSelecionados);
   }
 
+  List<Map<String, String>> _getBodyParts(AppLocalizations l10n) {
+    return [
+      {'imagePath': 'assets/images/body-parts/Head.png', 'label': l10n.head},
+      {'imagePath': 'assets/images/body-parts/Torso.png', 'label': l10n.torso},
+      {'imagePath': 'assets/images/body-parts/Left-Arm.png', 'label': l10n.leftArm},
+      {'imagePath': 'assets/images/body-parts/Right-Arm.png', 'label': l10n.rightArm},
+      {'imagePath': 'assets/images/body-parts/Left-Hand.png', 'label': l10n.leftHand},
+      {'imagePath': 'assets/images/body-parts/Right-Hand.png', 'label': l10n.rightHand},
+      {'imagePath': 'assets/images/body-parts/Left-Leg.png', 'label': l10n.leftLeg},
+      {'imagePath': 'assets/images/body-parts/Right-Leg.png', 'label': l10n.rightLeg},
+      {'imagePath': 'assets/images/body-parts/Left-Foot.png', 'label': l10n.leftFoot},
+      {'imagePath': 'assets/images/body-parts/Right-Foot.png', 'label': l10n.rightFoot},
+    ];
+  }
+
   // Pontos fixos clicáveis
   final List<Map<String, dynamic>> _pontosFixos = [
     {'xPercent': 75.70, 'yPercent': 54.37, 'label': 'Ponto 1'},
@@ -52,52 +68,29 @@ class _HeadPageState extends State<HeadPage> {
     {'xPercent': 50.07, 'yPercent': 49.27, 'label': 'Ponto 7'},
   ];
 
-  // Lista de partes do corpo para seleção
-  final List<Map<String, String>> _bodyParts = [
-    {'imagePath': 'assets/images/body-parts/Head.png', 'label': 'Cabeça'},
-    {'imagePath': 'assets/images/body-parts/Torso.png', 'label': 'Torso'},
-    {'imagePath': 'assets/images/body-parts/Left-Arm.png', 'label': 'Braço E.'},
-    {'imagePath': 'assets/images/body-parts/Right-Arm.png', 'label': 'Braço D.'},
-    {'imagePath': 'assets/images/body-parts/Left-Hand.png', 'label': 'Mão E.'},
-    {'imagePath': 'assets/images/body-parts/Right-Hand.png', 'label': 'Mão D.'},
-    {'imagePath': 'assets/images/body-parts/Left-Leg.png', 'label': 'Perna E.'},
-    {'imagePath': 'assets/images/body-parts/Right-Leg.png', 'label': 'Perna D.'},
-    {'imagePath': 'assets/images/body-parts/Left-Foot.png', 'label': 'Pé E.'},
-    {'imagePath': 'assets/images/body-parts/Right-Foot.png', 'label': 'Pé D.'},
-  ];
-
-  void _navegarParaParte(String parte) {
+  void _navegarParaParte(String parte, AppLocalizations l10n) {
     Widget? page;
-    switch (parte) {
-      case 'Cabeça':
-        return; // Já está na página
-      case 'Torso':
-        page = const TorsoPage();
-        break;
-      case 'Braço E.':
-        page = const LeftArmPage();
-        break;
-      case 'Braço D.':
-        page = const RightArmPage();
-        break;
-      case 'Mão E.':
-        page = const LeftHandPage();
-        break;
-      case 'Mão D.':
-        page = const RightHandPage();
-        break;
-      case 'Perna E.':
-        page = const LeftLegPage();
-        break;
-      case 'Perna D.':
-        page = const RightLegPage();
-        break;
-      case 'Pé E.':
-        page = const LeftFootPage();
-        break;
-      case 'Pé D.':
-        page = const RightFootPage();
-        break;
+    // Comparar com as chaves traduzidas
+    if (parte == l10n.head) {
+      return; // Já está na página
+    } else if (parte == l10n.torso) {
+      page = const TorsoPage();
+    } else if (parte == l10n.leftArm) {
+      page = const LeftArmPage();
+    } else if (parte == l10n.rightArm) {
+      page = const RightArmPage();
+    } else if (parte == l10n.leftHand) {
+      page = const LeftHandPage();
+    } else if (parte == l10n.rightHand) {
+      page = const RightHandPage();
+    } else if (parte == l10n.leftLeg) {
+      page = const LeftLegPage();
+    } else if (parte == l10n.rightLeg) {
+      page = const RightLegPage();
+    } else if (parte == l10n.leftFoot) {
+      page = const LeftFootPage();
+    } else if (parte == l10n.rightFoot) {
+      page = const RightFootPage();
     }
     
     if (page != null && mounted) {
@@ -108,6 +101,9 @@ class _HeadPageState extends State<HeadPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final bodyParts = _getBodyParts(l10n);
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -119,11 +115,11 @@ class _HeadPageState extends State<HeadPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Cabeça',
+              l10n.head,
               style: AppTypography.heading1Secondary,
             ),
             Text(
-              'Toque na região onde você sente dor',
+              l10n.selectPainArea,
               style: AppTypography.heading2Secondary,
             ),
           ],
@@ -210,10 +206,10 @@ class _HeadPageState extends State<HeadPage> {
           ),
           // Seletor de Outras Partes do Corpo
           BodyPartCarousel(
-            bodyParts: _bodyParts,
-            selectedPart: 'Cabeça',
+            bodyParts: bodyParts,
+            selectedPart: l10n.head,
             onPartSelected: (part) {
-              _navegarParaParte(part);
+              _navegarParaParte(part, l10n);
             },
           ),
           const SizedBox(height: 16),
@@ -221,7 +217,7 @@ class _HeadPageState extends State<HeadPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
             child: AppButton(
-              label: 'Confirmar Seleção',
+              label: l10n.confirmSelection,
               onPressed: () {
                 _salvarSelecoes();
                 Navigator.pop(context, _pontosSelecionados);

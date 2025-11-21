@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
@@ -51,10 +52,12 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
       return;
     }
 
+    final l10n = AppLocalizations.of(context)!;
+
     // TODO: Implementar lógica de alteração de senha
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Senha atualizada com sucesso!'),
+      SnackBar(
+        content: Text(l10n.passwordUpdatedSuccess),
       ),
     );
     Navigator.pop(context);
@@ -62,6 +65,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -70,7 +74,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Alterar Senha',
+          l10n.changePasswordTitle,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -92,7 +96,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Senha Atual',
+                                l10n.currentPassword,
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
@@ -107,7 +111,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               
                               AppTextField(
                                 controller: _currentPasswordController,
-                                label: 'Senha Atual',
+                                label: l10n.currentPassword,
                                 obscureText: _obscureCurrentPassword,
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -143,7 +147,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Nova Senha',
+                                l10n.newPassword,
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
@@ -158,7 +162,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               
                               AppTextField(
                                 controller: _newPasswordController,
-                                label: 'Nova Senha',
+                                label: l10n.newPassword,
                                 obscureText: _obscureNewPassword,
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -191,7 +195,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               
                               AppTextField(
                                 controller: _confirmPasswordController,
-                                label: 'Confirmar Nova Senha',
+                                label: l10n.confirmNewPassword,
                                 obscureText: _obscureConfirmPassword,
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -274,7 +278,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: 'Alterar Senha',
+                label: l10n.changePasswordTitle,
                 onPressed: _hasChanges ? _saveChanges : null,
                 height: 52,
               ),
