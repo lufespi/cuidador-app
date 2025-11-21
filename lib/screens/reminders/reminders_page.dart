@@ -49,7 +49,7 @@ class _RemindersPageState extends State<RemindersPage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -158,7 +158,6 @@ class _RemindersPageState extends State<RemindersPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -383,7 +382,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
             final days = _selectedDays.keys.toList();
             
             return AlertDialog(
-              backgroundColor: AppColors.surface,
+              backgroundColor: Theme.of(context).colorScheme.surface,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -526,7 +525,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
     final dialogSize = screenSize.width * 0.9; // 90% da largura da tela
     
     return Dialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -565,7 +564,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
             // Divider
             Container(
               height: 1,
-              color: AppColors.inputBackground,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.1)
+                  : AppColors.inputBackground,
             ),
             
             // Conteúdo rolável
@@ -584,7 +585,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF2E3838)
+                      : AppColors.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
@@ -636,7 +639,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF2E3838)
+                      : AppColors.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
@@ -674,7 +679,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF2E3838)
+                      : AppColors.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
@@ -711,7 +718,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     color: AppColors.textDisabled,
                   ),
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF2E3838)
+                      : AppColors.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
@@ -779,7 +788,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                     size: 20,
                   ),
                   filled: true,
-                  fillColor: AppColors.surface,
+                  fillColor: Theme.of(context).brightness == Brightness.dark
+                      ? const Color(0xFF2E3838)
+                      : AppColors.surface,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: const BorderSide(
@@ -860,7 +871,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),

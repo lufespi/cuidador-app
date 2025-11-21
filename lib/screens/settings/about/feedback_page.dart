@@ -43,12 +43,10 @@ class _FeedbackPageState extends State<FeedbackPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -110,7 +108,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           value: _selectedType,
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: Theme.of(context).brightness == Brightness.dark
+                                ? const Color(0xFF2E3838)
+                                : Colors.white,
                             isDense: true,
                             constraints: const BoxConstraints(minHeight: 48),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

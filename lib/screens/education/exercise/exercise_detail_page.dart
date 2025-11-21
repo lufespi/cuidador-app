@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/content_section_card.dart';
 import '../../../core/widgets/highlight_card.dart';
 
@@ -10,15 +11,15 @@ class ExerciseDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
-            color: AppColors.textPrimary,
+            color: Theme.of(context).colorScheme.onSurface,
           ),
         ),
         title: Text(
@@ -45,8 +46,8 @@ class ExerciseDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  _buildTag('Exercício'),
-                  _buildTag('Movimento'),
+                  AppTag.info('Exercício'),
+                  AppTag.info('Movimento'),
                 ],
               ),
               
@@ -57,7 +58,9 @@ class ExerciseDetailPage extends StatelessWidget {
                 width: double.infinity,
                 height: 200,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.surface
+                      : AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: const Icon(
@@ -121,22 +124,6 @@ class ExerciseDetailPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTag(String label) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Text(
-        label,
-        style: AppTypography.label.copyWith(
-          color: AppColors.buttonPrimary,
         ),
       ),
     );

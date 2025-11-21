@@ -1,22 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'core/theme/app_colors.dart';
+import 'package:provider/provider.dart';
+import 'core/theme/app_theme.dart';
+import 'core/theme/theme_provider.dart' as app_theme;
 import 'screens/auth/index.dart';
 
-void main() => runApp(const CuidaDorApp());
+void main() => runApp(
+  ChangeNotifierProvider(
+    create: (_) => app_theme.ThemeProvider(),
+    child: const CuidaDorApp(),
+  ),
+);
 
 class CuidaDorApp extends StatelessWidget {
   const CuidaDorApp({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<app_theme.ThemeProvider>(context);
+
     return MaterialApp(
       title: 'CuidaDor',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.buttonPrimary),
-        useMaterial3: true,
-      ),
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: _getThemeMode(themeProvider.themeMode),
       localizationsDelegates: const [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
@@ -28,5 +36,16 @@ class CuidaDorApp extends StatelessWidget {
       locale: const Locale('pt', 'BR'),
       home: const LoginPage(),
     );
+  }
+
+  ThemeMode _getThemeMode(app_theme.ThemeMode mode) {
+    switch (mode) {
+      case app_theme.ThemeMode.light:
+        return ThemeMode.light;
+      case app_theme.ThemeMode.dark:
+        return ThemeMode.dark;
+      case app_theme.ThemeMode.system:
+        return ThemeMode.system;
+    }
   }
 }

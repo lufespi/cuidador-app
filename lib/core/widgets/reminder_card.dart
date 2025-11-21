@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
+import 'app_tag.dart';
 import 'app_toggle.dart';
 
 class ReminderCard extends StatelessWidget {
@@ -31,19 +32,22 @@ class ReminderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: theme.inputDecorationTheme.fillColor ?? AppColors.inputBackground,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -58,12 +62,12 @@ class ReminderCard extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: AppColors.buttonPrimary.withValues(alpha: 0.1),
+                  color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
-                  color: AppColors.buttonPrimary,
+                  color: Theme.of(context).colorScheme.primary,
                   size: 24,
                 ),
               ),
@@ -87,10 +91,10 @@ class ReminderCard extends StatelessWidget {
                         ),
                         IconButton(
                           onPressed: onEdit,
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.edit_outlined,
                             size: 20,
-                            color: AppColors.textDisabled,
+                            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                           ),
                           padding: EdgeInsets.zero,
                           constraints: const BoxConstraints(),
@@ -102,7 +106,7 @@ class ReminderCard extends StatelessWidget {
                       description,
                       style: AppTypography.textPrimary.copyWith(
                         fontSize: 14,
-                        color: AppColors.textDisabled,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -126,64 +130,11 @@ class ReminderCard extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              // Tag de tipo
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.buttonPrimary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  type,
-                  style: AppTypography.textPrimary.copyWith(
-                    fontSize: 12,
-                    color: AppColors.buttonPrimary,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              // Tag de frequência
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  frequency,
-                  style: AppTypography.textPrimary.copyWith(
-                    fontSize: 12,
-                    color: AppColors.buttonPrimary,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-              // Tag de horário
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Icon(
-                      Icons.access_time,
-                      size: 14,
-                      color: AppColors.textDisabled,
-                    ),
-                    const SizedBox(width: 4),
-                    Text(
-                      time,
-                      style: AppTypography.textPrimary.copyWith(
-                        fontSize: 12,
-                        color: AppColors.textDisabled,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
+              AppTag.category(type),
+              AppTag.info(frequency),
+              AppTag.info(
+                time,
+                icon: Icons.access_time,
               ),
             ],
           ),

@@ -40,7 +40,6 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Por favor, selecione o diagnóstico principal'),
-            backgroundColor: AppColors.stateError,
           ),
         );
         return;
@@ -50,7 +49,6 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Por favor, especifique seu diagnóstico'),
-            backgroundColor: AppColors.stateError,
           ),
         );
         return;
@@ -60,7 +58,6 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Por favor, selecione pelo menos uma comorbidade ou "Nenhuma"'),
-            backgroundColor: AppColors.stateError,
           ),
         );
         return;
@@ -70,7 +67,6 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Por favor, especifique a comorbidade'),
-            backgroundColor: AppColors.stateError,
           ),
         );
         return;
@@ -93,7 +89,6 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),

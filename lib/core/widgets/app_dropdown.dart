@@ -18,13 +18,18 @@ class AppDropdown<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.surfaceVariant,
+        color: isDark 
+            ? theme.colorScheme.surface
+            : AppColors.surfaceVariant,
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-          color: AppColors.buttonPrimary.withValues(alpha: 0.3),
+          color: theme.colorScheme.primary.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -41,9 +46,11 @@ class AppDropdown<T> extends StatelessWidget {
         icon: Icon(
           Icons.keyboard_arrow_down,
           size: 18,
-          color: AppColors.buttonPrimary,
+          color: Theme.of(context).colorScheme.primary,
         ),
-        style: AppTypography.captionPrimary,
+        style: AppTypography.captionPrimary.copyWith(
+          color: theme.colorScheme.onSurface,
+        ),
         items: items,
         onChanged: onChanged,
       ),

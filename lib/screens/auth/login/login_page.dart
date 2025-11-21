@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor, preencha todos os campos'),
-          backgroundColor: AppColors.stateError,
         ),
       );
       return;
@@ -65,7 +64,6 @@ class _LoginPageState extends State<LoginPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text('Credenciais inválidas. Use: admin/admin'),
-              backgroundColor: AppColors.stateError,
             ),
           );
         }
@@ -83,7 +81,6 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Por favor, preencha todos os campos'),
-          backgroundColor: AppColors.stateError,
         ),
       );
       return;
@@ -93,7 +90,6 @@ class _LoginPageState extends State<LoginPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('As senhas não coincidem'),
-          backgroundColor: AppColors.stateError,
         ),
       );
       return;
@@ -113,7 +109,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24),

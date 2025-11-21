@@ -79,7 +79,6 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
@@ -289,13 +288,15 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                             style: AppTypography.textDisabled,
                           ),
                           style: AppTypography.textPrimary,
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.keyboard_arrow_down,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                           ),
                           decoration: InputDecoration(
                             filled: true,
-                            fillColor: Colors.white,
+                            fillColor: Theme.of(context).brightness == Brightness.dark
+                                ? const Color(0xFF2E3838)
+                                : Colors.white,
                             isDense: true,
                             constraints: const BoxConstraints(minHeight: 48),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

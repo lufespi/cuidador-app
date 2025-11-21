@@ -19,14 +19,17 @@ class AppTabSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: AppColors.inputBackground,
+        color: theme.inputDecorationTheme.fillColor ?? AppColors.inputBackground,
         borderRadius: BorderRadius.circular(28),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withAlpha(25),
+            color: Colors.black.withAlpha(isDark ? 50 : 25),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),

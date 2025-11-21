@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 
 class AppLogo extends StatelessWidget {
@@ -24,6 +23,9 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primaryColor = theme.colorScheme.primary;
+    
     return Column(
       mainAxisAlignment: mainAxisAlignment,
       children: [
@@ -38,14 +40,14 @@ class AppLogo extends StatelessWidget {
             width: iconSize,
             height: iconSize,
             decoration: BoxDecoration(
-              color: AppColors.buttonPrimary,
+              color: primaryColor,
               borderRadius: BorderRadius.circular(iconSize / 4),
             ),
             child: Center(
               child: Icon(
                 Icons.favorite,
                 size: iconSize * 0.6,
-                color: AppColors.textWhite,
+                color: theme.colorScheme.onPrimary,
               ),
             ),
           ),
@@ -54,7 +56,7 @@ class AppLogo extends StatelessWidget {
           Text(
             title!,
             style: AppTypography.heading1Primary.copyWith(
-              color: AppColors.buttonPrimary,
+              color: primaryColor,
               fontSize: 24,
               fontWeight: FontWeight.w600,
             ),

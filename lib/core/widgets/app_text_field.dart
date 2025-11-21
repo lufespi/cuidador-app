@@ -75,7 +75,9 @@ class _AppTextFieldState extends State<AppTextField> {
             borderRadius: BorderRadius.circular(12),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withAlpha(25),
+                color: Theme.of(context).brightness == Brightness.dark 
+                    ? Colors.black.withAlpha(50)
+                    : Colors.black.withAlpha(25),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -101,7 +103,9 @@ class _AppTextFieldState extends State<AppTextField> {
               prefixIcon: widget.prefixIcon,
               suffixIcon: widget.suffixIcon,
               filled: true,
-              fillColor: Colors.white,
+              fillColor: Theme.of(context).brightness == Brightness.dark
+                  ? AppColorsDark.inputBackground
+                  : AppColorsLight.inputBackground,
               isDense: true,
               constraints: const BoxConstraints(minHeight: 48),
               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

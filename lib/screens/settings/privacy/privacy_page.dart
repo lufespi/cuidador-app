@@ -34,7 +34,6 @@ class _PrivacyPageState extends State<PrivacyPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Preferências salvas com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
       ),
     );
     Navigator.pop(context);
@@ -43,12 +42,10 @@ class _PrivacyPageState extends State<PrivacyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -75,9 +72,9 @@ class _PrivacyPageState extends State<PrivacyPage> {
                     children: [
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.storage,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 24,
                           ),
                           const SizedBox(width: 8),
@@ -232,9 +229,9 @@ class _PrivacyPageState extends State<PrivacyPage> {
                     children: [
                       Row(
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.email_outlined,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 24,
                           ),
                           const SizedBox(width: 8),

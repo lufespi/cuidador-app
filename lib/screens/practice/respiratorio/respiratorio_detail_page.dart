@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/widgets/practice_tag.dart';
+import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
 
 class RespiratorioDetailPage extends StatelessWidget {
@@ -11,16 +11,11 @@ class RespiratorioDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back,
-            color: AppColors.textPrimary,
-          ),
+          icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
           'Voltar',
@@ -45,22 +40,9 @@ class RespiratorioDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  PracticeTag(
-                    label: 'Respiração',
-                    backgroundColor: AppColors.surfaceVariant,
-                    textColor: AppColors.buttonPrimary,
-                  ),
-                  PracticeTag(
-                    label: '5 min',
-                    backgroundColor: AppColors.surfaceVariant,
-                    textColor: AppColors.textDisabled,
-                    icon: Icons.access_time,
-                  ),
-                  PracticeTag(
-                    label: 'Iniciante',
-                    backgroundColor: AppColors.surfaceVariant,
-                    textColor: AppColors.textDisabled,
-                  ),
+                  AppTag.category('Respiração'),
+                  AppTag.info('5 min', icon: Icons.access_time),
+                  AppTag.info('Iniciante'),
                 ],
               ),
               
@@ -68,6 +50,7 @@ class RespiratorioDetailPage extends StatelessWidget {
               
               // Card de Benefícios
               _buildInfoCard(
+                context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
                 title: 'Benefícios',
@@ -77,7 +60,9 @@ class RespiratorioDetailPage extends StatelessWidget {
               const SizedBox(height: 16),
               
               // Card de Como fazer
-              _buildStepsCard([
+              _buildStepsCard(
+                context: context,
+                steps: [
                 'Inspire pelo nariz contando até 4',
                 'Segure o ar contando até 7',
                 'Expire pela boca contando até 8',
@@ -87,7 +72,10 @@ class RespiratorioDetailPage extends StatelessWidget {
               const SizedBox(height: 16),
               
               // Card de Atenção
-              _buildWarningCard('Pare se sentir tontura. Não force a respiração.'),
+              _buildWarningCard(
+                context: context,
+                warning: 'Pare se sentir tontura. Não force a respiração.',
+              ),
               
               const SizedBox(height: 24),
               
@@ -136,6 +124,7 @@ class RespiratorioDetailPage extends StatelessWidget {
   }
 
   Widget _buildInfoCard({
+    required BuildContext context,
     required String icon,
     required Color iconColor,
     required String title,
@@ -144,10 +133,10 @@ class RespiratorioDetailPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -176,7 +165,7 @@ class RespiratorioDetailPage extends StatelessWidget {
           Text(
             content,
             style: AppTypography.bodyLarge.copyWith(
-              color: AppColors.textDisabled,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               height: 1.5,
             ),
           ),
@@ -185,14 +174,17 @@ class RespiratorioDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStepsCard(List<String> steps) {
+  Widget _buildStepsCard({
+    required BuildContext context,
+    required List<String> steps,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -230,7 +222,7 @@ class RespiratorioDetailPage extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant,
+                      color: AppColors.buttonPrimary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -247,7 +239,7 @@ class RespiratorioDetailPage extends StatelessWidget {
                     child: Text(
                       step,
                       style: AppTypography.bodyLarge.copyWith(
-                        color: AppColors.textDisabled,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                         height: 1.5,
                       ),
                     ),
@@ -261,14 +253,17 @@ class RespiratorioDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildWarningCard(String warning) {
+  Widget _buildWarningCard({
+    required BuildContext context,
+    required String warning,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -297,7 +292,7 @@ class RespiratorioDetailPage extends StatelessWidget {
           Text(
             warning,
             style: AppTypography.bodyLarge.copyWith(
-              color: AppColors.textDisabled,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               height: 1.5,
             ),
           ),

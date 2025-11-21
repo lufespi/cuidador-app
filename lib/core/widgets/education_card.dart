@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
+import 'app_tag.dart';
 
 class EducationCard extends StatelessWidget {
   final String title;
@@ -25,19 +26,22 @@ class EducationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: AppColors.surface,
+          color: theme.colorScheme.surface,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: AppColors.inputBackground,
+            color: theme.inputDecorationTheme.fillColor ?? AppColors.inputBackground,
             width: 1,
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -52,7 +56,9 @@ class EducationCard extends StatelessWidget {
                 width: 80,
                 height: 80,
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceVariant,
+                  color: Theme.of(context).brightness == Brightness.dark
+                      ? Theme.of(context).colorScheme.surface
+                      : AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: ClipRRect(
@@ -62,16 +68,16 @@ class EducationCard extends StatelessWidget {
                           imagePath,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
-                            return const Icon(
+                            return Icon(
                               Icons.image_outlined,
-                              color: AppColors.buttonPrimary,
+                              color: Theme.of(context).colorScheme.primary,
                               size: 40,
                             );
                           },
                         )
                       : Icon(
                           _getIconFromPath(imagePath),
-                          color: AppColors.buttonPrimary,
+                          color: Theme.of(context).colorScheme.primary,
                           size: 40,
                         ),
                 ),
@@ -94,26 +100,7 @@ class EducationCard extends StatelessWidget {
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: tags.map((tag) {
-                        return Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceVariant,
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                          child: Text(
-                            tag,
-                            style: AppTypography.textPrimary.copyWith(
-                              fontSize: 12,
-                              color: AppColors.buttonPrimary,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                      children: tags.map((tag) => AppTag.info(tag)).toList(),
                     ),
                   ],
                 ),
@@ -122,9 +109,9 @@ class EducationCard extends StatelessWidget {
               const SizedBox(width: 8),
               
               // Ícone de seta
-              const Icon(
+              Icon(
                 Icons.chevron_right,
-                color: AppColors.textDisabled,
+                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.4),
                 size: 24,
               ),
             ],

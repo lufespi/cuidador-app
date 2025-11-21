@@ -1,6 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ThemeMode;
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/theme/theme_provider.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_button.dart';
 
@@ -12,18 +14,36 @@ class ThemePage extends StatefulWidget {
 }
 
 class _ThemePageState extends State<ThemePage> {
-  String _selectedTheme = 'light'; // 'light' ou 'dark'
+  late ThemeMode _selectedTheme;
 
-  void _saveTheme() {
-    // TODO: Implementar lógica de salvamento do tema
+  @override
+  void initState() {
+    super.initState();
+    _selectedTheme = Provider.of<ThemeProvider>(context, listen: false).themeMode;
+  }
+
+  void _saveTheme() async {
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: false);
+    await themeProvider.setThemeMode(_selectedTheme);
+    
+    if (!mounted) return;
+    
+    String message = '';
+    switch (_selectedTheme) {
+      case ThemeMode.light:
+        message = 'Modo Claro ativado';
+        break;
+      case ThemeMode.dark:
+        message = 'Modo Escuro ativado';
+        break;
+      case ThemeMode.system:
+        message = 'Tema do Sistema ativado';
+        break;
+    }
+    
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          _selectedTheme == 'light' 
-              ? 'Modo Claro ativado' 
-              : 'Modo Escuro ativado',
-        ),
-        backgroundColor: AppColors.stateSuccess,
+        content: Text(message),
       ),
     );
     Navigator.pop(context);
@@ -32,12 +52,10 @@ class _ThemePageState extends State<ThemePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -63,9 +81,9 @@ class _ThemePageState extends State<ThemePage> {
                           children: [
                             Row(
                               children: [
-                                const Icon(
+                                Icon(
                                   Icons.palette_outlined,
-                                  color: AppColors.textPrimary,
+                                  color: Theme.of(context).colorScheme.onSurface,
                                   size: 24,
                                 ),
                                 const SizedBox(width: 8),
@@ -77,7 +95,7 @@ class _ThemePageState extends State<ThemePage> {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              'Escolha entre o modo claro ou escuro para melhor conforto visual',
+                              'Escolha entre o modo claro, escuro ou automático para melhor conforto visual',
                               style: AppTypography.textPrimary.copyWith(
                                 color: AppColors.textDisabled,
                                 fontSize: 13,
@@ -88,20 +106,30 @@ class _ThemePageState extends State<ThemePage> {
                             
                             // Opção Modo Claro
                             _buildThemeOption(
-                              value: 'light',
+                              value: ThemeMode.light,
                               icon: Icons.light_mode,
                               title: 'Modo Claro',
-                              description: '',
+                              description: 'Interface clara e vibrante',
                             ),
                             
                             const SizedBox(height: 12),
                             
                             // Opção Modo Escuro
                             _buildThemeOption(
-                              value: 'dark',
+                              value: ThemeMode.dark,
                               icon: Icons.dark_mode,
                               title: 'Modo Escuro',
-                              description: '',
+                              description: 'Interface escura e confortável',
+                            ),
+                            
+                            const SizedBox(height: 12),
+                            
+                            // Opção Tema do Sistema
+                            _buildThemeOption(
+                              value: ThemeMode.system,
+                              icon: Icons.brightness_auto,
+                              title: 'Automático',
+                              description: 'Segue configuração do sistema',
                             ),
                           ],
                         ),
@@ -130,7 +158,7 @@ class _ThemePageState extends State<ThemePage> {
   }
 
   Widget _buildThemeOption({
-    required String value,
+    required ThemeMode value,
     required IconData icon,
     required String title,
     required String description,
@@ -177,10 +205,39 @@ class _ThemePageState extends State<ThemePage> {
             
             const SizedBox(width: 12),
             
-            // Texto
-            Text(
-              title,
-              style: AppTypography.textPrimary,
+            // Ícone e texto
+            Expanded(
+              child: Row(
+                children: [
+                  Icon(
+                    icon,
+                    size: 20,
+                    color: isSelected 
+                        ? AppColors.buttonPrimary 
+                        : AppColors.textDisabled,
+                  ),
+                  const SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: AppTypography.textPrimary.copyWith(
+                          fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                        ),
+                      ),
+                      if (description.isNotEmpty)
+                        Text(
+                          description,
+                          style: AppTypography.textPrimary.copyWith(
+                            fontSize: 12,
+                            color: AppColors.textDisabled,
+                          ),
+                        ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ],
         ),

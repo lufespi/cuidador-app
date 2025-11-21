@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 
 class PracticeTimerDialog extends StatefulWidget {
@@ -76,7 +75,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -88,7 +87,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
         content: Text(
           'Você completou a sessão de ${widget.practiceTitle}!',
           style: AppTypography.textPrimary.copyWith(
-            color: AppColors.textDisabled,
+            color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
           ),
           textAlign: TextAlign.center,
         ),
@@ -101,7 +100,8 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
                 Navigator.of(context).pop(); // Close timer dialog
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.buttonPrimary,
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                foregroundColor: Theme.of(context).colorScheme.onPrimary,
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12),
@@ -110,7 +110,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
               child: Text(
                 'Concluir',
                 style: AppTypography.textPrimary.copyWith(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.onPrimary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -135,9 +135,11 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     if (_isCountdown) {
       return Dialog(
-        backgroundColor: AppColors.surface,
+        backgroundColor: theme.colorScheme.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
@@ -158,14 +160,14 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
                 _countdownSeconds.toString(),
                 style: AppTypography.heading1Primary.copyWith(
                   fontSize: 72,
-                  color: AppColors.buttonPrimary,
+                  color: theme.colorScheme.primary,
                 ),
               ),
               const SizedBox(height: 16),
               Text(
                 'A sessão começará em breve',
                 style: AppTypography.textPrimary.copyWith(
-                  color: AppColors.textDisabled,
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -176,7 +178,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
     }
 
     return Dialog(
-      backgroundColor: AppColors.surface,
+      backgroundColor: theme.colorScheme.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
       ),
@@ -199,7 +201,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: AppColors.buttonPrimary,
+                  color: theme.colorScheme.primary,
                   width: 8,
                 ),
               ),
@@ -208,7 +210,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
                   _formatTime(_remainingSeconds),
                   style: AppTypography.heading1Primary.copyWith(
                     fontSize: 48,
-                    color: AppColors.buttonPrimary,
+                    color: theme.colorScheme.primary,
                   ),
                 ),
               ),
@@ -221,18 +223,18 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
                     onPressed: _togglePause,
                     icon: Icon(
                       _isPaused ? Icons.play_arrow : Icons.pause,
-                      color: AppColors.buttonPrimary,
+                      color: theme.colorScheme.primary,
                     ),
                     label: Text(
                       _isPaused ? 'Continuar' : 'Pausar',
                       style: AppTypography.textPrimary.copyWith(
-                        color: AppColors.buttonPrimary,
+                        color: theme.colorScheme.primary,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     style: OutlinedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      side: BorderSide(color: AppColors.buttonPrimary),
+                      side: BorderSide(color: theme.colorScheme.primary),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -244,7 +246,8 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
                   child: ElevatedButton(
                     onPressed: _finishSession,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.stateError,
+                      backgroundColor: theme.colorScheme.error,
+                      foregroundColor: theme.colorScheme.onError,
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -253,7 +256,7 @@ class _PracticeTimerDialogState extends State<PracticeTimerDialog> {
                     child: Text(
                       'Finalizar',
                       style: AppTypography.textPrimary.copyWith(
-                        color: Colors.white,
+                        color: theme.colorScheme.onError,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

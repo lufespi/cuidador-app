@@ -51,7 +51,6 @@ class _NotificationsPageState extends State<NotificationsPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Alterações salvas com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
       ),
     );
     Navigator.pop(context);
@@ -60,12 +59,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -118,9 +115,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      const Icon(
-                                        Icons.notifications_outlined,
-                                        color: AppColors.textPrimary,
+                                      Icon(
+                                        Icons.notifications_active_outlined,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         size: 24,
                                       ),
                                       const SizedBox(width: 8),
@@ -274,9 +271,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      const Icon(
+                                      Icon(
                                         Icons.access_time,
-                                        color: AppColors.textPrimary,
+                                        color: Theme.of(context).colorScheme.onSurface,
                                         size: 24,
                                       ),
                                       const SizedBox(width: 8),
@@ -341,7 +338,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                               color: AppColors.textDisabled,
                                             ),
                                             filled: true,
-                                            fillColor: Colors.white,
+                                            fillColor: Theme.of(context).brightness == Brightness.dark
+                                                ? const Color(0xFF2E3838)
+                                                : Colors.white,
                                             counterText: '',
                                             contentPadding: const EdgeInsets.symmetric(
                                               horizontal: 16,
@@ -421,7 +420,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                               color: AppColors.textDisabled,
                                             ),
                                             filled: true,
-                                            fillColor: Colors.white,
+                                            fillColor: Theme.of(context).brightness == Brightness.dark
+                                                ? const Color(0xFF2E3838)
+                                                : Colors.white,
                                             counterText: '',
                                             contentPadding: const EdgeInsets.symmetric(
                                               horizontal: 16,

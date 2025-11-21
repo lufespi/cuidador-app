@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 
 /// Widget reutilizável para card de seleção de parte do corpo com imagem
@@ -19,14 +18,18 @@ class BodyPartCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primaryColor = theme.colorScheme.primary;
+    final surfaceColor = theme.colorScheme.surface;
+    
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.buttonPrimary.withValues(alpha: 0.1) : AppColors.surface,
+          color: isSelected ? primaryColor.withValues(alpha: 0.1) : surfaceColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? AppColors.buttonPrimary : AppColors.buttonPrimary.withValues(alpha: 0.5),
+            color: isSelected ? primaryColor : primaryColor.withValues(alpha: 0.5),
             width: 2,
           ),
         ),
@@ -49,7 +52,7 @@ class BodyPartCard extends StatelessWidget {
                 style: AppTypography.textPrimary.copyWith(
                   fontSize: 10,
                   fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-                  color: isSelected ? AppColors.buttonPrimary : AppColors.textPrimary,
+                  color: isSelected ? primaryColor : theme.colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               ),
@@ -78,6 +81,10 @@ class BodyPartCarouselCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final primaryColor = theme.colorScheme.primary;
+    final surfaceColor = theme.colorScheme.surface;
+    
     return GestureDetector(
       onTap: onTap,
       child: Padding(
@@ -86,10 +93,10 @@ class BodyPartCarouselCard extends StatelessWidget {
           width: 140,
           height: 140,
           decoration: BoxDecoration(
-            color: isSelected ? AppColors.buttonPrimary.withValues(alpha: 0.1) : AppColors.surface,
+            color: isSelected ? primaryColor.withValues(alpha: 0.1) : surfaceColor,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: isSelected ? AppColors.buttonPrimary : AppColors.buttonPrimary.withValues(alpha: 0.3),
+              color: isSelected ? primaryColor : primaryColor.withValues(alpha: 0.3),
               width: 2,
             ),
           ),

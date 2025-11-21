@@ -17,7 +17,6 @@ class SettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -37,8 +36,8 @@ class SettingsPage extends StatelessWidget {
                           'assets/icons/settings/settings.svg',
                           width: 30,
                           height: 30,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.textPrimary,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -53,7 +52,7 @@ class SettingsPage extends StatelessWidget {
                     Text(
                       'Acessibilidade e preferências',
                       style: AppTypography.textPrimary.copyWith(
-                        color: AppColors.textDisabled,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                       ),
                     ),
                     const SizedBox(height: 16),
@@ -61,7 +60,7 @@ class SettingsPage extends StatelessWidget {
                     // Divider
                     Container(
                       height: 1,
-                      color: AppColors.inputBackground,
+                      color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                     ),
                     const SizedBox(height: 4),
                     
@@ -171,7 +170,7 @@ class SettingsPage extends StatelessWidget {
                             // Divider acima de Sair
                             Container(
                               height: 1,
-                              color: AppColors.inputBackground,
+                              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                             ),
                             SizedBox(
                               width: double.infinity,
@@ -194,7 +193,7 @@ class SettingsPage extends StatelessWidget {
                             // Divider sutil
                             Container(
                               height: 1,
-                              color: AppColors.inputBackground,
+                              color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
                             ),
                             SizedBox(
                               width: double.infinity,

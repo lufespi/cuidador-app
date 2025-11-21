@@ -149,7 +149,6 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
         backgroundColor: AppColors.buttonPrimary,
         elevation: 0,

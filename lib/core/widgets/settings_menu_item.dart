@@ -39,8 +39,8 @@ class SettingsMenuItem extends StatelessWidget {
                     iconPath,
                     width: 24,
                     height: 24,
-                    colorFilter: const ColorFilter.mode(
-                      AppColors.textPrimary,
+                    colorFilter: ColorFilter.mode(
+                      Theme.of(context).colorScheme.onSurface,
                       BlendMode.srcIn,
                     ),
                   ),
@@ -59,16 +59,16 @@ class SettingsMenuItem extends StatelessWidget {
                       Text(
                         subtitle,
                         style: AppTypography.textPrimary.copyWith(
-                          color: AppColors.textDisabled,
+                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                         ),
                       ),
                     ],
                   ),
                 ),
                 // Seta (chevron)
-                const Icon(
+                Icon(
                   Icons.chevron_right,
-                  color: AppColors.textDisabled,
+                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                   size: 20,
                 ),
               ],

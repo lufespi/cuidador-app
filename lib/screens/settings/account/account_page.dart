@@ -153,12 +153,10 @@ class _AccountPageState extends State<AccountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -185,8 +183,8 @@ class _AccountPageState extends State<AccountPage> {
                           'assets/icons/settings/user-round.svg',
                           width: 24,
                           height: 24,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.textPrimary,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -294,8 +292,8 @@ class _AccountPageState extends State<AccountPage> {
                           'assets/icons/forms/heart-pulse.svg',
                           width: 24,
                           height: 24,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.textPrimary,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -352,8 +350,8 @@ class _AccountPageState extends State<AccountPage> {
                           'assets/icons/settings/settings.svg',
                           width: 24,
                           height: 24,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.textPrimary,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -436,7 +434,6 @@ class _AccountPageState extends State<AccountPage> {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('Função de exclusão em desenvolvimento'),
-                      backgroundColor: AppColors.stateError,
                     ),
                   );
                 },
@@ -498,7 +495,9 @@ class _AccountPageState extends State<AccountPage> {
                   Text(
                     label,
                     style: AppTypography.textPrimary.copyWith(
-                      color: isDestructive ? AppColors.stateError : AppColors.textDisabled,
+                      color: isDestructive 
+                          ? AppColors.stateError 
+                          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                       fontSize: 11,
                     ),
                   ),
@@ -506,7 +505,9 @@ class _AccountPageState extends State<AccountPage> {
                     const SizedBox(height: 4),
                     Text(
                       value,
-                      style: AppTypography.textPrimary,
+                      style: AppTypography.textPrimary.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
                     ),
                   ],
                 ],

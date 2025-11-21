@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../theme/app_colors.dart';
 
 class AppToggle extends StatelessWidget {
   final bool value;
@@ -13,13 +12,17 @@ class AppToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return GestureDetector(
       onTap: () => onChanged(!value),
       child: Container(
         width: 48,
         height: 28,
         decoration: BoxDecoration(
-          color: value ? AppColors.buttonPrimary : AppColors.inputBackground,
+          color: value 
+              ? theme.colorScheme.primary
+              : const Color(0xFF2E3838),
           borderRadius: BorderRadius.circular(14),
         ),
         child: AnimatedAlign(

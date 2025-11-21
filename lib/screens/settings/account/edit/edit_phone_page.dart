@@ -138,7 +138,6 @@ class _EditPhonePageState extends State<EditPhonePage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Telefone atualizado com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
       ),
     );
     Navigator.pop(context, _phoneController.text);
@@ -147,12 +146,10 @@ class _EditPhonePageState extends State<EditPhonePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(

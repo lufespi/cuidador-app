@@ -18,8 +18,11 @@ class HighlightCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final effectiveIconColor = iconColor ?? AppColors.buttonPrimary;
-    final effectiveBackgroundColor = backgroundColor ?? AppColors.surfaceVariant;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final effectiveIconColor = iconColor ?? theme.colorScheme.primary;
+    final effectiveBackgroundColor = backgroundColor ?? 
+        (isDark ? theme.colorScheme.surface : AppColors.surfaceVariant);
 
     return Container(
       padding: const EdgeInsets.all(16),

@@ -136,8 +136,7 @@ class _EditEmailPageState extends State<EditEmailPage> {
     // TODO: Salvar alteração do e-mail
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('E-mail atualizado com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
+        content: Text('Email atualizado com sucesso!'),
       ),
     );
     Navigator.pop(context, _emailController.text);
@@ -146,12 +145,10 @@ class _EditEmailPageState extends State<EditEmailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(

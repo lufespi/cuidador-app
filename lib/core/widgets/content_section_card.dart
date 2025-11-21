@@ -18,19 +18,22 @@ class ContentSectionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: theme.inputDecorationTheme.fillColor ?? AppColors.inputBackground,
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.03),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -45,13 +48,13 @@ class ContentSectionCard extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: (iconColor ?? AppColors.buttonPrimary).withValues(alpha: 0.1),
+                    color: (iconColor ?? Theme.of(context).colorScheme.primary).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Icon(
                     icon,
                     size: 20,
-                    color: iconColor ?? AppColors.buttonPrimary,
+                    color: iconColor ?? Theme.of(context).colorScheme.primary,
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -72,7 +75,7 @@ class ContentSectionCard extends StatelessWidget {
             style: AppTypography.textPrimary.copyWith(
               fontSize: 14,
               height: 1.6,
-              color: AppColors.textDisabled,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
             ),
           ),
         ],

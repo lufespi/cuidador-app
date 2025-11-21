@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-// Classe responsável pela definição da paleta de cores da aplicação
-class AppColors {
+// ============================================================================
+// CORES LIGHT MODE
+// ============================================================================
+class AppColorsLight {
   // === Botões e ações principais ===
   static const Color buttonPrimary = Color(0xFF28BDBD);       // botão principal, cor da marca
   static const Color buttonPrimaryVariant = Color(0xFF07DFD5); // variação de destaque/gradiente
@@ -21,7 +23,6 @@ class AppColors {
   static const Color textPrimary = Color(0xFF3D3D3D);          // texto principal
   static const Color textSecondary = Color(0xFF28BDBD);        // texto de destaque / link
   static const Color textWhite = Color(0xFFFFFFFF);            // texto branco
-
   static const Color textDisabled = Color(0xFF787878);         // texto desabilitado / placeholder
 
   // === Bordas e divisores ===
@@ -33,8 +34,78 @@ class AppColors {
   static const Color stateError = Color(0xFFE55757);           // erro / falha
 }
 
-// Define nomes semânticos (pelo uso e contexto, não pela cor real), mantém consistência visual e facilita manutenção e futuros temas
+// ============================================================================
+// CORES DARK MODE
+// ============================================================================
+class AppColorsDark {
+  // === Botões e ações principais ===
+  static const Color buttonPrimary = Color(0xFF28BDBD);       // botão principal, cor da marca (mantém identidade)
+  static const Color buttonPrimaryVariant = Color(0xFF07DFD5); // variação de destaque/gradiente
+  static const Color buttonSecondary = Color(0xFF2C2C2C);      // botão alternativo mais escuro
+  static const Color buttonSurface = Color(0xFF1E1E1E);        // botão superfície escura
+  static const Color buttonText = Color(0xFFFFFFFF);           // texto sobre botões coloridos
 
+  // === Fundo e superfícies ===
+  static const Color background = Color(0xFF121818);           // fundo geral escuro
+  static const Color surface = Color(0xFF161D1D);              // cartões e áreas elevadas
+  static const Color surfaceVariant = Color(0xFF192E2D);       // superfície alternativa (verde escuro)
+
+  // === Inputs e campos de formulário ===
+  static const Color inputBackground = Color(0xFF111717);      // fundo dos campos de entrada
+
+  // === Textos ===
+  static const Color textPrimary = Color(0xFFE8E8E8);          // texto principal claro
+  static const Color textSecondary = Color(0xFF28BDBD);        // texto de destaque / link (mantém marca)
+  static const Color textWhite = Color(0xFFFFFFFF);            // texto branco
+  static const Color textDisabled = Color(0xFF787878);         // texto desabilitado / placeholder
+
+  // === Bordas e divisores ===
+  static const Color border = Color(0xFF28BDBD);               // bordas e divisores (mantém marca)
+
+  // === Estados e feedback ===
+  static const Color stateSuccess = Color(0xFF1FA97A);         // sucesso / confirmação
+  static const Color stateWarning = Color(0xFFF2A700);         // alerta / aviso
+  static const Color stateError = Color(0xFFE55757);           // erro / falha
+}
+
+// ============================================================================
+// CLASSE DE COMPATIBILIDADE (mantém código existente funcionando)
+// ============================================================================
+// DEPRECATED: Use AppColorsLight ou AppColorsDark diretamente
+class AppColors {
+  // === Botões e ações principais ===
+  static const Color buttonPrimary = Color(0xFF28BDBD);
+  static const Color buttonPrimaryVariant = Color(0xFF07DFD5);
+  static const Color buttonSecondary = Color(0xFF3D3D3D);
+  static const Color buttonSurface = Color(0xFFFBFEFE);
+  static const Color buttonText = Color(0xFFFFFFFF);
+
+  // === Fundo e superfícies ===
+  static const Color background = Color(0xFFFBFCFC);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color surfaceVariant = Color(0xFFEAFBFA);
+
+  // === Inputs e campos de formulário ===
+  static const Color inputBackground = Color(0xFFDDE3E3);
+
+  // === Textos ===
+  static const Color textPrimary = Color(0xFF3D3D3D);
+  static const Color textSecondary = Color(0xFF28BDBD);
+  static const Color textWhite = Color(0xFFFFFFFF);
+  static const Color textDisabled = Color(0xFF787878);
+
+  // === Bordas e divisores ===
+  static const Color border = Color(0xFF28BDBD);
+
+  // === Estados e feedback ===
+  static const Color stateSuccess = Color(0xFF1FA97A);
+  static const Color stateWarning = Color(0xFFF2A700);
+  static const Color stateError = Color(0xFFE55757);
+}
+
+// ============================================================================
+// NOMES SEMÂNTICOS (mantém compatibilidade)
+// ============================================================================
 class AppSemantic {
   // Identidade visual / marca
   static const Color brand = AppColors.buttonPrimary;
@@ -52,7 +123,7 @@ class AppSemantic {
   static const Color surface = AppColors.surface;
   static const Color surfaceVariant = AppColors.surfaceVariant;
 
-    // === Inputs e campos de formulário ===
+  // === Inputs e campos de formulário ===
   static const Color inputBackground = AppColors.inputBackground;
 
   // Textos

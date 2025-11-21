@@ -48,7 +48,6 @@ class _DorPageState extends State<DorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -98,12 +97,16 @@ class _DorPageState extends State<DorPage> {
                         children: [
                           Text(
                             '${_nivelDor.toInt()}',
-                            style: AppTypography.displayLarge,
+                            style: AppTypography.displayLarge.copyWith(
+                              color: const Color(0xFF28BDBD),
+                            ),
                           ),
                           Text(
                             '/10',
                             style: AppTypography.heading2Primary.copyWith(
-                              color: AppColors.textDisabled,
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? Colors.white
+                                  : Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                         ],
@@ -149,7 +152,9 @@ class _DorPageState extends State<DorPage> {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? const Color(0xFF192E2D)
+                          : AppColors.surfaceVariant,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Column(
@@ -157,7 +162,9 @@ class _DorPageState extends State<DorPage> {
                       children: [
                         Text(
                           _getDescricaoDor(),
-                          style: AppTypography.displayMedium,
+                          style: AppTypography.displayMedium.copyWith(
+                            color: const Color(0xFF28BDBD),
+                          ),
                         ),
                         const SizedBox(height: 4),
                         Text(
@@ -213,7 +220,6 @@ class _DorPageState extends State<DorPage> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('Registro salvo com sucesso!'),
-                          backgroundColor: AppColors.stateSuccess,
                         ),
                       );
                     },
@@ -389,7 +395,7 @@ class _DorPageState extends State<DorPage> {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
           color: AppColors.buttonPrimary.withValues(alpha: 0.2),
@@ -403,13 +409,17 @@ class _DorPageState extends State<DorPage> {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.surfaceVariant,
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? const Color(0xFF192E2D)  // Mesma cor do subcard "Dor Moderada" no dark
+                  : AppColors.surfaceVariant, // Mesma cor do subcard no light
               borderRadius: BorderRadius.circular(12),
             ),
             child: Center(
               child: Text(
                 '$nivel',
-                style: AppTypography.displayLarge,
+                style: AppTypography.displayLarge.copyWith(
+                  color: AppColors.buttonPrimary, // Verde principal
+                ),
               ),
             ),
           ),

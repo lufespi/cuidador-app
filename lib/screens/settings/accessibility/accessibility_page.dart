@@ -28,7 +28,6 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Preferências salvas com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
       ),
     );
     Navigator.pop(context);
@@ -37,12 +36,10 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -68,8 +65,8 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                         SvgPicture.asset(
                           'assets/icons/accessibility/person-standing.svg',
                           height: 24,
-                          colorFilter: const ColorFilter.mode(
-                            AppColors.textPrimary,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
                             BlendMode.srcIn,
                           ),
                         ),
@@ -208,7 +205,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                       children: [
                         Icon(
                           Icons.contrast,
-                          color: AppColors.textPrimary,
+                          color: Theme.of(context).colorScheme.onSurface,
                           size: 20,
                         ),
                         const SizedBox(width: 12),
@@ -246,7 +243,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                       children: [
                         Icon(
                           Icons.volume_up,
-                          color: AppColors.textPrimary,
+                          color: Theme.of(context).colorScheme.onSurface,
                           size: 20,
                         ),
                         const SizedBox(width: 12),

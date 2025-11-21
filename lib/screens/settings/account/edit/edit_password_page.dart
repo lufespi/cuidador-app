@@ -54,8 +54,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
     // TODO: Implementar lógica de alteração de senha
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Senha alterada com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
+        content: Text('Senha atualizada com sucesso!'),
       ),
     );
     Navigator.pop(context);
@@ -64,12 +63,10 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(

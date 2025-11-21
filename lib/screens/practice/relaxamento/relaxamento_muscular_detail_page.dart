@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
-import '../../../core/widgets/practice_tag.dart';
+import '../../../core/widgets/app_tag.dart';
 import '../../../core/widgets/practice_timer_dialog.dart';
 
 class RelaxamentoMuscularDetailPage extends StatelessWidget {
@@ -11,16 +11,11 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.surface,
       appBar: AppBar(
-        backgroundColor: AppColors.surface,
         elevation: 0,
         leading: IconButton(
           onPressed: () => Navigator.pop(context),
-          icon: const Icon(
-            Icons.arrow_back,
-            color: AppColors.textPrimary,
-          ),
+          icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
           'Voltar',
@@ -45,22 +40,9 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                 spacing: 8,
                 runSpacing: 8,
                 children: [
-                  PracticeTag(
-                    label: 'Relaxamento',
-                    backgroundColor: AppColors.surfaceVariant,
-                    textColor: AppColors.buttonPrimary,
-                  ),
-                  PracticeTag(
-                    label: '10-15 min',
-                    backgroundColor: AppColors.surfaceVariant,
-                    textColor: AppColors.textDisabled,
-                    icon: Icons.access_time,
-                  ),
-                  PracticeTag(
-                    label: 'Intermediário',
-                    backgroundColor: AppColors.surfaceVariant,
-                    textColor: AppColors.textDisabled,
-                  ),
+                  AppTag.category('Relaxamento'),
+                  AppTag.info('10-15 min', icon: Icons.access_time),
+                  AppTag.info('Intermediário'),
                 ],
               ),
               
@@ -68,6 +50,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               
               // Card de Benefícios
               _buildInfoCard(
+                context: context,
                 icon: 'assets/icons/practice/sparkles.svg',
                 iconColor: const Color(0xFF06B6D4),
                 title: 'Benefícios',
@@ -77,7 +60,9 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               const SizedBox(height: 16),
               
               // Card de Como fazer
-              _buildStepsCard([
+              _buildStepsCard(
+                context: context,
+                steps: [
                 'Deite-se confortavelmente',
                 'Comece pelos pés:\n  • Contraia os músculos por 5 segundos\n  • Relaxe completamente por 10 segundos',
                 'Suba pelo corpo:\n  • Panturrilhas\n  • Coxas\n  • Barriga\n  • Mãos e braços\n  • Ombros\n  • Rosto',
@@ -86,7 +71,10 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
               const SizedBox(height: 16),
               
               // Card de Atenção
-              _buildWarningCard('Não force articulações doloridas'),
+              _buildWarningCard(
+                context: context,
+                warning: 'Não force articulações doloridas',
+              ),
               
               const SizedBox(height: 24),
               
@@ -135,6 +123,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
   }
 
   Widget _buildInfoCard({
+    required BuildContext context,
     required String icon,
     required Color iconColor,
     required String title,
@@ -143,10 +132,10 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -175,7 +164,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
           Text(
             content,
             style: AppTypography.bodyLarge.copyWith(
-              color: AppColors.textDisabled,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               height: 1.5,
             ),
           ),
@@ -184,14 +173,17 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildStepsCard(List<String> steps) {
+  Widget _buildStepsCard({
+    required BuildContext context,
+    required List<String> steps,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -229,7 +221,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                     width: 24,
                     height: 24,
                     decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant,
+                      color: AppColors.buttonPrimary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Center(
@@ -246,7 +238,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
                     child: Text(
                       step,
                       style: AppTypography.bodyLarge.copyWith(
-                        color: AppColors.textDisabled,
+                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
                         height: 1.5,
                       ),
                     ),
@@ -260,14 +252,17 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
     );
   }
 
-  Widget _buildWarningCard(String warning) {
+  Widget _buildWarningCard({
+    required BuildContext context,
+    required String warning,
+  }) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surface,
+        color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(12),
         border: Border.all(
-          color: AppColors.inputBackground,
+          color: Theme.of(context).colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
       ),
@@ -296,7 +291,7 @@ class RelaxamentoMuscularDetailPage extends StatelessWidget {
           Text(
             warning,
             style: AppTypography.bodyLarge.copyWith(
-              color: AppColors.textDisabled,
+              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
               height: 1.5,
             ),
           ),

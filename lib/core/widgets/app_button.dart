@@ -93,17 +93,19 @@ class AppButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     final double radius = switch (kind) {
       AppButtonKind.buttonPrimary   => height / 2,
       AppButtonKind.buttonSecondary => 12,
       AppButtonKind.buttonForm      => 12,
     };
 
-    return _buildButton(radius);
+    return _buildButton(context, theme, radius);
   }
 
   /// Constrói o botão de acordo com o tipo
-  Widget _buildButton(double radius) {
+  Widget _buildButton(BuildContext context, ThemeData theme, double radius) {
     final buttonContent = _buildContent();
 
     if (kind == AppButtonKind.buttonSecondary) {
@@ -117,8 +119,8 @@ class AppButton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(radius),
             ),
-            side: const BorderSide(
-              color: AppColors.buttonPrimary,
+            side: BorderSide(
+              color: theme.colorScheme.primary,
               width: 2,
             ),
             padding: padding,
@@ -157,7 +159,8 @@ class AppButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.buttonPrimary,
+          backgroundColor: theme.colorScheme.primary,
+          foregroundColor: theme.colorScheme.onPrimary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius),
           ),

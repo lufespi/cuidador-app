@@ -50,8 +50,7 @@ class _EditGenderPageState extends State<EditGenderPage> {
     // TODO: Salvar alteração do sexo
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
-        content: Text('Sexo atualizado com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
+        content: Text('Gênero atualizado com sucesso!'),
       ),
     );
     Navigator.pop(context, _selectedGender);
@@ -71,7 +70,9 @@ class _EditGenderPageState extends State<EditGenderPage> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF2E3838)
+              : Colors.white,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
             color: isSelected ? AppColors.buttonPrimary : Colors.transparent,
@@ -116,7 +117,9 @@ class _EditGenderPageState extends State<EditGenderPage> {
             Text(
               gender,
               style: AppTypography.textPrimary.copyWith(
-                color: isSelected ? AppColors.buttonPrimary : AppColors.textPrimary,
+                color: isSelected 
+                    ? AppColors.buttonPrimary 
+                    : Theme.of(context).colorScheme.onSurface,
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               ),
             ),
@@ -129,12 +132,10 @@ class _EditGenderPageState extends State<EditGenderPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.buttonPrimary,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: AppColors.textWhite),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(

@@ -38,7 +38,6 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Você precisa concordar com a política de privacidade para continuar'),
-          backgroundColor: AppColors.stateError,
         ),
       );
       return;
@@ -48,7 +47,6 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('Cadastro finalizado com sucesso!'),
-        backgroundColor: AppColors.stateSuccess,
       ),
     );
     
@@ -63,7 +61,6 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
