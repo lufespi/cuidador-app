@@ -292,7 +292,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           ],
                         ),
                         child: DropdownButtonFormField<String>(
-                          value: _selectedGender,
+                          initialValue: _selectedGender,
                           hint: Text(
                             'Selecione uma opção',
                             style: AppTypography.textDisabled.copyWith(

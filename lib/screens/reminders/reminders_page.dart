@@ -360,9 +360,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
         };
         
         // Define frequência inicial
-        if (_selectedFrequency == null) {
-          _selectedFrequency = _frequencies[0]; // Primeiro item por padrão
-        }
+        _selectedFrequency ??= _frequencies[0]; // Primeiro item por padrão
       });
     });
     
@@ -608,7 +606,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   children: [
               // Dropdown de tipo
               DropdownButtonFormField<String>(
-                value: _selectedType,
+                initialValue: _selectedType,
                 decoration: InputDecoration(
                   hintText: l10n.reminderTypeHint,
                   hintStyle: AppTypography.bodyLarge.copyWith(
@@ -741,7 +739,7 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               
               // Dropdown de frequência
               DropdownButtonFormField<String>(
-                value: _selectedFrequency,
+                initialValue: _selectedFrequency,
                 decoration: InputDecoration(
                   hintText: l10n.reminderFrequencyHint,
                   hintStyle: AppTypography.bodyLarge.copyWith(

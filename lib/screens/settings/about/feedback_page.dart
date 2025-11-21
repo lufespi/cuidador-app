@@ -119,7 +119,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           ],
                         ),
                         child: DropdownButtonFormField<String>(
-                          value: _selectedType.isEmpty ? null : _selectedType,
+                          initialValue: _selectedType.isEmpty ? null : _selectedType,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).brightness == Brightness.dark

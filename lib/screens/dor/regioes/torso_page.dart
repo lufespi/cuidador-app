@@ -195,7 +195,7 @@ class _TorsoPageState extends State<TorsoPage> {
                               ),
                             ),
                           );
-                        }).toList(),
+                        }),
                       ],
                     );
                   },

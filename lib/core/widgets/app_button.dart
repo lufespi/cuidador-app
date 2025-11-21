@@ -18,7 +18,7 @@ class AppButton extends StatelessWidget {
   final EdgeInsets? padding;
 
   const AppButton({
-    Key? key,
+    super.key,
     required this.label,
     this.onPressed,
     this.kind = AppButtonKind.buttonPrimary,
@@ -26,7 +26,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.height = 52,
     this.padding,
-  }) : super(key: key);
+  });
 
   // Botão "Indicar local da dor" com ícone e estilo outline
   const AppButton.indicarLocal({

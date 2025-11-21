@@ -9,12 +9,12 @@ class BodyPartCard extends StatelessWidget {
   final bool isSelected;
 
   const BodyPartCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.label,
     required this.onTap,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -72,12 +72,12 @@ class BodyPartCarouselCard extends StatelessWidget {
   final bool isSelected;
 
   const BodyPartCarouselCard({
-    Key? key,
+    super.key,
     required this.imagePath,
     required this.label,
     required this.onTap,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -120,11 +120,11 @@ class BodyPartCarousel extends StatefulWidget {
   final String? selectedPart;
 
   const BodyPartCarousel({
-    Key? key,
+    super.key,
     required this.bodyParts,
     required this.onPartSelected,
     this.selectedPart,
-  }) : super(key: key);
+  });
 
   @override
   State<BodyPartCarousel> createState() => _BodyPartCarouselState();
@@ -222,11 +222,11 @@ class BodyPartGrid extends StatelessWidget {
   final String? selectedPart;
 
   const BodyPartGrid({
-    Key? key,
+    super.key,
     required this.bodyParts,
     required this.onPartSelected,
     this.selectedPart,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

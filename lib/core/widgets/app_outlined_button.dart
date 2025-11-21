@@ -8,12 +8,12 @@ class AppOutlinedButton extends StatelessWidget {
   final bool enabled;
 
   const AppOutlinedButton({
-    Key? key,
+    super.key,
     required this.label,
     required this.onPressed,
     this.icon,
     this.enabled = true,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
