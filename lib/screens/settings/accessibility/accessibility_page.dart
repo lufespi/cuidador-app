@@ -101,7 +101,9 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF2E3838)
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
                           color: AppColors.buttonPrimary,
@@ -124,7 +126,9 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF2E3838)
+                            : Colors.white,
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
                           color: AppColors.buttonPrimary,
