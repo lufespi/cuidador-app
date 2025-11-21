@@ -9,12 +9,12 @@ class AppDropdown<T> extends StatelessWidget {
   final String? hint;
 
   const AppDropdown({
-    Key? key,
-    required this.value,
+    super.key,
+    this.value,
     required this.items,
     required this.onChanged,
     this.hint,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

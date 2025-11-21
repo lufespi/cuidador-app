@@ -18,7 +18,7 @@ class AppButton extends StatelessWidget {
   final EdgeInsets? padding;
 
   const AppButton({
-    super.key,
+    Key? key,
     required this.label,
     this.onPressed,
     this.kind = AppButtonKind.buttonPrimary,
@@ -26,7 +26,7 @@ class AppButton extends StatelessWidget {
     this.icon,
     this.height = 52,
     this.padding,
-  });
+  }) : super(key: key);
 
   // Botão "Indicar local da dor" com ícone e estilo outline
   const AppButton.indicarLocal({
@@ -84,7 +84,7 @@ class AppButton extends StatelessWidget {
   }) : this(
     key: key,
     label: label,
-    onPressed: onPressed,  // Removida a condição que impedia o clique em tabs inativas
+    onPressed: isActive ? onPressed : null,
     kind: isActive ? AppButtonKind.buttonPrimary : AppButtonKind.buttonForm,
     block: true,
     height: 40,
@@ -151,19 +151,9 @@ class AppButton extends StatelessWidget {
     }
 
     // Botão preenchido (Continuar, Criar Conta)
-    return Container(
+    return SizedBox(
       width: block ? double.infinity : null,
       height: height,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.buttonPrimary.withAlpha(64),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(

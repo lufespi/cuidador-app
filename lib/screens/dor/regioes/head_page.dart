@@ -182,8 +182,8 @@ class _HeadPageState extends State<HeadPage> {
                                 height: 20,
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColors.stateError.withOpacity(0.9)
-                                      : AppColors.buttonPrimary.withOpacity(0.8),
+                                      ? AppColors.stateError.withValues(alpha: 0.9)
+                                      : AppColors.buttonPrimary.withValues(alpha: 0.8),
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     color: AppColors.textWhite,
@@ -193,7 +193,7 @@ class _HeadPageState extends State<HeadPage> {
                                     BoxShadow(
                                       color: (isSelected
                                           ? AppColors.stateError
-                                          : AppColors.buttonPrimary).withOpacity(0.6),
+                                          : AppColors.buttonPrimary).withValues(alpha: 0.6),
                                       blurRadius: 8,
                                       spreadRadius: 1,
                                     ),

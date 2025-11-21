@@ -140,7 +140,7 @@ class _TorsoPageState extends State<TorsoPage> {
                   color: AppColors.surfaceVariant,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: AppColors.buttonPrimary.withOpacity(0.3),
+                    color: AppColors.buttonPrimary.withValues(alpha: 0.3),
                     width: 2,
                   ),
                 ),
@@ -181,8 +181,8 @@ class _TorsoPageState extends State<TorsoPage> {
                                 height: 20,
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? AppColors.stateError.withOpacity(0.9)
-                                      : AppColors.buttonPrimary.withOpacity(0.8),
+                                      ? AppColors.stateError.withValues(alpha: 0.9)
+                                      : AppColors.buttonPrimary.withValues(alpha: 0.8),
                                   shape: BoxShape.circle,
                                   border: Border.all(
                                     color: AppColors.textWhite,
@@ -192,7 +192,7 @@ class _TorsoPageState extends State<TorsoPage> {
                                     BoxShadow(
                                       color: (isSelected
                                           ? AppColors.stateError
-                                          : AppColors.buttonPrimary).withOpacity(0.6),
+                                          : AppColors.buttonPrimary).withValues(alpha: 0.6),
                                       blurRadius: 8,
                                       spreadRadius: 1,
                                     ),
