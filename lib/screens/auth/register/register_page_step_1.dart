@@ -113,7 +113,9 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF192E2D)
+                        : AppColors.surfaceVariant,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
@@ -124,7 +126,7 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                         children: [
                           Icon(
                             Icons.person_outline,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 24,
                           ),
                           const SizedBox(width: 8),
@@ -143,7 +145,9 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           RichText(
                             text: TextSpan(
                               text: 'Primeiro Nome ',
-                              style: AppTypography.heading2Primary,
+                              style: AppTypography.heading2Primary.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                               children: const [
                                 TextSpan(
                                   text: '*',
@@ -177,7 +181,9 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           RichText(
                             text: TextSpan(
                               text: 'Sobrenome ',
-                              style: AppTypography.heading2Primary,
+                              style: AppTypography.heading2Primary.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                               children: const [
                                 TextSpan(
                                   text: '*',
@@ -211,7 +217,9 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           RichText(
                             text: TextSpan(
                               text: 'Data de Nascimento ',
-                              style: AppTypography.heading2Primary,
+                              style: AppTypography.heading2Primary.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                               children: const [
                                 TextSpan(
                                   text: '*',
@@ -232,9 +240,9 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                               _DateInputFormatter(),
                             ],
                             suffixIcon: IconButton(
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.calendar_today,
-                                color: AppColors.textPrimary,
+                                color: Theme.of(context).colorScheme.onSurface,
                                 size: 20,
                               ),
                               onPressed: _selectDate,
@@ -258,13 +266,13 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                       RichText(
                         text: TextSpan(
                           text: 'Sexo ',
-                          style: AppTypography.heading2Primary,
+                          style: AppTypography.heading2Primary.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                           children: [
                             TextSpan(
                               text: '(opcional)',
-                              style: AppTypography.textPrimary.copyWith(
-                                fontSize: 14,
-                              ),
+                              style: AppTypography.textDisabled,
                             ),
                           ],
                         ),
@@ -275,28 +283,41 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withAlpha(25),
+                              color: Theme.of(context).brightness == Brightness.dark 
+                                  ? Colors.black.withAlpha(50)
+                                  : Colors.black.withAlpha(25),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
                           ],
                         ),
                         child: DropdownButtonFormField<String>(
-                          initialValue: _selectedGender,
+                          value: _selectedGender,
                           hint: Text(
                             'Selecione uma opção',
-                            style: AppTypography.textDisabled,
+                            style: AppTypography.textDisabled.copyWith(
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppColorsDark.textDisabled
+                                  : AppColorsLight.textDisabled,
+                            ),
                           ),
-                          style: AppTypography.textPrimary,
+                          style: AppTypography.textPrimary.copyWith(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppColorsDark.textPrimary
+                                : AppColorsLight.textPrimary,
+                          ),
                           icon: Icon(
                             Icons.keyboard_arrow_down,
                             color: Theme.of(context).colorScheme.onSurface,
                           ),
+                          dropdownColor: Theme.of(context).brightness == Brightness.dark
+                              ? AppColorsDark.inputBackground
+                              : AppColorsLight.inputBackground,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).brightness == Brightness.dark
-                                ? const Color(0xFF2E3838)
-                                : Theme.of(context).colorScheme.surface,
+                                ? AppColorsDark.inputBackground
+                                : AppColorsLight.inputBackground,
                             isDense: true,
                             constraints: const BoxConstraints(minHeight: 48),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -315,30 +336,51 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                                 width: 2,
                               ),
                             ),
-                            errorBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: const BorderSide(
-                                color: AppColors.stateError,
-                                width: 2,
-                              ),
-                            ),
                           ),
                           items: [
                             DropdownMenuItem(
                               value: 'masculino',
-                              child: Text('Masculino', style: AppTypography.textPrimary),
+                              child: Text(
+                                'Masculino',
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColorsDark.textPrimary
+                                      : AppColorsLight.textPrimary,
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'feminino',
-                              child: Text('Feminino', style: AppTypography.textPrimary),
+                              child: Text(
+                                'Feminino',
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColorsDark.textPrimary
+                                      : AppColorsLight.textPrimary,
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'outro',
-                              child: Text('Outro', style: AppTypography.textPrimary),
+                              child: Text(
+                                'Outro',
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColorsDark.textPrimary
+                                      : AppColorsLight.textPrimary,
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'prefiro_nao_dizer',
-                              child: Text('Prefiro não dizer', style: AppTypography.textPrimary),
+                              child: Text(
+                                'Prefiro não dizer',
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColorsDark.textPrimary
+                                      : AppColorsLight.textPrimary,
+                                ),
+                              ),
                             ),
                           ],
                           onChanged: (value) {
@@ -357,14 +399,13 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
                           RichText(
                             text: TextSpan(
                               text: 'Telefone ',
-                              style: AppTypography.heading2Primary,
+                              style: AppTypography.heading2Primary.copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                               children: [
                                 TextSpan(
                                   text: '(opcional)',
-                                  style: AppTypography.textPrimary.copyWith(
-                                    color: AppColors.textDisabled,
-                                    fontSize: 14,
-                                  ),
+                                  style: AppTypography.textDisabled,
                                 ),
                               ],
                             ),

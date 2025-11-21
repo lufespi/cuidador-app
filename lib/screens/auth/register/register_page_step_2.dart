@@ -172,7 +172,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF192E2D)
+                        : AppColors.surfaceVariant,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
@@ -183,7 +185,7 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                         children: [
                           Icon(
                             Icons.medical_services_outlined,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 24,
                           ),
                           const SizedBox(width: 8),
@@ -204,7 +206,10 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                       RichText(
                         text: TextSpan(
                           text: 'Diagnóstico Principal ',
-                          style: AppTypography.heading2Primary.copyWith(fontSize: 16),
+                          style: AppTypography.heading2Primary.copyWith(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                           children: const [
                             TextSpan(
                               text: '*',
@@ -246,16 +251,22 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF192E2D)
+                        : AppColors.surfaceVariant,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Comorbidities section
                       RichText(
                         text: TextSpan(
                           text: 'Comorbidades ',
-                          style: AppTypography.heading2Primary.copyWith(fontSize: 16),
+                          style: AppTypography.heading2Primary.copyWith(
+                            fontSize: 16,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
                           children: const [
                             TextSpan(
                               text: '*',
@@ -343,7 +354,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                   ? Icon(
                       Icons.circle,
                       size: 10,
-                      color: AppColors.surface,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.background
+                          : Colors.white,
                     )
                   : null,
             ),
@@ -410,7 +423,9 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
                   ? Icon(
                       Icons.circle,
                       size: 10,
-                      color: AppColors.surface,
+                      color: Theme.of(context).brightness == Brightness.dark
+                          ? AppColors.background
+                          : Colors.white,
                     )
                   : null,
             ),

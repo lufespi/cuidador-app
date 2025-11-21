@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
+import '../../../core/theme/theme_provider.dart' as app_theme;
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/step_indicator.dart';
@@ -24,6 +26,19 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
   bool _isBackButtonPressed = false;
   bool _showErrors = false;
 
+  @override
+  void initState() {
+    super.initState();
+    // Carrega o estado atual do alto contraste e tamanho de fonte
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+      setState(() {
+        _highContrast = themeProvider.isHighContrastEnabled;
+        _fontSizeLevel = themeProvider.fontSizeLevel;
+      });
+    });
+  }
+
   String _getFontSizeLabel() {
     const labels = ['Muito Pequeno', 'Pequeno', 'Pequeno-Médio', 'Médio', 'Médio-Grande', 'Grande', 'Muito Grande'];
     return labels[_fontSizeLevel.toInt()];
@@ -42,6 +57,11 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
       );
       return;
     }
+    
+    // Salvar preferências de acessibilidade
+    final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+    themeProvider.setFontSizeLevel(_fontSizeLevel);
+    themeProvider.setHighContrast(_highContrast);
     
     // Complete registration - Navigate back to login or home
     ScaffoldMessenger.of(context).showSnackBar(
@@ -144,7 +164,9 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF192E2D)
+                        : AppColors.surfaceVariant,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
@@ -155,13 +177,15 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                         children: [
                           Icon(
                             Icons.accessibility_new,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 24,
                           ),
                           const SizedBox(width: 8),
-                          Text(
-                            'Preferências de Acessibilidade',
-                            style: AppTypography.heading2Primary,
+                          Expanded(
+                            child: Text(
+                              'Preferências de Acessibilidade',
+                              style: AppTypography.heading2Primary,
+                            ),
                           ),
                         ],
                       ),
@@ -220,6 +244,8 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                                       max: 6,
                                       divisions: 6,
                                       onChanged: (value) {
+                                        final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+                                        themeProvider.setFontSizeLevel(value);
                                         setState(() {
                                           _fontSizeLevel = value;
                                         });
@@ -263,7 +289,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                         children: [
                           Icon(
                             Icons.contrast,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 20,
                           ),
                           const SizedBox(width: 12),
@@ -287,6 +313,8 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                           AppToggle(
                             value: _highContrast,
                             onChanged: (value) {
+                              final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
+                              themeProvider.setHighContrast(value);
                               setState(() {
                                 _highContrast = value;
                               });
@@ -301,7 +329,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                         children: [
                           Icon(
                             Icons.volume_up,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 20,
                           ),
                           const SizedBox(width: 12),
@@ -341,7 +369,9 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                 Container(
                   padding: const EdgeInsets.all(24),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? const Color(0xFF192E2D)
+                        : AppColors.surfaceVariant,
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Column(
@@ -352,7 +382,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                         children: [
                           Icon(
                             Icons.shield_outlined,
-                            color: AppColors.textPrimary,
+                            color: Theme.of(context).colorScheme.onSurface,
                             size: 24,
                           ),
                           const SizedBox(width: 8),
@@ -360,7 +390,9 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                             child: RichText(
                               text: TextSpan(
                                 text: 'Uso de Dados e Privacidade ',
-                                style: AppTypography.heading2Primary,
+                                style: AppTypography.heading2Primary.copyWith(
+                                  color: Theme.of(context).colorScheme.onSurface,
+                                ),
                                 children: const [
                                   TextSpan(
                                     text: '*',
@@ -400,13 +432,15 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                                   ),
                                   color: _gdprConsent ? AppColors.buttonPrimary : Colors.transparent,
                                 ),
-                                child: _gdprConsent
-                                    ? Icon(
-                                        Icons.circle,
-                                        size: 10,
-                                        color: AppColors.surface,
-                                      )
-                                    : null,
+                                  child: _gdprConsent
+                                      ? Icon(
+                                          Icons.circle,
+                                          size: 10,
+                                          color: Theme.of(context).brightness == Brightness.dark
+                                              ? AppColors.background
+                                              : Colors.white,
+                                        )
+                                      : null,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
@@ -442,13 +476,15 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                                   ),
                                   color: _emailConsent ? AppColors.buttonPrimary : Colors.transparent,
                                 ),
-                                child: _emailConsent
-                                    ? Icon(
-                                        Icons.circle,
-                                        size: 10,
-                                        color: AppColors.surface,
-                                      )
-                                    : null,
+                                  child: _emailConsent
+                                      ? Icon(
+                                          Icons.circle,
+                                          size: 10,
+                                          color: Theme.of(context).brightness == Brightness.dark
+                                              ? AppColors.background
+                                              : Colors.white,
+                                        )
+                                      : null,
                               ),
                               const SizedBox(width: 12),
                               Expanded(
