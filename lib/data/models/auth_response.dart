@@ -18,8 +18,19 @@ class AuthResponse {
     // Backend retorna: { token, user: { id, email, ... } }
     final userObj = json['user'] as Map<String, dynamic>?;
     
+    // Backend retorna 'token' ao invés de 'access_token'
+    final token = json['token'] as String? ?? 
+                  json['access_token'] as String? ?? 
+                  '';
+    
+    if (token.isEmpty) {
+      print('⚠️ Token não encontrado na resposta: $json');
+    } else {
+      print('✅ Token extraído da resposta: ${token.substring(0, 20)}...');
+    }
+    
     return AuthResponse(
-      accessToken: json['access_token'] as String? ?? json['token'] as String,
+      accessToken: token,
       refreshToken: json['refresh_token'] as String?,
       userId: json['user_id']?.toString() ?? 
               userObj?['id']?.toString() ?? 

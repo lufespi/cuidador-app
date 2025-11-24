@@ -673,8 +673,8 @@ class _DorPageState extends State<DorPage> {
             : AppColors.stateSuccess;
 
     return GestureDetector(
-      onTap: () {
-        Navigator.pushNamed(
+      onTap: () async {
+        final result = await Navigator.pushNamed(
           context,
           '/pain-detail',
           arguments: {
@@ -685,6 +685,11 @@ class _DorPageState extends State<DorPage> {
             'bodyParts': bodyParts,
           },
         );
+        
+        // Se retornou true, significa que o registro foi excluído ou editado
+        if (result == true && mounted) {
+          await _carregarRegistrosRecentes();
+        }
       },
       child: Container(
         padding: const EdgeInsets.all(16),

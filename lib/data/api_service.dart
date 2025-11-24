@@ -1,6 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../core/config/api_config.dart';
 import 'services/auth_service.dart';
 import 'services/pain_service.dart';
 
@@ -22,42 +19,24 @@ class ApiService {
   
   /// Registra novo usuário
   Future<bool> register(String email, String senha) async {
-    final url = Uri.parse(ApiConfig.registerUrl);
-
     try {
-      final response = await http.post(
-        url,
-        headers: ApiConfig.defaultHeaders,
-        body: jsonEncode({
-          'email': email,
-          'senha': senha,
-        }),
-      ).timeout(ApiConfig.connectTimeout);
-
-      return response.statusCode == 201;
+      // Usa AuthService que salva o token corretamente
+      await auth.register(email: email, senha: senha);
+      return true;
     } catch (e) {
-      // Use debugPrint em produção ao invés de print
+      print('❌ Erro no registro: $e');
       return false;
     }
   }
 
   /// Faz login
   Future<bool> login(String email, String senha) async {
-    final url = Uri.parse(ApiConfig.loginUrl);
-
     try {
-      final response = await http.post(
-        url,
-        headers: ApiConfig.defaultHeaders,
-        body: jsonEncode({
-          'email': email,
-          'senha': senha,
-        }),
-      ).timeout(ApiConfig.connectTimeout);
-
-      // Backend retorna status 200 em caso de sucesso
-      return response.statusCode == 200;
+      // Usa AuthService que salva o token corretamente
+      await auth.login(email: email, senha: senha);
+      return true;
     } catch (e) {
+      print('❌ Erro no login: $e');
       return false;
     }
   }
