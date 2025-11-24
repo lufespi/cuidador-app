@@ -76,6 +76,7 @@ class PainService {
     List<String>? bodyParts,
     int? intensidade,
     String? descricao,
+    DateTime? dataRegistro,
   }) async {
     final response = await _httpClient.put(
       ApiConfig.painRecordByIdUrl(id),
@@ -83,6 +84,7 @@ class PainService {
         if (bodyParts != null) 'body_parts': bodyParts,
         if (intensidade != null) 'intensidade': intensidade,
         if (descricao != null) 'descricao': descricao,
+        if (dataRegistro != null) 'data_registro': dataRegistro.toIso8601String(),
       },
       requiresAuth: true,
     );

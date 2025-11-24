@@ -26,8 +26,13 @@ class _DorPageState extends State<DorPage> {
   double _nivelDor = 5.0;
   final TextEditingController _anotacaoController = TextEditingController();
   String _periodoHistorico = '30'; // dias
+  String _periodoLista = 'today'; // período para lista de registros
+  int _paginaAtual = 0; // página atual da lista
+  final int _itensPorPagina = 10;
   List<Map<String, dynamic>> _registrosRecentes = [];
+  List<Map<String, dynamic>> _registrosGrafico = [];
   bool _isLoadingRegistros = false;
+  bool _isLoadingGrafico = false;
   bool _isSavingRecord = false;
   String? _errorLoadingRegistros;
 
@@ -35,6 +40,7 @@ class _DorPageState extends State<DorPage> {
   void initState() {
     super.initState();
     _carregarRegistrosRecentes();
+    _carregarRegistrosGrafico();
   }
 
   @override
@@ -46,19 +52,22 @@ class _DorPageState extends State<DorPage> {
   Future<void> _carregarRegistrosRecentes() async {
     setState(() {
       _isLoadingRegistros = true;
+      _paginaAtual = 0; // Reset página ao mudar período
     });
 
     try {
-      // Calcula data inicial baseada no período selecionado
+      // Calcula data inicial baseada no período selecionado da lista
       DateTime? startDate;
-      if (_periodoHistorico != 'custom') {
-        final dias = int.parse(_periodoHistorico);
+      if (_periodoLista == 'today') {
+        startDate = DateTime.now().subtract(const Duration(hours: 24));
+      } else if (_periodoLista != 'custom') {
+        final dias = int.parse(_periodoLista);
         startDate = DateTime.now().subtract(Duration(days: dias));
       }
 
       final registros = await _painService.getPainRecords(
         startDate: startDate,
-        limit: 50,
+        limit: 100, // Carregar mais para permitir paginação
       );
       if (mounted) {
         setState(() {
@@ -87,6 +96,48 @@ class _DorPageState extends State<DorPage> {
     }
   }
 
+  Future<void> _carregarRegistrosGrafico() async {
+    setState(() {
+      _isLoadingGrafico = true;
+    });
+
+    try {
+      // Calcula data inicial baseada no período do gráfico
+      DateTime? startDate;
+      if (_periodoHistorico != 'custom') {
+        final dias = int.parse(_periodoHistorico);
+        startDate = DateTime.now().subtract(Duration(days: dias));
+      }
+
+      final registros = await _painService.getPainRecords(
+        startDate: startDate,
+        limit: 50,
+      );
+      if (mounted) {
+        setState(() {
+          _registrosGrafico = registros.map((record) {
+            return {
+              'id': record.id,
+              'nivel': record.intensidade,
+              'data': _formatarData(record.dataRegistro),
+              'descricao': record.descricao ?? 'Sem descrição',
+              'bodyParts': record.bodyParts,
+              'dataCompleta': record.dataRegistro,
+            };
+          }).toList();
+          _isLoadingGrafico = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoadingGrafico = false;
+        });
+        debugPrint('Erro ao carregar registros do gráfico: $e');
+      }
+    }
+  }
+
   String _formatarData(DateTime data) {
     final now = DateTime.now();
     final diff = now.difference(data);
@@ -107,14 +158,30 @@ class _DorPageState extends State<DorPage> {
     final dorProvider = Provider.of<DorProvider>(context, listen: false);
     final localizacoes = dorProvider.getLocalizacoesParaSalvar();
 
+    // Se não há localizações, mostra popup de confirmação
     if (localizacoes.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, indique os locais da dor antes de salvar'),
-          backgroundColor: AppColors.stateWarning,
+      final confirmar = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Nenhum local da dor indicado'),
+          content: const Text(
+            'Você não indicou nenhum local da dor. Deseja salvar o registro mesmo assim?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Salvar'),
+            ),
+          ],
         ),
       );
-      return;
+
+      // Se usuário cancelou, não salva
+      if (confirmar != true) return;
     }
 
     if (!mounted) return;
@@ -140,7 +207,10 @@ class _DorPageState extends State<DorPage> {
       });
 
       // Recarrega os registros
-      await _carregarRegistrosRecentes();
+      await Future.wait([
+        _carregarRegistrosRecentes(),
+        _carregarRegistrosGrafico(),
+      ]);
 
       if (!mounted) return;
       
@@ -188,6 +258,15 @@ class _DorPageState extends State<DorPage> {
     return l10n.painUnbearableDesc; // 9-10
   }
 
+  // Getters para paginação
+  int get _totalPaginas => (_registrosRecentes.length / _itensPorPagina).ceil();
+  
+  List<Map<String, dynamic>> get _registrosPaginaAtual {
+    final inicio = _paginaAtual * _itensPorPagina;
+    final fim = (inicio + _itensPorPagina).clamp(0, _registrosRecentes.length);
+    return _registrosRecentes.sublist(inicio, fim);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -195,7 +274,12 @@ class _DorPageState extends State<DorPage> {
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
-          onRefresh: _carregarRegistrosRecentes,
+          onRefresh: () async {
+            await Future.wait([
+              _carregarRegistrosRecentes(),
+              _carregarRegistrosGrafico(),
+            ]);
+          },
           child: SingleChildScrollView(
             physics: const AlwaysScrollableScrollPhysics(),
             child: Column(
@@ -481,7 +565,7 @@ class _DorPageState extends State<DorPage> {
                             setState(() {
                               _periodoHistorico = value!;
                             });
-                            _carregarRegistrosRecentes();
+                            _carregarRegistrosGrafico();
                           }
                         },
                       ),
@@ -496,9 +580,9 @@ class _DorPageState extends State<DorPage> {
 
                   // Gráfico de histórico de dor
                   PainChart(
-                    registros: _registrosRecentes,
-                    isLoading: _isLoadingRegistros,
-                    errorMessage: _errorLoadingRegistros,
+                    registros: _registrosGrafico,
+                    isLoading: _isLoadingGrafico,
+                    errorMessage: null,
                   ),
                 ],
               ),
@@ -510,30 +594,55 @@ class _DorPageState extends State<DorPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SvgPicture.asset(
-                        'assets/icons/pain/calendar.svg',
-                        width: 20,
-                        height: 20,
-                        colorFilter: const ColorFilter.mode(
-                          AppColors.buttonPrimary,
-                          BlendMode.srcIn,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
                       Expanded(
-                        child: Text(
-                          l10n.recentHistory,
-                          style: AppTypography.heading2Primary,
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              'assets/icons/pain/calendar.svg',
+                              width: 20,
+                              height: 20,
+                              colorFilter: const ColorFilter.mode(
+                                AppColors.buttonPrimary,
+                                BlendMode.srcIn,
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                            Flexible(
+                              child: Text(
+                                l10n.recentHistory,
+                                style: AppTypography.heading2Primary,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(
-                          Icons.refresh,
-                          color: AppColors.buttonPrimary,
-                        ),
-                        onPressed: _isLoadingRegistros ? null : _carregarRegistrosRecentes,
-                        tooltip: 'Atualizar',
+                      // Dropdown de período
+                      AppDropdown<String>(
+                        value: _periodoLista,
+                        items: [
+                          DropdownMenuItem(value: 'today', child: Text('Hoje')),
+                          DropdownMenuItem(value: '7', child: Text('Últimos 7 dias')),
+                          DropdownMenuItem(value: '14', child: Text('Últimos 14 dias')),
+                          DropdownMenuItem(value: '30', child: Text('Últimos 30 dias')),
+                          DropdownMenuItem(value: 'custom', child: Text('Personalizado')),
+                        ],
+                        onChanged: (value) {
+                          if (value == 'custom') {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(l10n.customPeriodSoon),
+                                duration: const Duration(seconds: 2),
+                              ),
+                            );
+                          } else {
+                            setState(() {
+                              _periodoLista = value!;
+                            });
+                            _carregarRegistrosRecentes();
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -544,7 +653,7 @@ class _DorPageState extends State<DorPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Lista de registros recentes
+                  // Lista de registros recentes (paginada)
                   _isLoadingRegistros
                       ? const Center(
                           child: Padding(
@@ -617,19 +726,60 @@ class _DorPageState extends State<DorPage> {
                               ),
                             )
                           : Column(
-                              children: _registrosRecentes.map((registro) {
-                                return Padding(
-                                  padding: const EdgeInsets.only(bottom: 12),
-                                  child: _buildRegistroRecente(
-                                    id: registro['id'],
-                                    nivel: registro['nivel'],
-                                    data: registro['data'],
-                                    descricao: registro['descricao'],
-                                    bodyParts: registro['bodyParts'],
-                                    dataCompleta: registro['dataCompleta'],
+                              children: [
+                                // Registros da página atual
+                                ..._registrosPaginaAtual.map((registro) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(bottom: 12),
+                                    child: _buildRegistroRecente(
+                                      id: registro['id'],
+                                      nivel: registro['nivel'],
+                                      data: registro['data'],
+                                      descricao: registro['descricao'],
+                                      bodyParts: registro['bodyParts'],
+                                      dataCompleta: registro['dataCompleta'],
+                                    ),
+                                  );
+                                }).toList(),
+                                
+                                // Paginação
+                                if (_totalPaginas > 1) ...[
+                                  const SizedBox(height: 16),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      IconButton(
+                                        icon: const Icon(Icons.chevron_left),
+                                        onPressed: _paginaAtual > 0
+                                            ? () {
+                                                setState(() {
+                                                  _paginaAtual--;
+                                                });
+                                              }
+                                            : null,
+                                        color: AppColors.buttonPrimary,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        'Página ${_paginaAtual + 1} de $_totalPaginas',
+                                        style: AppTypography.bodyMedium,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      IconButton(
+                                        icon: const Icon(Icons.chevron_right),
+                                        onPressed: _paginaAtual < _totalPaginas - 1
+                                            ? () {
+                                                setState(() {
+                                                  _paginaAtual++;
+                                                });
+                                              }
+                                            : null,
+                                        color: AppColors.buttonPrimary,
+                                      ),
+                                    ],
                                   ),
-                                );
-                              }).toList(),
+                                ],
+                              ],
                             ),
                 ],
               ),
@@ -674,7 +824,10 @@ class _DorPageState extends State<DorPage> {
         
         // Se retornou true, significa que o registro foi excluído ou editado
         if (result == true && mounted) {
-          await _carregarRegistrosRecentes();
+          await Future.wait([
+            _carregarRegistrosRecentes(),
+            _carregarRegistrosGrafico(),
+          ]);
         }
       },
       child: Container(

@@ -240,14 +240,6 @@ class _PainDetailPageState extends State<PainDetailPage> {
                           'Locais da Dor',
                           style: AppTypography.heading2Primary,
                         ),
-                        const Spacer(),
-                        IconButton(
-                          icon: const Icon(Icons.edit, size: 20),
-                          onPressed: () {
-                            _showEditLocaisDialog(context, bodyParts);
-                          },
-                          tooltip: 'Editar locais',
-                        ),
                       ],
                     ),
                     const SizedBox(height: 16),
@@ -432,12 +424,13 @@ class _PainDetailPageState extends State<PainDetailPage> {
   }
 
   void _showEditNivelDialog(BuildContext context, int nivelAtual) {
+    final pageContext = this.context;
     int novoNivel = nivelAtual;
     
     showDialog(
       context: context,
       builder: (context) => StatefulBuilder(
-        builder: (context, setState) => AlertDialog(
+        builder: (context, setDialogState) => AlertDialog(
           title: const Text('Editar Nível de Dor'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -489,7 +482,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   max: 10,
                   divisions: 10,
                   onChanged: (value) {
-                    setState(() {
+                    setDialogState(() {
                       novoNivel = value.round();
                     });
                   },
@@ -545,25 +538,25 @@ class _PainDetailPageState extends State<PainDetailPage> {
                       intensidade: novoNivel,
                     );
                     
-                    if (mounted && context.mounted) {
+                    if (mounted) {
                       setState(() {
                         nivel = novoNivel;
                         _hasChanges = true;
                       });
                       
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Nível de dor atualizado para $novoNivel'),
-                          backgroundColor: AppColors.stateSuccess,
-                        ),
-                      );
-                      // Marca que houve alteração para recarregar a lista
-                      Navigator.of(context).pop(true);
+                      if (pageContext.mounted) {
+                        ScaffoldMessenger.of(pageContext).showSnackBar(
+                          SnackBar(
+                            content: Text('Nível de dor atualizado para $novoNivel'),
+                            backgroundColor: AppColors.stateSuccess,
+                          ),
+                        );
+                      }
                     }
                   }
                 } catch (e) {
-                  if (mounted && context.mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
+                  if (mounted && pageContext.mounted) {
+                    ScaffoldMessenger.of(pageContext).showSnackBar(
                       SnackBar(
                         content: Text('Erro ao atualizar: $e'),
                         backgroundColor: AppColors.stateError,
@@ -607,6 +600,9 @@ class _PainDetailPageState extends State<PainDetailPage> {
   }
 
   void _showEditDataDialog(BuildContext context, DateTime dataAtual) async {
+    // Salva o contexto da página antes de abrir os dialogs
+    final pageContext = this.context;
+    
     final novaData = await showDatePicker(
       context: context,
       initialDate: dataAtual,
@@ -634,14 +630,24 @@ class _PainDetailPageState extends State<PainDetailPage> {
 
       showDialog(
         context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Editar Hora'),
-          content: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 60,
-                child: TextField(
+        builder: (context) => Center(
+          child: SingleChildScrollView(
+            child: AlertDialog(
+              title: Text(
+                'Editar Hora',
+                style: AppTypography.bodyLarge.copyWith(fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
+              ),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SizedBox(
+                        width: 60,
+                        child: TextField(
                   controller: horaController,
                   keyboardType: TextInputType.number,
                   textAlign: TextAlign.center,
@@ -673,13 +679,15 @@ class _PainDetailPageState extends State<PainDetailPage> {
               ),
             ],
           ),
+                ],
+              ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
               child: const Text('Cancelar'),
             ),
             TextButton(
-              onPressed: () {
+              onPressed: () async {
                 final hora = int.tryParse(horaController.text) ?? 0;
                 final minuto = int.tryParse(minutoController.text) ?? 0;
 
@@ -695,25 +703,31 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   Navigator.pop(context);
                   
                   try {
-                    // Nota: Backend atual não suporta atualização de data
-                    // Esta funcionalidade requer implementação no backend
-                    if (mounted && context.mounted) {
-                      setState(() {
-                        data = dataHoraAtualizada;
-                      });
-                      
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            'Data atualizada para ${_formatarDataCompleta(dataHoraAtualizada)} às ${_formatarHora(dataHoraAtualizada)}',
-                          ),
-                          backgroundColor: AppColors.stateSuccess,
-                        ),
+                    if (recordId != null) {
+                      await _painService.updatePainRecord(
+                        id: recordId!,
+                        dataRegistro: dataHoraAtualizada,
                       );
+                      
+                      if (mounted && pageContext.mounted) {
+                        setState(() {
+                          data = dataHoraAtualizada;
+                          _hasChanges = true;
+                        });
+                        
+                        ScaffoldMessenger.of(pageContext).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Data atualizada para ${_formatarDataCompleta(dataHoraAtualizada)} às ${_formatarHora(dataHoraAtualizada)}',
+                            ),
+                            backgroundColor: AppColors.stateSuccess,
+                          ),
+                        );
+                      }
                     }
                   } catch (e) {
-                    if (mounted && context.mounted) {
-                      ScaffoldMessenger.of(context).showSnackBar(
+                    if (mounted && pageContext.mounted) {
+                      ScaffoldMessenger.of(pageContext).showSnackBar(
                         SnackBar(
                           content: Text('Erro ao atualizar: $e'),
                           backgroundColor: AppColors.stateError,
@@ -735,25 +749,11 @@ class _PainDetailPageState extends State<PainDetailPage> {
               child: const Text('Salvar'),
             ),
           ],
+            ),
+          ),
         ),
       );
     }
-  }
-
-  void _showEditLocaisDialog(BuildContext context, List<dynamic> locaisAtuais) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Editar Locais da Dor'),
-        content: const Text('Funcionalidade de edição será implementada em breve.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
-          ),
-        ],
-      ),
-    );
   }
 
   void _showEditDescricaoDialog(BuildContext context, String descricaoAtual) {
