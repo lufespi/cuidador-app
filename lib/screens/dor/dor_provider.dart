@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'regioes/region_cache_cleaner.dart';
 
 /// Provider para gerenciar estado dos registros de dor
 class DorProvider with ChangeNotifier {
@@ -49,6 +50,8 @@ class DorProvider with ChangeNotifier {
   void limparSelecoes() {
     _regioesSelecionadas.clear();
     _descricoesPontos.clear();
+    // Limpa também o cache estático de todas as páginas de região
+    RegionCacheCleaner.limparTodasSelecoes();
     notifyListeners();
   }
 

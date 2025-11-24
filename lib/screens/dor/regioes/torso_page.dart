@@ -16,28 +16,34 @@ import 'right_foot_page.dart';
 
 class TorsoPage extends StatefulWidget {
   const TorsoPage({super.key});
+  
+  // Map estático para manter seleções entre navegações
+  static final Map<String, List<String>> _selecoesSalvas = {};
+  static const String _chaveRegiao = 'Torso';
+  
+  /// Limpa todas as seleções salvas em cache
+  static void limparSelecoes() {
+    _selecoesSalvas.clear();
+  }
 
   @override
   State<TorsoPage> createState() => _TorsoPageState();
 }
 
 class _TorsoPageState extends State<TorsoPage> {
-  // Map estático para manter seleções entre navegações
-  static final Map<String, List<String>> _selecoesSalvas = {};
-  static const String _chaveRegiao = 'Torso';
   
   final List<String> _pontosSelecionados = [];
 
   @override
   void initState() {
     super.initState();
-    if (_selecoesSalvas.containsKey(_chaveRegiao)) {
-      _pontosSelecionados.addAll(_selecoesSalvas[_chaveRegiao]!);
+    if (TorsoPage._selecoesSalvas.containsKey(TorsoPage._chaveRegiao)) {
+      _pontosSelecionados.addAll(TorsoPage._selecoesSalvas[TorsoPage._chaveRegiao]!);
     }
   }
 
   void _salvarSelecoes() {
-    _selecoesSalvas[_chaveRegiao] = List.from(_pontosSelecionados);
+    TorsoPage._selecoesSalvas[TorsoPage._chaveRegiao] = List.from(_pontosSelecionados);
   }
   
   // Pontos fixos clicáveis

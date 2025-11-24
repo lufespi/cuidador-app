@@ -16,15 +16,21 @@ import 'right_foot_page.dart';
 
 class HeadPage extends StatefulWidget {
   const HeadPage({super.key});
+  
+  // Map estático para manter seleções entre navegações
+  static final Map<String, List<String>> _selecoesSalvas = {};
+  static const String _chaveRegiao = 'Cabeça';
+  
+  /// Limpa todas as seleções salvas em cache
+  static void limparSelecoes() {
+    _selecoesSalvas.clear();
+  }
 
   @override
   State<HeadPage> createState() => _HeadPageState();
 }
 
 class _HeadPageState extends State<HeadPage> {
-  // Map estático para manter seleções entre navegações
-  static final Map<String, List<String>> _selecoesSalvas = {};
-  static const String _chaveRegiao = 'Cabeça';
   
   // Lista de pontos selecionados pelo usuário
   final List<String> _pontosSelecionados = [];
@@ -33,13 +39,13 @@ class _HeadPageState extends State<HeadPage> {
   void initState() {
     super.initState();
     // Carregar seleções salvas anteriormente
-    if (_selecoesSalvas.containsKey(_chaveRegiao)) {
-      _pontosSelecionados.addAll(_selecoesSalvas[_chaveRegiao]!);
+    if (HeadPage._selecoesSalvas.containsKey(HeadPage._chaveRegiao)) {
+      _pontosSelecionados.addAll(HeadPage._selecoesSalvas[HeadPage._chaveRegiao]!);
     }
   }
 
   void _salvarSelecoes() {
-    _selecoesSalvas[_chaveRegiao] = List.from(_pontosSelecionados);
+    HeadPage._selecoesSalvas[HeadPage._chaveRegiao] = List.from(_pontosSelecionados);
   }
 
   List<Map<String, String>> _getBodyParts(AppLocalizations l10n) {

@@ -15,27 +15,33 @@ import 'right_foot_page.dart';
 
 class RightHandPage extends StatefulWidget {
   const RightHandPage({super.key});
+  
+  static final Map<String, List<String>> _selecoesSalvas = {};
+  static const String _chaveRegiao = 'Mão direita';
+  
+  /// Limpa todas as seleções salvas em cache
+  static void limparSelecoes() {
+    _selecoesSalvas.clear();
+  }
 
   @override
   State<RightHandPage> createState() => _RightHandPageState();
 }
 
 class _RightHandPageState extends State<RightHandPage> {
-  static final Map<String, List<String>> _selecoesSalvas = {};
-  static const String _chaveRegiao = 'Mão D.';
   
   final List<String> _pontosSelecionados = [];
 
   @override
   void initState() {
     super.initState();
-    if (_selecoesSalvas.containsKey(_chaveRegiao)) {
-      _pontosSelecionados.addAll(_selecoesSalvas[_chaveRegiao]!);
+    if (RightHandPage._selecoesSalvas.containsKey(RightHandPage._chaveRegiao)) {
+      _pontosSelecionados.addAll(RightHandPage._selecoesSalvas[RightHandPage._chaveRegiao]!);
     }
   }
 
   void _salvarSelecoes() {
-    _selecoesSalvas[_chaveRegiao] = List.from(_pontosSelecionados);
+    RightHandPage._selecoesSalvas[RightHandPage._chaveRegiao] = List.from(_pontosSelecionados);
   }
   
   // Pontos fixos clicáveis
