@@ -15,12 +15,18 @@ class AuthResponse {
   });
 
   factory AuthResponse.fromJson(Map<String, dynamic> json) {
+    // Backend retorna: { token, user: { id, email, ... } }
+    final userObj = json['user'] as Map<String, dynamic>?;
+    
     return AuthResponse(
       accessToken: json['access_token'] as String? ?? json['token'] as String,
       refreshToken: json['refresh_token'] as String?,
-      userId: json['user_id']?.toString() ?? json['id']?.toString() ?? '',
-      email: json['email'] as String? ?? '',
-      user: json['user'] as Map<String, dynamic>?,
+      userId: json['user_id']?.toString() ?? 
+              userObj?['id']?.toString() ?? 
+              json['id']?.toString() ?? '',
+      email: json['email'] as String? ?? 
+             userObj?['email'] as String? ?? '',
+      user: userObj,
     );
   }
 

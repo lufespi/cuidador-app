@@ -6,6 +6,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditPhonePage extends StatefulWidget {
   final String currentPhone;
@@ -21,9 +22,11 @@ class EditPhonePage extends StatefulWidget {
 
 class _EditPhonePageState extends State<EditPhonePage> {
   final _formKey = GlobalKey<FormState>();
+  final AuthService _authService = AuthService();
   late TextEditingController _phoneController;
   final TextEditingController _passwordController = TextEditingController();
   bool _hasChanges = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -135,15 +138,45 @@ class _EditPhonePageState extends State<EditPhonePage> {
     }
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar alteração do telefone
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.phoneUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, _phoneController.text);
+    
+    setState(() {
+      _isLoading = true;
+    });
+    
+    try {
+      // Remove formatação do telefone (mantém apenas números)
+      final phoneDigits = _phoneController.text.replaceAll(RegExp(r'[^0-9]'), '');
+      
+      // Salva no backend
+      await _authService.updateProfile(telefone: phoneDigits);
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.phoneUpdatedSuccess),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pop(context, _phoneController.text);
+    } catch (e) {
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -241,8 +274,8 @@ class _EditPhonePageState extends State<EditPhonePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: l10n.saveChanges,
-                onPressed: _hasChanges ? _showPasswordDialog : null,
+                label: _isLoading ? 'Salvando...' : l10n.saveChanges,
+                onPressed: _hasChanges && !_isLoading ? _showPasswordDialog : null,
                 height: 52,
               ),
             ),

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/step_indicator.dart';
 import 'register_page_step_2.dart';
+import 'register_provider.dart';
 
 class RegisterPageStep1 extends StatefulWidget {
   const RegisterPageStep1({super.key});
@@ -34,6 +36,40 @@ class _RegisterPageStep1State extends State<RegisterPageStep1> {
 
   void _handleContinue() {
     if (_formKey.currentState?.validate() ?? false) {
+      // Parseia a data de nascimento
+      DateTime? birthDate;
+      if (_birthdateController.text.isNotEmpty) {
+        try {
+          final parts = _birthdateController.text.split('/');
+          if (parts.length == 3) {
+            final day = int.parse(parts[0]);
+            final month = int.parse(parts[1]);
+            final year = int.parse(parts[2]);
+            birthDate = DateTime(year, month, day);
+          }
+        } catch (e) {
+          // Data inválida, será tratado pela validação do campo
+        }
+      }
+
+      // Remove formatação do telefone para salvar apenas números
+      String? phone;
+      if (_phoneController.text.isNotEmpty) {
+        phone = _phoneController.text.replaceAll(RegExp(r'[^0-9]'), '');
+      }
+
+      // Salva dados no Provider
+      final registerProvider = Provider.of<RegisterProvider>(context, listen: false);
+      registerProvider.saveStep1Data(
+        email: registerProvider.email ?? '', // Já foi salvo na LoginPage
+        senha: registerProvider.senha ?? '', // Já foi salvo na LoginPage
+        firstName: _firstNameController.text.trim(),
+        lastName: _lastNameController.text.trim(),
+        birthDate: birthDate,
+        gender: _selectedGender,
+        phone: phone,
+      );
+
       // Navigate to next step
       Navigator.push(
         context,

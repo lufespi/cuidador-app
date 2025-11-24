@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditNamePage extends StatefulWidget {
   final String currentFirstName;
@@ -22,9 +23,11 @@ class EditNamePage extends StatefulWidget {
 
 class _EditNamePageState extends State<EditNamePage> {
   final _formKey = GlobalKey<FormState>();
+  final AuthService _authService = AuthService();
   late final TextEditingController _firstNameController;
   late final TextEditingController _lastNameController;
   bool _hasChanges = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -51,23 +54,52 @@ class _EditNamePageState extends State<EditNamePage> {
     });
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+    
     final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar alteração do nome
     final fullName = '${_firstNameController.text} ${_lastNameController.text}';
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.nameUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, {
-      'firstName': _firstNameController.text,
-      'lastName': _lastNameController.text,
-      'fullName': fullName,
+    
+    setState(() {
+      _isLoading = true;
     });
+    
+    try {
+      // Salva no backend
+      await _authService.updateProfile(nome: fullName);
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.nameUpdatedSuccess),
+          backgroundColor: Colors.green,
+        ),
+      );
+      
+      Navigator.pop(context, {
+        'firstName': _firstNameController.text,
+        'lastName': _lastNameController.text,
+        'fullName': fullName,
+      });
+    } catch (e) {
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -155,8 +187,8 @@ class _EditNamePageState extends State<EditNamePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: l10n.saveChanges,
-                onPressed: _hasChanges ? _saveChanges : null,
+                label: _isLoading ? 'Salvando...' : l10n.saveChanges,
+                onPressed: _hasChanges && !_isLoading ? _saveChanges : null,
                 height: 52,
               ),
             ),

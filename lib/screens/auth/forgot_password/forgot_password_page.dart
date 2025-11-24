@@ -1,56 +1,39 @@
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
-import '../../../../core/theme/app_typography.dart';
-import '../../../../l10n/app_localizations.dart';
-import '../../../../core/widgets/app_card.dart';
-import '../../../../core/widgets/app_text_field.dart';
-import '../../../../core/widgets/app_button.dart';
-import '../../../../data/services/auth_service.dart';
+import '../../../core/theme/app_colors.dart';
+import '../../../core/theme/app_typography.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../../core/widgets/app_card.dart';
+import '../../../core/widgets/app_text_field.dart';
+import '../../../core/widgets/app_button.dart';
+import '../../../data/services/auth_service.dart';
 
-class EditPasswordPage extends StatefulWidget {
-  const EditPasswordPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
-  State<EditPasswordPage> createState() => _EditPasswordPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _EditPasswordPageState extends State<EditPasswordPage> {
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
   final _formKey = GlobalKey<FormState>();
-  final _currentPasswordController = TextEditingController();
+  final _emailController = TextEditingController();
   final _newPasswordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   final AuthService _authService = AuthService();
-  bool _hasChanges = false;
+  
   bool _isLoading = false;
-  bool _obscureCurrentPassword = true;
   bool _obscureNewPassword = true;
   bool _obscureConfirmPassword = true;
 
   @override
-  void initState() {
-    super.initState();
-    _currentPasswordController.addListener(_checkForChanges);
-    _newPasswordController.addListener(_checkForChanges);
-    _confirmPasswordController.addListener(_checkForChanges);
-  }
-
-  @override
   void dispose() {
-    _currentPasswordController.dispose();
+    _emailController.dispose();
     _newPasswordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
   }
 
-  void _checkForChanges() {
-    setState(() {
-      _hasChanges = _currentPasswordController.text.isNotEmpty ||
-          _newPasswordController.text.isNotEmpty ||
-          _confirmPasswordController.text.isNotEmpty;
-    });
-  }
-
-  void _saveChanges() async {
+  Future<void> _resetPassword() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
@@ -59,19 +42,16 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
       _isLoading = true;
     });
 
-    final l10n = AppLocalizations.of(context)!;
-
     try {
-      // Altera senha no backend
-      await _authService.changePassword(
-        senhaAtual: _currentPasswordController.text,
+      await _authService.resetPassword(
+        email: _emailController.text.trim(),
         novaSenha: _newPasswordController.text,
       );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(l10n.passwordUpdatedSuccess),
+            content: const Text('Senha redefinida com sucesso!'),
             backgroundColor: AppColors.stateSuccess,
           ),
         );
@@ -81,7 +61,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erro ao alterar senha: $e'),
+            content: Text('Erro ao redefinir senha: $e'),
             backgroundColor: AppColors.stateError,
           ),
         );
@@ -98,6 +78,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -106,7 +87,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          l10n.changePasswordTitle,
+          l10n.forgotPassword,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -120,20 +101,38 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                   child: Form(
                     key: _formKey,
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 24),
                         
+                        // Instruções
+                        Text(
+                          'Redefinir senha',
+                          style: AppTypography.heading1Primary,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Informe seu email e escolha uma nova senha para recuperar o acesso à sua conta.',
+                          style: AppTypography.textPrimary.copyWith(
+                            color: AppColors.textDisabled,
+                            height: 1.4,
+                          ),
+                        ),
+                        
+                        const SizedBox(height: 32),
+                        
+                        // Email
                         AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                l10n.currentPassword,
+                                'Email',
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Digite sua senha atual para confirmar a alteração.',
+                                'Digite o email cadastrado na sua conta.',
                                 style: AppTypography.textPrimary.copyWith(
                                   color: AppColors.textDisabled,
                                   height: 1.4,
@@ -142,28 +141,15 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               const SizedBox(height: 20),
                               
                               AppTextField(
-                                controller: _currentPasswordController,
-                                label: l10n.currentPassword,
-                                obscureText: _obscureCurrentPassword,
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _obscureCurrentPassword
-                                        ? Icons.visibility_outlined
-                                        : Icons.visibility_off_outlined,
-                                    color: AppColors.textDisabled,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscureCurrentPassword = !_obscureCurrentPassword;
-                                    });
-                                  },
-                                ),
+                                controller: _emailController,
+                                label: l10n.email,
+                                keyboardType: TextInputType.emailAddress,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Por favor, insira sua senha atual';
+                                    return 'Por favor, insira seu email';
                                   }
-                                  if (value.length < 6) {
-                                    return 'Senha deve ter pelo menos 6 caracteres';
+                                  if (!value.contains('@')) {
+                                    return 'Email inválido';
                                   }
                                   return null;
                                 },
@@ -174,17 +160,18 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                         
                         const SizedBox(height: 16),
                         
+                        // Nova senha
                         AppCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                l10n.newPassword,
+                                'Nova senha',
                                 style: AppTypography.heading2Primary,
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'A nova senha deve ter pelo menos 6 caracteres.',
+                                'A senha deve ter pelo menos 6 caracteres.',
                                 style: AppTypography.textPrimary.copyWith(
                                   color: AppColors.textDisabled,
                                   height: 1.4,
@@ -194,7 +181,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               
                               AppTextField(
                                 controller: _newPasswordController,
-                                label: l10n.newPassword,
+                                label: 'Nova senha',
                                 obscureText: _obscureNewPassword,
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -216,9 +203,6 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                                   if (value.length < 6) {
                                     return 'Senha deve ter pelo menos 6 caracteres';
                                   }
-                                  if (value == _currentPasswordController.text) {
-                                    return 'Nova senha deve ser diferente da atual';
-                                  }
                                   return null;
                                 },
                               ),
@@ -227,7 +211,7 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                               
                               AppTextField(
                                 controller: _confirmPasswordController,
-                                label: l10n.confirmNewPassword,
+                                label: 'Confirme a nova senha',
                                 obscureText: _obscureConfirmPassword,
                                 suffixIcon: IconButton(
                                   icon: Icon(
@@ -256,48 +240,6 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
                           ),
                         ),
                         
-                        const SizedBox(height: 16),
-                        
-                        // Card de dicas de segurança
-                        AppCard(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Icon(
-                                Icons.security_outlined,
-                                color: AppColors.buttonPrimary,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      'Dicas de Segurança',
-                                      style: AppTypography.textPrimary.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      '• Use uma combinação de letras, números e símbolos\n'
-                                      '• Evite usar informações pessoais\n'
-                                      '• Não reutilize senhas de outras contas',
-                                      style: AppTypography.textPrimary.copyWith(
-                                        color: AppColors.textDisabled,
-                                        fontSize: 11,
-                                        height: 1.4,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        
                         const SizedBox(height: 24),
                       ],
                     ),
@@ -306,12 +248,12 @@ class _EditPasswordPageState extends State<EditPasswordPage> {
               ),
             ),
             
-            // Botão salvar na parte inferior
+            // Botão redefinir senha
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: _isLoading ? 'Salvando...' : l10n.changePasswordTitle,
-                onPressed: _hasChanges && !_isLoading ? _saveChanges : null,
+                label: _isLoading ? 'Redefinindo...' : 'Redefinir senha',
+                onPressed: _isLoading ? null : _resetPassword,
                 height: 52,
               ),
             ),

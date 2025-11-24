@@ -4,6 +4,8 @@ import '../../../core/theme/app_colors.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
+import '../../../data/services/auth_service.dart';
+import '../../../data/models/user_model.dart';
 import 'edit/edit_name_page.dart';
 import 'edit/edit_birth_date_page.dart';
 import 'edit/edit_gender_page.dart';
@@ -21,17 +23,78 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-  // Valores iniciais (TODO: substituir por dados reais do backend)
-  String _userFirstName = 'João';
-  String _userLastName = 'Silva';
-  String _userBirthDate = '15/03/1990';
-  String _userGender = 'Masculino';
-  String _userPhone = '(11) 98765-4321';
-  String _userEmail = 'joao.silva@email.com';
-  String _userDiagnosis = 'Não informado';
-  String _userComorbidities = 'Nenhuma';
+  final AuthService _authService = AuthService();
+  UserModel? _user;
+  bool _isLoading = true;
+  String? _errorMessage;
 
-  String get _userFullName => '$_userFirstName $_userLastName';
+  @override
+  void initState() {
+    super.initState();
+    _loadUserProfile();
+  }
+
+  Future<void> _loadUserProfile() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
+    try {
+      final user = await _authService.getProfile();
+      if (mounted) {
+        setState(() {
+          _user = user;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _errorMessage = 'Erro ao carregar perfil: $e';
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  String get _userFullName => _user?.nome ?? 'Carregando...';
+  String get _userFirstName => _user?.nome?.split(' ').first ?? '';
+  String get _userLastName => _user?.nome?.split(' ').skip(1).join(' ') ?? '';
+  String get _userBirthDate => _user?.dataNascimento != null
+      ? '${_user!.dataNascimento!.day.toString().padLeft(2, '0')}/${_user!.dataNascimento!.month.toString().padLeft(2, '0')}/${_user!.dataNascimento!.year}'
+      : 'Não informado';
+  String get _userGender {
+    final genero = _user?.genero;
+    if (genero == null) return 'Não informado';
+    switch (genero.toLowerCase()) {
+      case 'masculino':
+        return 'Masculino';
+      case 'feminino':
+        return 'Feminino';
+      case 'outro':
+        return 'Outro';
+      default:
+        return genero;
+    }
+  }
+  String get _userPhone => _user?.telefone != null && _user!.telefone!.isNotEmpty
+      ? _formatPhone(_user!.telefone!)
+      : 'Não informado';
+  String get _userEmail => _user?.email ?? 'Não informado';
+  String get _userDiagnosisValue => _user?.diagnostico ?? 'Não informado';
+  String get _userComorbiditiesValue => _user?.comorbidades ?? 'Nenhuma';
+
+  String _formatPhone(String phone) {
+    // Remove caracteres não numéricos
+    final digits = phone.replaceAll(RegExp(r'[^0-9]'), '');
+    if (digits.length == 11) {
+      return '(${digits.substring(0, 2)}) ${digits.substring(2, 7)}-${digits.substring(7)}';
+    } else if (digits.length == 10) {
+      return '(${digits.substring(0, 2)}) ${digits.substring(2, 6)}-${digits.substring(6)}';
+    }
+    return phone;
+  }
 
   Future<void> _navigateToEditName() async {
     final result = await Navigator.push<Map<String, String>>(
@@ -44,11 +107,9 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
     
+    // Recarrega perfil após edição
     if (result != null && mounted) {
-      setState(() {
-        _userFirstName = result['firstName'] ?? _userFirstName;
-        _userLastName = result['lastName'] ?? _userLastName;
-      });
+      await _loadUserProfile();
     }
   }
 
@@ -60,10 +121,9 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
     
+    // Recarrega perfil após edição
     if (result != null && mounted) {
-      setState(() {
-        _userBirthDate = result;
-      });
+      await _loadUserProfile();
     }
   }
 
@@ -75,10 +135,9 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
     
+    // Recarrega perfil após edição
     if (result != null && mounted) {
-      setState(() {
-        _userGender = result;
-      });
+      await _loadUserProfile();
     }
   }
 
@@ -90,10 +149,9 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
     
+    // Recarrega perfil após edição
     if (result != null && mounted) {
-      setState(() {
-        _userPhone = result;
-      });
+      await _loadUserProfile();
     }
   }
 
@@ -105,10 +163,9 @@ class _AccountPageState extends State<AccountPage> {
       ),
     );
     
+    // Recarrega perfil após edição
     if (result != null && mounted) {
-      setState(() {
-        _userEmail = result;
-      });
+      await _loadUserProfile();
     }
   }
 
@@ -116,14 +173,13 @@ class _AccountPageState extends State<AccountPage> {
     final result = await Navigator.push<String>(
       context,
       MaterialPageRoute(
-        builder: (context) => EditDiagnosisPage(currentDiagnosis: _userDiagnosis),
+        builder: (context) => EditDiagnosisPage(currentDiagnosis: _userDiagnosisValue),
       ),
     );
     
     if (result != null && mounted) {
-      setState(() {
-        _userDiagnosis = result;
-      });
+      // Recarrega perfil do backend
+      await _loadUserProfile();
     }
   }
 
@@ -131,14 +187,13 @@ class _AccountPageState extends State<AccountPage> {
     final result = await Navigator.push<String>(
       context,
       MaterialPageRoute(
-        builder: (context) => EditComorbiditiesPage(currentComorbidities: _userComorbidities),
+        builder: (context) => EditComorbiditiesPage(currentComorbidities: _userComorbiditiesValue),
       ),
     );
     
     if (result != null && mounted) {
-      setState(() {
-        _userComorbidities = result;
-      });
+      // Recarrega perfil do backend
+      await _loadUserProfile();
     }
   }
 
@@ -166,7 +221,27 @@ class _AccountPageState extends State<AccountPage> {
           style: AppTypography.heading1Secondary,
         ),
       ),
-      body: SafeArea(
+      body: _isLoading
+          ? const Center(
+              child: CircularProgressIndicator(),
+            )
+          : _errorMessage != null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                      const SizedBox(height: 16),
+                      Text(_errorMessage!),
+                      const SizedBox(height: 16),
+                      ElevatedButton(
+                        onPressed: _loadUserProfile,
+                        child: const Text('Tentar novamente'),
+                      ),
+                    ],
+                  ),
+                )
+              : SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -312,7 +387,7 @@ class _AccountPageState extends State<AccountPage> {
                     _buildAccountField(
                       context: context,
                       label: l10n.primaryDiagnosis,
-                      value: _userDiagnosis,
+                      value: _userDiagnosisValue,
                       onTap: _navigateToEditDiagnosis,
                     ),
                     
@@ -329,7 +404,7 @@ class _AccountPageState extends State<AccountPage> {
                     _buildAccountField(
                       context: context,
                       label: l10n.comorbidities,
-                      value: _userComorbidities,
+                      value: _userComorbiditiesValue,
                       onTap: _navigateToEditComorbidities,
                       isLast: true,
                     ),

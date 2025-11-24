@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditDiagnosisPage extends StatefulWidget {
   final String currentDiagnosis;
@@ -21,9 +22,11 @@ class EditDiagnosisPage extends StatefulWidget {
 class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
   final _formKey = GlobalKey<FormState>();
   final _otherDiagnosisController = TextEditingController();
+  final AuthService _authService = AuthService();
   late String _selectedDiagnosis;
   late String _initialDiagnosis;
   bool _hasChanges = false;
+  bool _isLoading = false;
 
   final List<String> _diagnosisOptions = [
     'Artrite reumatoide',
@@ -62,24 +65,51 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
     });
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    // Retorna o diagnóstico selecionado ou o texto personalizado
-    final diagnosis = _selectedDiagnosis == 'Outro diagnóstico'
-        ? _otherDiagnosisController.text
-        : _selectedDiagnosis;
+    setState(() {
+      _isLoading = true;
+    });
+
     final l10n = AppLocalizations.of(context)!;
-        
-    // TODO: Salvar alteração do diagnóstico
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.diagnosisUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, diagnosis);
+
+    try {
+      // Retorna o diagnóstico selecionado ou o texto personalizado
+      final diagnosis = _selectedDiagnosis == 'Outro diagnóstico'
+          ? _otherDiagnosisController.text
+          : _selectedDiagnosis;
+
+      // Salva no backend
+      await _authService.updateProfile(diagnostico: diagnosis);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.diagnosisUpdatedSuccess),
+            backgroundColor: AppColors.stateSuccess,
+          ),
+        );
+        Navigator.pop(context, diagnosis);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao salvar diagnóstico: $e'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Widget _buildDiagnosisOption(String diagnosis) {
@@ -211,8 +241,8 @@ class _EditDiagnosisPageState extends State<EditDiagnosisPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: l10n.saveChanges,
-                onPressed: _hasChanges ? _saveChanges : null,
+                label: _isLoading ? 'Salvando...' : l10n.saveChanges,
+                onPressed: _hasChanges && !_isLoading ? _saveChanges : null,
                 height: 52,
               ),
             ),

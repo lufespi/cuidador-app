@@ -4,6 +4,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditBirthDatePage extends StatefulWidget {
   final String currentBirthDate;
@@ -18,9 +19,11 @@ class EditBirthDatePage extends StatefulWidget {
 }
 
 class _EditBirthDatePageState extends State<EditBirthDatePage> {
+  final AuthService _authService = AuthService();
   late DateTime _selectedDate;
   late DateTime _initialDate;
   bool _hasChanges = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -86,15 +89,42 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar alteração da data de nascimento
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.birthDateUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, _formatDate(_selectedDate));
+    
+    setState(() {
+      _isLoading = true;
+    });
+    
+    try {
+      // Salva no backend
+      await _authService.updateProfile(dataNascimento: _selectedDate);
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.birthDateUpdatedSuccess),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pop(context, _formatDate(_selectedDate));
+    } catch (e) {
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -193,8 +223,8 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: l10n.saveChanges,
-                onPressed: _hasChanges ? _saveChanges : null,
+                label: _isLoading ? 'Salvando...' : l10n.saveChanges,
+                onPressed: _hasChanges && !_isLoading ? _saveChanges : null,
                 height: 52,
               ),
             ),

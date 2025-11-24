@@ -7,6 +7,7 @@ import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/step_indicator.dart';
 import '../../settings/about/terms_page.dart';
+import 'register_provider.dart';
 
 class RegisterPageStep3 extends StatefulWidget {
   const RegisterPageStep3({super.key});
@@ -25,6 +26,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
   bool _emailConsent = false;
   bool _isBackButtonPressed = false;
   bool _showErrors = false;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
     return labels[_fontSizeLevel.toInt()];
   }
 
-  void _handleFinish() {
+  void _handleFinish() async {
     setState(() {
       _showErrors = true;
     });
@@ -58,20 +60,57 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
       return;
     }
     
-    // Salvar preferências de acessibilidade
+    setState(() {
+      _isLoading = true;
+    });
+
+    // Salvar preferências de acessibilidade localmente
     final themeProvider = Provider.of<app_theme.ThemeProvider>(context, listen: false);
     themeProvider.setFontSizeLevel(_fontSizeLevel);
     themeProvider.setHighContrast(_highContrast);
-    
-    // Complete registration - Navigate back to login or home
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('Cadastro finalizado com sucesso!'),
-      ),
+
+    // Salvar dados do Step 3 no Provider
+    final registerProvider = Provider.of<RegisterProvider>(context, listen: false);
+    registerProvider.saveStep3Data(
+      fontSizeLevel: _fontSizeLevel,
+      highContrast: _highContrast,
+      textToSpeech: _textToSpeech,
+      gdprConsent: _gdprConsent,
+      emailConsent: _emailConsent,
     );
-    
-    // Return to login screen (pop all register screens)
-    Navigator.of(context).popUntil((route) => route.isFirst);
+
+    // Enviar tudo para o backend
+    final success = await registerProvider.completeRegistration();
+
+    if (!mounted) return;
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    if (success) {
+      // Cadastro finalizado com sucesso
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Cadastro finalizado com sucesso!'),
+          backgroundColor: Colors.green,
+        ),
+      );
+      
+      // Volta para a tela de login
+      Navigator.of(context).popUntil((route) => route.isFirst);
+    } else {
+      // Erro ao cadastrar
+      final errorMessage = registerProvider.errorMessage ?? 'Erro ao finalizar cadastro';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+          duration: const Duration(seconds: 5),
+        ),
+      );
+      registerProvider.clearError();
+    }
   }
 
   void _handleBack() {
@@ -528,8 +567,8 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                 
                 // Finish button
                 AppButton(
-                  label: 'Finalizar Cadastro',
-                  onPressed: _handleFinish,
+                  label: _isLoading ? 'Finalizando...' : 'Finalizar Cadastro',
+                  onPressed: _isLoading ? () {} : _handleFinish,
                 ),
               ],
             ),

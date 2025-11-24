@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditComorbiditiesPage extends StatefulWidget {
   final String currentComorbidities;
@@ -21,9 +22,11 @@ class EditComorbiditiesPage extends StatefulWidget {
 class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
   final _formKey = GlobalKey<FormState>();
   final _otherComorbidityController = TextEditingController();
+  final AuthService _authService = AuthService();
   late List<String> _selectedComorbidities;
   late String _initialComorbidities;
   bool _hasChanges = false;
+  bool _isLoading = false;
 
   final List<String> _comorbidityOptions = [
     'Hipertensão',
@@ -83,21 +86,48 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
     return comorbidities.join(', ');
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
+
+    setState(() {
+      _isLoading = true;
+    });
+
     final l10n = AppLocalizations.of(context)!;
 
-    final comorbidities = _getCurrentComorbiditiesText();
-    
-    // TODO: Salvar alteração das comorbidades
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.comorbiditiesUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, comorbidities);
+    try {
+      final comorbidities = _getCurrentComorbiditiesText();
+
+      // Salva no backend
+      await _authService.updateProfile(comorbidades: comorbidities);
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.comorbiditiesUpdatedSuccess),
+            backgroundColor: AppColors.stateSuccess,
+          ),
+        );
+        Navigator.pop(context, comorbidities);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao salvar comorbidades: $e'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Widget _buildComorbidityOption(String comorbidity) {
@@ -233,8 +263,8 @@ class _EditComorbiditiesPageState extends State<EditComorbiditiesPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: l10n.saveChanges,
-                onPressed: _hasChanges ? _saveChanges : null,
+                label: _isLoading ? 'Salvando...' : l10n.saveChanges,
+                onPressed: _hasChanges && !_isLoading ? _saveChanges : null,
                 height: 52,
               ),
             ),

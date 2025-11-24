@@ -2,7 +2,7 @@
 /// Para produção, use flutter_dotenv ou --dart-define
 class ApiConfig {
   // URLs base
-  static const String _prodBaseUrl = 'https://KaueMuller.pythonanywhere.com';
+  static const String _prodBaseUrl = 'https://lufespi.pythonanywhere.com';
   
   // Versão da API
   static const String apiVersion = 'v1';
@@ -17,11 +17,13 @@ class ApiConfig {
   static String get apiUrl => '$baseUrl/api/$apiVersion';
   
   // Endpoints de autenticação
-  static String get registerUrl => '$baseUrl/register';
-  static String get loginUrl => '$baseUrl/login';
-  static String get refreshTokenUrl => '$baseUrl/auth/refresh';
-  static String get logoutUrl => '$baseUrl/auth/logout';
+  static String get registerUrl => '$apiUrl/auth/register';
+  static String get loginUrl => '$apiUrl/auth/login';
+  static String get refreshTokenUrl => '$apiUrl/auth/refresh';
+  static String get logoutUrl => '$apiUrl/auth/logout';
   static String get profileUrl => '$apiUrl/auth/profile';
+  static String get passwordUrl => '$apiUrl/auth/password';
+  static String get resetPasswordUrl => '$apiUrl/auth/reset-password';
   
   // Endpoints de dor
   static String get painRecordsUrl => '$apiUrl/pain/records';

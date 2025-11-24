@@ -7,8 +7,10 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../register/register_page_step_1.dart';
+import '../register/register_provider.dart';
 import '../../home/home_page.dart';
 import '../../../data/api_service.dart';
+import '../forgot_password/forgot_password_page.dart';
 import 'package:provider/provider.dart';
 import '../../../core/theme/theme_provider.dart';
 
@@ -119,49 +121,44 @@ class _LoginPageState extends State<LoginPage> {
     return;
   }
 
-  setState(() {
-    _isLoading = true;
-  });
-
-  try {
-    final api = ApiService();
-    final created = await api.register(
-      _emailController.text.trim(),
-      _senhaController.text,
+  // Validação básica de email
+  final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+  if (!emailRegex.hasMatch(_emailController.text.trim())) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, insira um e-mail válido'),
+      ),
     );
-
-    if (!mounted) return;
-
-    if (created) {
-      // Usuário cadastrado no backend → segue pro fluxo de cadastro em etapas
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const RegisterPageStep1(),
-        ),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Não foi possível cadastrar. Tente outro e-mail.'),
-        ),
-      );
-    }
-  } catch (e) {
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Erro ao cadastrar: $e'),
-        ),
-      );
-    }
-  } finally {
-    if (mounted) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
+    return;
   }
+
+  // Validação de senha (mínimo 6 caracteres)
+  if (_senhaController.text.length < 6) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('A senha deve ter pelo menos 6 caracteres'),
+      ),
+    );
+    return;
+  }
+
+  // Salva email e senha no Provider
+  final registerProvider = Provider.of<RegisterProvider>(context, listen: false);
+  registerProvider.saveStep1Data(
+    email: _emailController.text.trim(),
+    senha: _senhaController.text,
+    firstName: '', // Será preenchido no Step 1
+    lastName: '', // Será preenchido no Step 1
+  );
+
+  // Navega para as próximas etapas do cadastro
+  if (!mounted) return;
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const RegisterPageStep1(),
+    ),
+  );
 }
 
   @override
@@ -261,9 +258,10 @@ class _LoginPageState extends State<LoginPage> {
               if (_activeTabIndex == 0)
                 TextButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(l10n.errorFillAllFields),
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const ForgotPasswordPage(),
                       ),
                     );
                   },

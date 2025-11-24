@@ -7,12 +7,14 @@ import 'core/theme/theme_provider.dart' as app_theme;
 import 'core/l10n/locale_provider.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/auth/index.dart';
+import 'screens/auth/register/register_provider.dart';
 
 void main() => runApp(
   MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (_) => app_theme.ThemeProvider()),
       ChangeNotifierProvider(create: (_) => LocaleProvider()),
+      ChangeNotifierProvider(create: (_) => RegisterProvider()),
     ],
     child: const CuidaDorApp(),
   ),

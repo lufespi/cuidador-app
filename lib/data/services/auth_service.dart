@@ -31,7 +31,7 @@ class AuthService {
         'senha': senha,
         if (nome != null) 'nome': nome,
         if (dataNascimento != null) 'data_nascimento': dataNascimento.toIso8601String(),
-        if (genero != null) 'genero': genero,
+        if (genero != null) 'sexo': genero, // Backend espera 'sexo'
         if (telefone != null) 'telefone': telefone,
       },
     );
@@ -93,7 +93,9 @@ class AuthService {
       requiresAuth: true,
     );
 
-    return UserModel.fromJson(response);
+    // Backend retorna: { user: { id, email, ... } }
+    final userJson = response['user'] as Map<String, dynamic>;
+    return UserModel.fromJson(userJson);
   }
 
   /// Atualiza perfil do usuário
@@ -102,19 +104,54 @@ class AuthService {
     DateTime? dataNascimento,
     String? genero,
     String? telefone,
+    String? diagnostico,
+    String? comorbidades,
   }) async {
     final response = await _httpClient.put(
       ApiConfig.profileUrl,
       body: {
         if (nome != null) 'nome': nome,
         if (dataNascimento != null) 'data_nascimento': dataNascimento.toIso8601String(),
-        if (genero != null) 'genero': genero,
+        if (genero != null) 'sexo': genero, // Backend espera 'sexo'
         if (telefone != null) 'telefone': telefone,
+        if (diagnostico != null) 'diagnostico': diagnostico,
+        if (comorbidades != null) 'comorbidades': comorbidades,
       },
       requiresAuth: true,
     );
 
-    return UserModel.fromJson(response);
+    // Backend retorna: { message, user: { id, email, ... } }
+    final userJson = response['user'] as Map<String, dynamic>;
+    return UserModel.fromJson(userJson);
+  }
+
+  /// Altera senha do usuário
+  Future<void> changePassword({
+    required String senhaAtual,
+    required String novaSenha,
+  }) async {
+    await _httpClient.put(
+      ApiConfig.passwordUrl,
+      body: {
+        'senha_atual': senhaAtual,
+        'nova_senha': novaSenha,
+      },
+      requiresAuth: true,
+    );
+  }
+
+  /// Reseta senha do usuário (esqueci minha senha)
+  Future<void> resetPassword({
+    required String email,
+    required String novaSenha,
+  }) async {
+    await _httpClient.post(
+      ApiConfig.resetPasswordUrl,
+      body: {
+        'email': email,
+        'nova_senha': novaSenha,
+      },
+    );
   }
 
   /// Verifica se está autenticado

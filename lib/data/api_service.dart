@@ -1,14 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../core/config/api_config.dart';
 import 'services/auth_service.dart';
 import 'services/pain_service.dart';
 
-/// Serviço central de API - Mantém compatibilidade com backend original
+/// Serviço central de API - Refatorado para usar ApiConfig
 class ApiService {
-  // URL da API do PythonAnywhere
-  static const String baseUrl = 'https://KaueMuller.pythonanywhere.com';
-
-  // Serviços especializados (para uso futuro)
+  // Serviços especializados
   final AuthService auth;
   final PainService pain;
 
@@ -19,56 +17,53 @@ class ApiService {
         pain = painService ?? PainService();
 
   // ==========================================
-  // MÉTODOS ORIGINAIS (funcionando)
+  // MÉTODOS DE AUTENTICAÇÃO (compatibilidade com backend atual)
   // ==========================================
   
   /// Registra novo usuário
   Future<bool> register(String email, String senha) async {
-    final url = Uri.parse('$baseUrl/register');
+    final url = Uri.parse(ApiConfig.registerUrl);
 
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: ApiConfig.defaultHeaders,
         body: jsonEncode({
           'email': email,
           'senha': senha,
         }),
-      );
+      ).timeout(ApiConfig.connectTimeout);
 
       return response.statusCode == 201;
     } catch (e) {
-      print('Erro no register: $e');
+      // Use debugPrint em produção ao invés de print
       return false;
     }
   }
 
   /// Faz login
   Future<bool> login(String email, String senha) async {
-    final url = Uri.parse('$baseUrl/login');
+    final url = Uri.parse(ApiConfig.loginUrl);
 
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: ApiConfig.defaultHeaders,
         body: jsonEncode({
           'email': email,
           'senha': senha,
         }),
-      );
+      ).timeout(ApiConfig.connectTimeout);
 
-      if (response.statusCode != 200) return false;
-
-      final data = jsonDecode(response.body);
-      return data['success'] == true;
+      // Backend retorna status 200 em caso de sucesso
+      return response.statusCode == 200;
     } catch (e) {
-      print('Erro no login: $e');
       return false;
     }
   }
 
   // ==========================================
-  // NOVOS MÉTODOS (para usar quando backend estiver pronto)
+  // NOVOS MÉTODOS (para usar quando backend suportar tokens)
   // ==========================================
   
   /// Registra usuário usando novo serviço (quando backend suportar tokens)
@@ -77,7 +72,6 @@ class ApiService {
       await auth.register(email: email, senha: senha);
       return true;
     } catch (e) {
-      print('Erro no registerWithAuth: $e');
       return false;
     }
   }
@@ -88,7 +82,6 @@ class ApiService {
       await auth.login(email: email, senha: senha);
       return true;
     } catch (e) {
-      print('Erro no loginWithAuth: $e');
       return false;
     }
   }
@@ -103,4 +96,5 @@ class ApiService {
     await auth.logout();
   }
 }
+
 

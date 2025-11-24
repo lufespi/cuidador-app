@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/step_indicator.dart';
 import 'register_page_step_3.dart';
+import 'register_provider.dart';
 
 class RegisterPageStep2 extends StatefulWidget {
   const RegisterPageStep2({super.key});
@@ -71,6 +73,26 @@ class _RegisterPageStep2State extends State<RegisterPageStep2> {
         );
         return;
       }
+
+      // Prepara diagnóstico final
+      String finalDiagnosis = _selectedDiagnosis!;
+      if (_selectedDiagnosis == 'Outro diagnóstico') {
+        finalDiagnosis = _otherDiagnosisController.text.trim();
+      }
+
+      // Prepara lista de comorbidades final
+      List<String> finalComorbidities = List.from(_selectedComorbidities);
+      if (_selectedComorbidities.contains('Outra')) {
+        finalComorbidities.remove('Outra');
+        finalComorbidities.add(_otherComorbidityController.text.trim());
+      }
+
+      // Salva dados no Provider
+      final registerProvider = Provider.of<RegisterProvider>(context, listen: false);
+      registerProvider.saveStep2Data(
+        diagnosis: finalDiagnosis,
+        comorbidities: finalComorbidities,
+      );
       
       // Navigate to next step
       Navigator.push(

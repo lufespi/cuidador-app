@@ -4,6 +4,7 @@ import '../../../../core/theme/app_typography.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditGenderPage extends StatefulWidget {
   final String currentGender;
@@ -18,9 +19,11 @@ class EditGenderPage extends StatefulWidget {
 }
 
 class _EditGenderPageState extends State<EditGenderPage> {
+  final AuthService _authService = AuthService();
   late String _selectedGender;
   late String _initialGender;
   bool _hasChanges = false;
+  bool _isLoading = false;
 
   final List<String> _genderOptions = [
     'Masculino',
@@ -47,15 +50,48 @@ class _EditGenderPageState extends State<EditGenderPage> {
     });
   }
 
-  void _saveChanges() {
+  void _saveChanges() async {
     final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar alteração do sexo
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.genderUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, _selectedGender);
+    
+    setState(() {
+      _isLoading = true;
+    });
+    
+    try {
+      // Converte para formato do backend
+      String sexo = _selectedGender.toLowerCase();
+      if (sexo == 'prefiro não informar') {
+        sexo = 'prefiro_nao_dizer';
+      }
+      
+      // Salva no backend
+      await _authService.updateProfile(genero: sexo);
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.genderUpdatedSuccess),
+          backgroundColor: Colors.green,
+        ),
+      );
+      Navigator.pop(context, _selectedGender);
+    } catch (e) {
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   Widget _buildGenderOption(String gender) {
@@ -198,8 +234,8 @@ class _EditGenderPageState extends State<EditGenderPage> {
             Padding(
               padding: const EdgeInsets.all(16),
               child: AppButton(
-                label: l10n.saveChanges,
-                onPressed: _hasChanges ? _saveChanges : null,
+                label: _isLoading ? 'Salvando...' : l10n.saveChanges,
+                onPressed: _hasChanges && !_isLoading ? _saveChanges : null,
                 height: 52,
               ),
             ),
