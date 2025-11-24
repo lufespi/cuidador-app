@@ -8,6 +8,11 @@ import '../../../core/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../register/register_page_step_1.dart';
 import '../../home/home_page.dart';
+import '../../../data/api_service.dart';
+import 'package:provider/provider.dart';
+import '../../../core/theme/theme_provider.dart';
+
+
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,79 +38,131 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-  Future<void> _handleLogin() async {
-    // Validação básica
-    if (_emailController.text.isEmpty || _senhaController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, preencha todos os campos'),
-        ),
-      );
-      return;
-    }
-
-    setState(() => _isLoading = true);
-
-    try {
-      // Simular delay de login
-      await Future.delayed(const Duration(seconds: 1));
-
-      // Login temporário para debug: admin/admin
-      if (_emailController.text == 'admin' && _senhaController.text == 'admin') {
-        if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
-        }
-      } else {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Credenciais inválidas. Use: admin/admin'),
-            ),
-          );
-        }
-      }
-    } finally {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-    }
+ Future<void> _handleLogin() async {
+  if (_emailController.text.isEmpty || _senhaController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, preencha e-mail e senha'),
+      ),
+    );
+    return;
   }
 
-  Future<void> _handlePreRegister() async {
-    // Validação básica
-    if (_emailController.text.isEmpty || _senhaController.text.isEmpty || _confirmarSenhaController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Por favor, preencha todos os campos'),
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    final api = ApiService();
+    final success = await api.login(
+      _emailController.text.trim(),
+      _senhaController.text,
+    );
+
+    if (!mounted) return;
+
+    if (success) {
+      final email = _emailController.text.trim();
+
+      // carregamos as configurações do usuário atual
+      Provider.of<ThemeProvider>(context, listen: false)
+          .setCurrentUser(email);
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomePage(),
         ),
       );
-      return;
-    }
-
-    if (_senhaController.text != _confirmarSenhaController.text) {
+    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('As senhas não coincidem'),
+          content: Text('Credenciais inválidas. Tente novamente.'),
         ),
       );
-      return;
     }
-
-    // Navegar para a tela de cadastro (Step 1)
+  } catch (e) {
     if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao fazer login: $e'),
+        ),
+      );
+    }
+  } finally {
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+}
+
+ Future<void> _handlePreRegister() async {
+  if (_emailController.text.isEmpty ||
+      _senhaController.text.isEmpty ||
+      _confirmarSenhaController.text.isEmpty) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Por favor, preencha todos os campos'),
+      ),
+    );
+    return;
+  }
+
+  if (_senhaController.text != _confirmarSenhaController.text) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('As senhas não coincidem'),
+      ),
+    );
+    return;
+  }
+
+  setState(() {
+    _isLoading = true;
+  });
+
+  try {
+    final api = ApiService();
+    final created = await api.register(
+      _emailController.text.trim(),
+      _senhaController.text,
+    );
+
+    if (!mounted) return;
+
+    if (created) {
+      // Usuário cadastrado no backend → segue pro fluxo de cadastro em etapas
       Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => const RegisterPageStep1(),
         ),
       );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Não foi possível cadastrar. Tente outro e-mail.'),
+        ),
+      );
+    }
+  } catch (e) {
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao cadastrar: $e'),
+        ),
+      );
+    }
+  } finally {
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
+}
 
   @override
   Widget build(BuildContext context) {
