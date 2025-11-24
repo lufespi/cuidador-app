@@ -23,12 +23,6 @@ class AuthResponse {
                   json['access_token'] as String? ?? 
                   '';
     
-    if (token.isEmpty) {
-      print('⚠️ Token não encontrado na resposta: $json');
-    } else {
-      print('✅ Token extraído da resposta: ${token.substring(0, 20)}...');
-    }
-    
     return AuthResponse(
       accessToken: token,
       refreshToken: json['refresh_token'] as String?,

@@ -22,23 +22,12 @@ class TokenStorage {
     if (userId != null) {
       await prefs.setString(_userIdKey, userId);
     }
-    
-    // Debug: confirma salvamento
-    print('✅ Token salvo: ${accessToken.substring(0, 20)}...');
   }
 
   /// Obtém access token
   Future<String?> getAccessToken() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString(_accessTokenKey);
-    
-    // Debug: verifica se token existe
-    if (token == null) {
-      print('⚠️ Token não encontrado no storage');
-    } else {
-      print('✅ Token recuperado: ${token.substring(0, 20)}...');
-    }
-    
     return token;
   }
 

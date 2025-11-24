@@ -24,7 +24,6 @@ class ApiService {
       await auth.register(email: email, senha: senha);
       return true;
     } catch (e) {
-      print('❌ Erro no registro: $e');
       return false;
     }
   }
@@ -36,7 +35,6 @@ class ApiService {
       await auth.login(email: email, senha: senha);
       return true;
     } catch (e) {
-      print('❌ Erro no login: $e');
       return false;
     }
   }

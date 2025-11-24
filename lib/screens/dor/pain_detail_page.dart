@@ -14,7 +14,6 @@ class PainDetailPage extends StatefulWidget {
 
 class _PainDetailPageState extends State<PainDetailPage> {
   final PainService _painService = PainService();
-  bool _isLoading = false;
   bool _hasChanges = false; // Flag para indicar se houve alterações
   
   // Dados do registro
@@ -62,11 +61,12 @@ class _PainDetailPageState extends State<PainDetailPage> {
     // Agrupa por parte do corpo
     final agrupados = BodyRegionMapper.agruparPorParteDoCorpo(descricoes);
 
-    return WillPopScope(
-      onWillPop: () async {
-        // Retorna true se houve alterações
-        Navigator.pop(context, _hasChanges);
-        return false; // Previne o pop padrão
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          Navigator.pop(context, _hasChanges);
+        }
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
@@ -397,7 +397,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
           ),
         ),
       ),
-      ), // Fecha WillPopScope
+      ), // Fecha PopScope
     );
   }
 
@@ -537,7 +537,6 @@ class _PainDetailPageState extends State<PainDetailPage> {
             TextButton(
               onPressed: () async {
                 Navigator.pop(context);
-                setState(() => _isLoading = true);
                 
                 try {
                   if (recordId != null) {
@@ -546,12 +545,12 @@ class _PainDetailPageState extends State<PainDetailPage> {
                       intensidade: novoNivel,
                     );
                     
-                    setState(() {
-                      nivel = novoNivel;
-                      _hasChanges = true;
-                    });
-                    
-                    if (mounted) {
+                    if (mounted && context.mounted) {
+                      setState(() {
+                        nivel = novoNivel;
+                        _hasChanges = true;
+                      });
+                      
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Nível de dor atualizado para $novoNivel'),
@@ -563,7 +562,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                     }
                   }
                 } catch (e) {
-                  if (mounted) {
+                  if (mounted && context.mounted) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('Erro ao atualizar: $e'),
@@ -572,9 +571,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                     );
                   }
                 } finally {
-                  if (mounted) {
-                    setState(() => _isLoading = false);
-                  }
+                  // Nenhuma limpeza necessária
                 }
               },
               child: const Text('Salvar'),
@@ -696,16 +693,15 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   );
 
                   Navigator.pop(context);
-                  setState(() => _isLoading = true);
                   
                   try {
                     // Nota: Backend atual não suporta atualização de data
                     // Esta funcionalidade requer implementação no backend
-                    setState(() {
-                      data = dataHoraAtualizada;
-                    });
-                    
-                    if (mounted) {
+                    if (mounted && context.mounted) {
+                      setState(() {
+                        data = dataHoraAtualizada;
+                      });
+                      
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
@@ -716,7 +712,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                       );
                     }
                   } catch (e) {
-                    if (mounted) {
+                    if (mounted && context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Erro ao atualizar: $e'),
@@ -725,9 +721,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                       );
                     }
                   } finally {
-                    if (mounted) {
-                      setState(() => _isLoading = false);
-                    }
+                    // Nenhuma limpeza necessária
                   }
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -788,7 +782,6 @@ class _PainDetailPageState extends State<PainDetailPage> {
             onPressed: () async {
               final novaDescricao = descricaoController.text.trim();
               Navigator.pop(context);
-              setState(() => _isLoading = true);
               
               try {
                 if (recordId != null) {
@@ -797,12 +790,12 @@ class _PainDetailPageState extends State<PainDetailPage> {
                     descricao: novaDescricao,
                   );
                   
-                  setState(() {
-                    descricao = novaDescricao;
-                    _hasChanges = true;
-                  });
-                  
-                  if (mounted) {
+                  if (mounted && context.mounted) {
+                    setState(() {
+                      descricao = novaDescricao;
+                      _hasChanges = true;
+                    });
+                    
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         content: Text('Anotações atualizadas com sucesso'),
@@ -812,7 +805,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   }
                 }
               } catch (e) {
-                if (mounted) {
+                if (mounted && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text('Erro ao atualizar: $e'),
@@ -821,9 +814,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   );
                 }
               } finally {
-                if (mounted) {
-                  setState(() => _isLoading = false);
-                }
+                // Nenhuma limpeza necessária
               }
             },
             child: const Text('Salvar'),
@@ -852,8 +843,6 @@ class _PainDetailPageState extends State<PainDetailPage> {
               final navigator = Navigator.of(context);
               final scaffoldMessenger = ScaffoldMessenger.of(context);
               
-              setState(() => _isLoading = true);
-              
               try {
                 if (recordId != null) {
                   await _painService.deletePainRecord(recordId);
@@ -877,9 +866,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   );
                 }
               } finally {
-                if (mounted) {
-                  setState(() => _isLoading = false);
-                }
+                // Nenhuma limpeza necessária
               }
             },
             style: TextButton.styleFrom(

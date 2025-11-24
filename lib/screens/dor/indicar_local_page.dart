@@ -227,10 +227,10 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.stateError.withOpacity(0.15),
+                      color: AppColors.stateError.withValues(alpha: 0.15),
                       borderRadius: BorderRadius.circular(16),
                       border: Border.all(
-                        color: AppColors.stateError.withOpacity(0.5),
+                        color: AppColors.stateError.withValues(alpha: 0.5),
                         width: 1.5,
                       ),
                     ),

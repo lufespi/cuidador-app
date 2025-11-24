@@ -51,20 +51,18 @@ class ServerException extends ApiException {
 
 /// Dados inválidos (422)
 class ValidationException extends ApiException {
-  ValidationException({String? message, dynamic data})
+  ValidationException({String? message, super.data})
       : super(
           message: message ?? 'Dados inválidos.',
           statusCode: 422,
-          data: data,
         );
 }
 
 /// Bad Request (400)
 class BadRequestException extends ApiException {
-  BadRequestException({String? message, dynamic data})
+  BadRequestException({String? message, super.data})
       : super(
           message: message ?? 'Requisição inválida.',
           statusCode: 400,
-          data: data,
         );
 }

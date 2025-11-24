@@ -53,8 +53,6 @@ class AuthService {
     required String email,
     required String senha,
   }) async {
-    print('🔐 Iniciando login para: $email');
-    
     final response = await _httpClient.post(
       ApiConfig.loginUrl,
       body: {
@@ -63,10 +61,8 @@ class AuthService {
       },
     );
 
-    print('📦 Resposta do login recebida');
     final authResponse = AuthResponse.fromJson(response);
     
-    print('💾 Salvando tokens...');
     // Salva tokens
     await _tokenStorage.saveTokens(
       accessToken: authResponse.accessToken,
@@ -74,7 +70,6 @@ class AuthService {
       userId: authResponse.userId,
     );
     
-    print('✅ Login completo!');
     return authResponse;
   }
 

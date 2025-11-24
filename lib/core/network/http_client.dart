@@ -40,12 +40,7 @@ class HttpClient {
     bool requiresAuth = false,
   }) async {
     try {
-      print('🔵 POST $url (requiresAuth: $requiresAuth)');
       final allHeaders = await _buildHeaders(headers, requiresAuth);
-      
-      if (requiresAuth) {
-        print('🔐 Authorization header: ${allHeaders['Authorization']?.substring(0, 30)}...');
-      }
       
       final response = await _client
           .post(

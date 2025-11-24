@@ -129,25 +129,27 @@ class _DorPageState extends State<DorPage> {
         descricao: _anotacaoController.text.isNotEmpty ? _anotacaoController.text : null,
       );
 
-      if (mounted) {
-        // Limpa as seleções após salvar
-        dorProvider.limparSelecoes();
-        _anotacaoController.clear();
-        setState(() {
-          _nivelDor = 5.0; // Reset nível de dor
-        });
+      if (!mounted) return;
+      
+      // Limpa as seleções após salvar
+      dorProvider.limparSelecoes();
+      _anotacaoController.clear();
+      setState(() {
+        _nivelDor = 5.0; // Reset nível de dor
+      });
 
-        // Recarrega os registros
-        await _carregarRegistrosRecentes();
+      // Recarrega os registros
+      await _carregarRegistrosRecentes();
 
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Registro de dor salvo com sucesso!'),
-            backgroundColor: AppColors.stateSuccess,
-            duration: Duration(seconds: 2),
-          ),
-        );
-      }
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Registro de dor salvo com sucesso!'),
+          backgroundColor: AppColors.stateSuccess,
+          duration: Duration(seconds: 2),
+        ),
+      );
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -606,32 +608,34 @@ class _DorPageState extends State<DorPage> {
                               ),
                             )
                           : _registrosRecentes.isEmpty
-                          ? Container(
-                              padding: const EdgeInsets.all(20),
-                              decoration: BoxDecoration(
-                                color: AppColors.surfaceVariant.withValues(alpha: 0.3),
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.inbox_outlined,
-                                    size: 48,
-                                    color: AppColors.textDisabled,
-                                  ),
-                                  const SizedBox(height: 12),
-                                  Text(
-                                    'Nenhum registro encontrado',
-                                    style: AppTypography.textDisabled,
-                                  ),
-                                  const SizedBox(height: 4),
-                                  Text(
-                                    'Registre sua primeira dor acima',
-                                    style: AppTypography.labelSmall.copyWith(
+                          ? Center(
+                              child: Container(
+                                padding: const EdgeInsets.all(20),
+                                decoration: BoxDecoration(
+                                  color: AppColors.surfaceVariant.withValues(alpha: 0.3),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.inbox_outlined,
+                                      size: 48,
                                       color: AppColors.textDisabled,
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 12),
+                                    Text(
+                                      'Nenhum registro encontrado',
+                                      style: AppTypography.textDisabled,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Registre sua primeira dor acima',
+                                      style: AppTypography.labelSmall.copyWith(
+                                        color: AppColors.textDisabled,
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           : Column(
