@@ -8,6 +8,7 @@ import '../../core/widgets/app_button.dart';
 import '../../core/widgets/app_outlined_button.dart';
 import '../../core/widgets/app_dropdown.dart';
 import '../../core/widgets/app_text_field.dart';
+import '../../core/widgets/pain_chart.dart';
 import '../../l10n/app_localizations.dart';
 import '../../data/services/pain_service.dart';
 import 'dor_provider.dart';
@@ -493,34 +494,11 @@ class _DorPageState extends State<DorPage> {
                   ),
                   const SizedBox(height: 20),
 
-                  // Placeholder para gráfico
-                  Container(
-                    height: 150,
-                    decoration: BoxDecoration(
-                      color: AppColors.surfaceVariant.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(
-                        color: AppColors.buttonPrimary.withValues(alpha: 0.2),
-                        width: 1,
-                      ),
-                    ),
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.insert_chart_outlined,
-                            size: 48,
-                            color: AppColors.buttonPrimary.withValues(alpha: 0.5),
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            l10n.chartWillBeDisplayed,
-                            style: AppTypography.textDisabled,
-                          ),
-                        ],
-                      ),
-                    ),
+                  // Gráfico de histórico de dor
+                  PainChart(
+                    registros: _registrosRecentes,
+                    isLoading: _isLoadingRegistros,
+                    errorMessage: _errorLoadingRegistros,
                   ),
                 ],
               ),
