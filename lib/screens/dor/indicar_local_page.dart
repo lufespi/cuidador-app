@@ -32,6 +32,25 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
   // Conjunto para armazenar os grupos que tiveram pontos selecionados
   final Set<String> _gruposSelecionados = {};
 
+  @override
+  void initState() {
+    super.initState();
+    // Sincroniza com o Provider ao iniciar
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _sincronizarComProvider();
+    });
+  }
+
+  void _sincronizarComProvider() {
+    final dorProvider = Provider.of<DorProvider>(context, listen: false);
+    final regioesSelecionadas = dorProvider.regioesSelecionadas;
+    
+    setState(() {
+      _gruposSelecionados.clear();
+      _gruposSelecionados.addAll(regioesSelecionadas.keys);
+    });
+  }
+
   // Função para navegar para a página de detalhe do grupo
   void _navegarParaGrupo(String grupo) async {
     Widget? page;
@@ -83,31 +102,32 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
 
       // Processa os pontos selecionados retornados
       if (pontosSelecionados != null && mounted) {
+        final dorProvider = Provider.of<DorProvider>(context, listen: false);
+        
         if (pontosSelecionados.isNotEmpty) {
-          setState(() {
-            _gruposSelecionados.add(grupo);
-          });
-          
           // Converte pontos para descrições legíveis
           final nomeRegiao = BodyRegionMapper.getNomeRegiao(grupo);
           final descricoes = pontosSelecionados.map((ponto) {
             return '$nomeRegiao: ${BodyRegionMapper.getNomePontoDetalhe(nomeRegiao, ponto)}';
           }).toList();
           
-          // Salva temporariamente (ainda não envia ao backend)
-          final dorProvider = Provider.of<DorProvider>(context, listen: false);
+          // Salva no Provider primeiro
           dorProvider.adicionarRegiao(grupo, pontosSelecionados, descricoes);
+          
+          // Depois atualiza estado local
+          setState(() {
+            _gruposSelecionados.add(grupo);
+          });
           
           debugPrint('Pontos selecionados no grupo $grupo: $pontosSelecionados');
           debugPrint('Descrições: $descricoes');
         } else {
           // Se não houver pontos selecionados, remove o grupo
+          dorProvider.removerRegiao(grupo);
+          
           setState(() {
             _gruposSelecionados.remove(grupo);
           });
-          
-          final dorProvider = Provider.of<DorProvider>(context, listen: false);
-          dorProvider.removerRegiao(grupo);
         }
       }
     }
@@ -167,6 +187,101 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
     {'id': 'pe_direito', 'grupo': 'pe_direito', 'x': 225.96, 'y': 595.20, 'width': _refWidth, 'height': _refHeight}, // #30
   ];
 
+  void _mostrarPopupConfirmacao() {
+    final dorProvider = Provider.of<DorProvider>(context, listen: false);
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            const Icon(
+              Icons.location_on,
+              color: AppColors.buttonPrimary,
+              size: 24,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              'Locais Selecionados',
+              style: AppTypography.heading2Primary,
+            ),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Você selecionou ${dorProvider.totalPontosSelecionados} ${dorProvider.totalPontosSelecionados == 1 ? 'local' : 'locais'} de dor:',
+                style: AppTypography.bodyMedium,
+              ),
+              const SizedBox(height: 16),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: dorProvider.descricoesPontos.map((desc) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.stateError.withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(
+                        color: AppColors.stateError.withOpacity(0.5),
+                        width: 1.5,
+                      ),
+                    ),
+                    child: Text(
+                      desc,
+                      style: AppTypography.labelSmall.copyWith(
+                        color: AppColors.stateError,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              'Editar',
+              style: AppTypography.bodyMedium.copyWith(
+                color: AppColors.textSecondary,
+              ),
+            ),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Fecha o dialog
+              Navigator.pop(context, true); // Volta para a tela anterior
+            },
+            style: TextButton.styleFrom(
+              backgroundColor: AppColors.buttonPrimary,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: Text(
+              'Confirmar',
+              style: AppTypography.bodyMedium.copyWith(
+                color: AppColors.textWhite,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -209,86 +324,14 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
             ),
           ),
           
-          // Mostrar regiões selecionadas
-          Consumer<DorProvider>(
-            builder: (context, dorProvider, child) {
-              if (dorProvider.temRegioesSelecionadas) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: AppColors.buttonPrimary.withOpacity(0.1),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColors.buttonPrimary.withOpacity(0.3),
-                    ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.location_on,
-                            size: 16,
-                            color: AppColors.buttonPrimary,
-                          ),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Locais selecionados:',
-                            style: AppTypography.textPrimary.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 8),
-                      Wrap(
-                        spacing: 6,
-                        runSpacing: 6,
-                        children: dorProvider.descricoesPontos.map((desc) {
-                          return Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 8,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: AppColors.stateError.withOpacity(0.15),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(
-                                color: AppColors.stateError.withOpacity(0.3),
-                              ),
-                            ),
-                            child: Text(
-                              desc,
-                              style: AppTypography.textPrimary.copyWith(
-                                fontSize: 11,
-                                color: AppColors.stateError,
-                              ),
-                            ),
-                          );
-                        }).toList(),
-                      ),
-                    ],
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-          
           // Botão Confirmar Região
           Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
             child: AppButton(
               label: l10n.confirmSelection,
               onPressed: _gruposSelecionados.isEmpty
                   ? null
-                  : () {
-                      // Dados já salvos no Provider, apenas volta para a tela anterior
-                      Navigator.pop(context, true);
-                    },
+                  : _mostrarPopupConfirmacao,
             ),
           ),
         ],

@@ -44,11 +44,13 @@ class _PainDetailPageState extends State<PainDetailPage> {
         if (part.contains(':')) {
           final parts = part.split(':');
           if (parts.length == 2) {
-            final regiao = parts[0].trim();
+            final regiaoId = parts[0].trim();
             final ponto = parts[1].trim();
+            // Converte região ID para nome formatado (ex: "braço_direito" -> "Braço esquerdo")
+            final nomeRegiao = BodyRegionMapper.getNomeRegiao(regiaoId);
             // Converte para nome completo: "Região: Local específico"
-            final nomeLocal = BodyRegionMapper.getNomePontoDetalhe(regiao, ponto);
-            return '$regiao: $nomeLocal';
+            final nomeLocal = BodyRegionMapper.getNomePontoDetalhe(nomeRegiao, ponto);
+            return '$nomeRegiao: $nomeLocal';
           }
         }
         // Caso contrário, usa getNomePonto para IDs diretos

@@ -338,6 +338,10 @@ class _DorPageState extends State<DorPage> {
                         colorFilter: const ColorFilter.mode(AppColors.buttonPrimary, BlendMode.srcIn),
                       ),
                       onPressed: () {
+                        // Limpa seleções anteriores antes de abrir a página
+                        final dorProvider = Provider.of<DorProvider>(context, listen: false);
+                        dorProvider.limparSelecoes();
+                        
                         Navigator.push(
                           context,
                           MaterialPageRoute(
