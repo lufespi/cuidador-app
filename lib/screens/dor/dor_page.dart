@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_card.dart';
@@ -8,6 +9,8 @@ import '../../core/widgets/app_outlined_button.dart';
 import '../../core/widgets/app_dropdown.dart';
 import '../../core/widgets/app_text_field.dart';
 import '../../l10n/app_localizations.dart';
+import '../../data/services/pain_service.dart';
+import 'dor_provider.dart';
 import 'indicar_local_page.dart';
 
 class DorPage extends StatefulWidget {
@@ -18,14 +21,150 @@ class DorPage extends StatefulWidget {
 }
 
 class _DorPageState extends State<DorPage> {
+  final PainService _painService = PainService();
   double _nivelDor = 5.0;
   final TextEditingController _anotacaoController = TextEditingController();
   String _periodoHistorico = '30'; // dias
+  List<Map<String, dynamic>> _registrosRecentes = [];
+  bool _isLoadingRegistros = false;
+  bool _isSavingRecord = false;
+  String? _errorLoadingRegistros;
+
+  @override
+  void initState() {
+    super.initState();
+    _carregarRegistrosRecentes();
+  }
 
   @override
   void dispose() {
     _anotacaoController.dispose();
     super.dispose();
+  }
+
+  Future<void> _carregarRegistrosRecentes() async {
+    setState(() {
+      _isLoadingRegistros = true;
+    });
+
+    try {
+      // Calcula data inicial baseada no período selecionado
+      DateTime? startDate;
+      if (_periodoHistorico != 'custom') {
+        final dias = int.parse(_periodoHistorico);
+        startDate = DateTime.now().subtract(Duration(days: dias));
+      }
+
+      final registros = await _painService.getPainRecords(
+        startDate: startDate,
+        limit: 50,
+      );
+      if (mounted) {
+        setState(() {
+          _registrosRecentes = registros.map((record) {
+            return {
+              'id': record.id,
+              'nivel': record.intensidade,
+              'data': _formatarData(record.dataRegistro),
+              'descricao': record.descricao ?? 'Sem descrição',
+              'bodyParts': record.bodyParts,
+              'dataCompleta': record.dataRegistro,
+            };
+          }).toList();
+          _isLoadingRegistros = false;
+          _errorLoadingRegistros = null;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoadingRegistros = false;
+          _errorLoadingRegistros = e.toString();
+        });
+        debugPrint('Erro ao carregar registros: $e');
+      }
+    }
+  }
+
+  String _formatarData(DateTime data) {
+    final now = DateTime.now();
+    final diff = now.difference(data);
+    
+    if (diff.inDays == 0) {
+      return '${data.hour.toString().padLeft(2, '0')}:${data.minute.toString().padLeft(2, '0')}';
+    } else if (diff.inDays == 1) {
+      return 'Ontem às ${data.hour.toString().padLeft(2, '0')}:${data.minute.toString().padLeft(2, '0')}';
+    } else {
+      final meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+      return '${data.day} de ${meses[data.month - 1]} de ${data.hour.toString().padLeft(2, '0')}:${data.minute.toString().padLeft(2, '0')}';
+    }
+  }
+
+  Future<void> _salvarRegistro() async {
+    if (_isSavingRecord) return; // Previne múltiplos cliques
+
+    final dorProvider = Provider.of<DorProvider>(context, listen: false);
+    final localizacoes = dorProvider.getLocalizacoesParaSalvar();
+
+    if (localizacoes.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Por favor, indique os locais da dor antes de salvar'),
+          backgroundColor: AppColors.stateWarning,
+        ),
+      );
+      return;
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _isSavingRecord = true;
+    });
+
+    try {
+      await _painService.createPainRecord(
+        bodyParts: localizacoes,
+        intensidade: _nivelDor.round(),
+        descricao: _anotacaoController.text.isNotEmpty ? _anotacaoController.text : null,
+      );
+
+      if (mounted) {
+        // Limpa as seleções após salvar
+        dorProvider.limparSelecoes();
+        _anotacaoController.clear();
+        setState(() {
+          _nivelDor = 5.0; // Reset nível de dor
+        });
+
+        // Recarrega os registros
+        await _carregarRegistrosRecentes();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Registro de dor salvo com sucesso!'),
+            backgroundColor: AppColors.stateSuccess,
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao salvar registro: $e'),
+            backgroundColor: AppColors.stateError,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSavingRecord = false;
+        });
+      }
+    }
   }
 
   String _getDescricaoDor(AppLocalizations l10n) {
@@ -52,13 +191,16 @@ class _DorPageState extends State<DorPage> {
     
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
+        child: RefreshIndicator(
+          onRefresh: _carregarRegistrosRecentes,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
 
-              // Card - Como você está se sentindo hoje
-            AppCard(
+                // Card - Como você está se sentindo hoje
+              AppCard(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -207,6 +349,54 @@ class _DorPageState extends State<DorPage> {
                   ),
                   const SizedBox(height: 16),
 
+                  // Mostra localizações selecionadas
+                  Consumer<DorProvider>(
+                    builder: (context, dorProvider, child) {
+                      final descricoes = dorProvider.descricoesPontos;
+                      if (descricoes.isEmpty) {
+                        return const SizedBox.shrink();
+                      }
+                      
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Locais selecionados:',
+                            style: AppTypography.label,
+                          ),
+                          const SizedBox(height: 8),
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 8,
+                            children: descricoes.map((desc) {
+                              return Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 12,
+                                  vertical: 6,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.stateError.withValues(alpha: 0.2),
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                    color: AppColors.stateError.withValues(alpha: 0.5),
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Text(
+                                  desc,
+                                  style: AppTypography.labelSmall.copyWith(
+                                    color: AppColors.stateError,
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                          const SizedBox(height: 16),
+                        ],
+                      );
+                    },
+                  ),
+
                   // Campo de anotação
                   Text(
                     l10n.addAnnotation,
@@ -223,15 +413,8 @@ class _DorPageState extends State<DorPage> {
 
                   // Botão Salvar Registro
                   AppButton(
-                    label: l10n.saveRecord,
-                    onPressed: () {
-                      // Lógica para salvar registro
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(l10n.recordSavedSuccess),
-                        ),
-                      );
-                    },
+                    label: _isSavingRecord ? 'Salvando...' : l10n.saveRecord,
+                    onPressed: _isSavingRecord ? null : _salvarRegistro,
                   ),
                 ],
               ),
@@ -291,6 +474,7 @@ class _DorPageState extends State<DorPage> {
                             setState(() {
                               _periodoHistorico = value!;
                             });
+                            _carregarRegistrosRecentes();
                           }
                         },
                       ),
@@ -359,6 +543,14 @@ class _DorPageState extends State<DorPage> {
                           style: AppTypography.heading2Primary,
                         ),
                       ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.refresh,
+                          color: AppColors.buttonPrimary,
+                        ),
+                        onPressed: _isLoadingRegistros ? null : _carregarRegistrosRecentes,
+                        tooltip: 'Atualizar',
+                      ),
                     ],
                   ),
                   const SizedBox(height: 4),
@@ -369,32 +561,97 @@ class _DorPageState extends State<DorPage> {
                   const SizedBox(height: 20),
 
                   // Lista de registros recentes
-                  _buildRegistroRecente(
-                    nivel: 7,
-                    data: '26 de out de 11:13',
-                    descricao: l10n.painAfterExercise,
-                    cor: AppColors.stateError,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildRegistroRecente(
-                    nivel: 6,
-                    data: '23 de out de 14:25',
-                    descricao: l10n.morningStiffness,
-                    cor: AppColors.stateWarning,
-                  ),
-                  const SizedBox(height: 12),
-                  _buildRegistroRecente(
-                    nivel: 5,
-                    data: '20 de out de 16:32',
-                    descricao: l10n.moderatePainAfterWalk,
-                    cor: AppColors.stateWarning,
-                  ),
+                  _isLoadingRegistros
+                      ? const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(20.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                        )
+                      : _errorLoadingRegistros != null
+                          ? Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: AppColors.stateError.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AppColors.stateError.withValues(alpha: 0.3),
+                                ),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.error_outline,
+                                    color: AppColors.stateError,
+                                    size: 48,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'Erro ao carregar registros',
+                                    style: AppTypography.bodyMedium.copyWith(
+                                      color: AppColors.stateError,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  TextButton.icon(
+                                    onPressed: _carregarRegistrosRecentes,
+                                    icon: const Icon(Icons.refresh),
+                                    label: const Text('Tentar novamente'),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : _registrosRecentes.isEmpty
+                          ? Container(
+                              padding: const EdgeInsets.all(20),
+                              decoration: BoxDecoration(
+                                color: AppColors.surfaceVariant.withValues(alpha: 0.3),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Column(
+                                children: [
+                                  Icon(
+                                    Icons.inbox_outlined,
+                                    size: 48,
+                                    color: AppColors.textDisabled,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    'Nenhum registro encontrado',
+                                    style: AppTypography.textDisabled,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    'Registre sua primeira dor acima',
+                                    style: AppTypography.labelSmall.copyWith(
+                                      color: AppColors.textDisabled,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Column(
+                              children: _registrosRecentes.map((registro) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: _buildRegistroRecente(
+                                    id: registro['id'],
+                                    nivel: registro['nivel'],
+                                    data: registro['data'],
+                                    descricao: registro['descricao'],
+                                    bodyParts: registro['bodyParts'],
+                                    dataCompleta: registro['dataCompleta'],
+                                  ),
+                                );
+                              }).toList(),
+                            ),
                 ],
               ),
             ),
 
             const SizedBox(height: 80), // Espaço para bottom navigation
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -402,62 +659,95 @@ class _DorPageState extends State<DorPage> {
   }
 
   Widget _buildRegistroRecente({
+    required String id,
     required int nivel,
     required String data,
     required String descricao,
-    required Color cor,
+    required List<dynamic> bodyParts,
+    required DateTime dataCompleta,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: AppColors.buttonPrimary.withValues(alpha: 0.2),
-          width: 1.5,
+    final cor = nivel >= 7
+        ? AppColors.stateError
+        : nivel >= 5
+            ? AppColors.stateWarning
+            : AppColors.stateSuccess;
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/pain-detail',
+          arguments: {
+            'id': id,
+            'nivel': nivel,
+            'data': dataCompleta,
+            'descricao': descricao,
+            'bodyParts': bodyParts,
+          },
+        );
+      },
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surface,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: AppColors.buttonPrimary.withValues(alpha: 0.2),
+            width: 1.5,
+          ),
         ),
-      ),
-      child: Row(
-        children: [
-          // Número do nível
-          Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: Theme.of(context).brightness == Brightness.dark
-                  ? const Color(0xFF192E2D)  // Mesma cor do subcard "Dor Moderada" no dark
-                  : AppColors.surfaceVariant, // Mesma cor do subcard no light
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: Text(
-                '$nivel',
-                style: AppTypography.displayLarge.copyWith(
-                  color: AppColors.buttonPrimary, // Verde principal
+        child: Row(
+          children: [
+            // Número do nível
+            Container(
+              width: 48,
+              height: 48,
+              decoration: BoxDecoration(
+                color: Theme.of(context).brightness == Brightness.dark
+                    ? const Color(0xFF192E2D)
+                    : AppColors.surfaceVariant,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Text(
+                  '$nivel',
+                  style: AppTypography.displayLarge.copyWith(
+                    color: AppColors.buttonPrimary,
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 12),
+            const SizedBox(width: 12),
 
-          // Informações
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  data,
-                  style: AppTypography.labelSmall,
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  descricao,
-                  style: AppTypography.bodyMedium,
-                ),
-              ],
+            // Informações
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data,
+                    style: AppTypography.labelSmall,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    descricao,
+                    style: AppTypography.bodyMedium,
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+
+            // Indicador de cor
+            Container(
+              width: 4,
+              height: 48,
+              decoration: BoxDecoration(
+                color: cor,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

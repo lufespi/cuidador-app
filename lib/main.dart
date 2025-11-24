@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'screens/dor/pain_detail_page.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_typography.dart';
@@ -8,6 +9,7 @@ import 'core/l10n/locale_provider.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/auth/index.dart';
 import 'screens/auth/register/register_provider.dart';
+import 'screens/dor/dor_provider.dart';
 
 void main() => runApp(
   MultiProvider(
@@ -15,6 +17,7 @@ void main() => runApp(
       ChangeNotifierProvider(create: (_) => app_theme.ThemeProvider()),
       ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ChangeNotifierProvider(create: (_) => RegisterProvider()),
+      ChangeNotifierProvider(create: (_) => DorProvider()),
     ],
     child: const CuidaDorApp(),
   ),
@@ -54,6 +57,15 @@ class CuidaDorApp extends StatelessWidget {
         Locale('pt', 'BR'),
         Locale('en', 'US'),
       ],
+      onGenerateRoute: (settings) {
+        if (settings.name == '/pain-detail') {
+          return MaterialPageRoute(
+            builder: (context) => const PainDetailPage(),
+            settings: settings,
+          );
+        }
+        return null;
+      },
       home: const LoginPage(),
     );
   }

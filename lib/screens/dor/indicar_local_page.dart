@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_button.dart';
 import '../../l10n/app_localizations.dart';
+import 'dor_provider.dart';
+import 'body_region_mapper.dart';
 import 'regioes/head_page.dart';
 import 'regioes/torso_page.dart';
 import 'regioes/left_arm_page.dart';
@@ -30,7 +33,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
   final Set<String> _gruposSelecionados = {};
 
   // Função para navegar para a página de detalhe do grupo
-  void _navegarParaGrupo(String grupo) {
+  void _navegarParaGrupo(String grupo) async {
     Widget? page;
     
     switch (grupo) {
@@ -72,24 +75,41 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
         break;
     }
     
-    if (page != null) {
-      Navigator.push(
+    if (page != null && mounted) {
+      final pontosSelecionados = await Navigator.push<List<String>>(
         context,
         MaterialPageRoute(builder: (context) => page!),
-      ).then((pontosSelecionados) {
-        // Aqui você pode processar os pontos selecionados retornados
-        if (pontosSelecionados != null && pontosSelecionados is List && pontosSelecionados.isNotEmpty) {
+      );
+
+      // Processa os pontos selecionados retornados
+      if (pontosSelecionados != null && mounted) {
+        if (pontosSelecionados.isNotEmpty) {
           setState(() {
             _gruposSelecionados.add(grupo);
           });
+          
+          // Converte pontos para descrições legíveis
+          final nomeRegiao = BodyRegionMapper.getNomeRegiao(grupo);
+          final descricoes = pontosSelecionados.map((ponto) {
+            return '$nomeRegiao: ${BodyRegionMapper.getNomePontoDetalhe(nomeRegiao, ponto)}';
+          }).toList();
+          
+          // Salva temporariamente (ainda não envia ao backend)
+          final dorProvider = Provider.of<DorProvider>(context, listen: false);
+          dorProvider.adicionarRegiao(grupo, pontosSelecionados, descricoes);
+          
           debugPrint('Pontos selecionados no grupo $grupo: $pontosSelecionados');
+          debugPrint('Descrições: $descricoes');
         } else {
-          // Se não houver pontos selecionados, remove o grupo do conjunto
+          // Se não houver pontos selecionados, remove o grupo
           setState(() {
             _gruposSelecionados.remove(grupo);
           });
+          
+          final dorProvider = Provider.of<DorProvider>(context, listen: false);
+          dorProvider.removerRegiao(grupo);
         }
-      });
+      }
     }
   }
 
@@ -188,6 +208,76 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
               ),
             ),
           ),
+          
+          // Mostrar regiões selecionadas
+          Consumer<DorProvider>(
+            builder: (context, dorProvider, child) {
+              if (dorProvider.temRegioesSelecionadas) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppColors.buttonPrimary.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: AppColors.buttonPrimary.withOpacity(0.3),
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.location_on,
+                            size: 16,
+                            color: AppColors.buttonPrimary,
+                          ),
+                          const SizedBox(width: 4),
+                          Text(
+                            'Locais selecionados:',
+                            style: AppTypography.textPrimary.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: dorProvider.descricoesPontos.map((desc) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 4,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.stateError.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.stateError.withOpacity(0.3),
+                              ),
+                            ),
+                            child: Text(
+                              desc,
+                              style: AppTypography.textPrimary.copyWith(
+                                fontSize: 11,
+                                color: AppColors.stateError,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+          
           // Botão Confirmar Região
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
@@ -196,8 +286,8 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
               onPressed: _gruposSelecionados.isEmpty
                   ? null
                   : () {
-                      // TODO: Implementar confirmação de região
-                      Navigator.pop(context);
+                      // Dados já salvos no Provider, apenas volta para a tela anterior
+                      Navigator.pop(context, true);
                     },
             ),
           ),

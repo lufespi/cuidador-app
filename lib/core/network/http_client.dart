@@ -40,7 +40,12 @@ class HttpClient {
     bool requiresAuth = false,
   }) async {
     try {
+      print('🔵 POST $url (requiresAuth: $requiresAuth)');
       final allHeaders = await _buildHeaders(headers, requiresAuth);
+      
+      if (requiresAuth) {
+        print('🔐 Authorization header: ${allHeaders['Authorization']?.substring(0, 30)}...');
+      }
       
       final response = await _client
           .post(
@@ -118,9 +123,10 @@ class HttpClient {
     
     if (requiresAuth) {
       final token = await _tokenStorage.getAccessToken();
-      if (token != null) {
-        headers['Authorization'] = 'Bearer $token';
+      if (token == null || token.isEmpty) {
+        throw UnauthorizedException(message: 'Token ausente. Faça login novamente.');
       }
+      headers['Authorization'] = 'Bearer $token';
     }
     
     return headers;
