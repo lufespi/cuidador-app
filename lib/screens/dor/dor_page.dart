@@ -35,6 +35,12 @@ class _DorPageState extends State<DorPage> {
   bool _isLoadingGrafico = false;
   bool _isSavingRecord = false;
   String? _errorLoadingRegistros;
+  
+  // Datas personalizadas
+  DateTime? _dataInicialGrafico;
+  DateTime? _dataFinalGrafico;
+  DateTime? _dataInicialLista;
+  DateTime? _dataFinalLista;
 
   @override
   void initState() {
@@ -58,15 +64,21 @@ class _DorPageState extends State<DorPage> {
     try {
       // Calcula data inicial baseada no período selecionado da lista
       DateTime? startDate;
-      if (_periodoLista == 'today') {
+      DateTime? endDate;
+      
+      if (_periodoLista == 'custom') {
+        startDate = _dataInicialLista;
+        endDate = _dataFinalLista;
+      } else if (_periodoLista == 'today') {
         startDate = DateTime.now().subtract(const Duration(hours: 24));
-      } else if (_periodoLista != 'custom') {
+      } else {
         final dias = int.parse(_periodoLista);
         startDate = DateTime.now().subtract(Duration(days: dias));
       }
 
       final registros = await _painService.getPainRecords(
         startDate: startDate,
+        endDate: endDate,
         limit: 100, // Carregar mais para permitir paginação
       );
       if (mounted) {
@@ -104,13 +116,19 @@ class _DorPageState extends State<DorPage> {
     try {
       // Calcula data inicial baseada no período do gráfico
       DateTime? startDate;
-      if (_periodoHistorico != 'custom') {
+      DateTime? endDate;
+      
+      if (_periodoHistorico == 'custom') {
+        startDate = _dataInicialGrafico;
+        endDate = _dataFinalGrafico;
+      } else {
         final dias = int.parse(_periodoHistorico);
         startDate = DateTime.now().subtract(Duration(days: dias));
       }
 
       final registros = await _painService.getPainRecords(
         startDate: startDate,
+        endDate: endDate,
         limit: 50,
       );
       if (mounted) {
@@ -256,6 +274,90 @@ class _DorPageState extends State<DorPage> {
     if (_nivelDor >= 5 && _nivelDor <= 6) return l10n.painModerateDesc;
     if (_nivelDor >= 7 && _nivelDor <= 8) return l10n.painSevereDesc;
     return l10n.painUnbearableDesc; // 9-10
+  }
+
+  Future<void> _mostrarSeletorDataPersonalizada({required bool isGrafico}) async {
+    DateTime? dataInicial = isGrafico ? _dataInicialGrafico : _dataInicialLista;
+    DateTime? dataFinal = isGrafico ? _dataFinalGrafico : _dataFinalLista;
+
+    // Selecionar data inicial
+    final novaDataInicial = await showDatePicker(
+      context: context,
+      initialDate: dataInicial ?? DateTime.now().subtract(const Duration(days: 30)),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.now(),
+      locale: const Locale('pt', 'BR'),
+      helpText: 'Selecione a data inicial',
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.buttonPrimary,
+              onPrimary: Colors.white,
+              surface: Theme.of(context).colorScheme.surface,
+              onSurface: AppColors.textPrimary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (novaDataInicial == null || !mounted) return;
+
+    // Selecionar data final
+    final novaDataFinal = await showDatePicker(
+      context: context,
+      initialDate: dataFinal ?? DateTime.now(),
+      firstDate: novaDataInicial,
+      lastDate: DateTime.now(),
+      locale: const Locale('pt', 'BR'),
+      helpText: 'Selecione a data final',
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: AppColors.buttonPrimary,
+              onPrimary: Colors.white,
+              surface: Theme.of(context).colorScheme.surface,
+              onSurface: AppColors.textPrimary,
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (novaDataFinal == null || !mounted) return;
+
+    // Atualiza as datas e recarrega
+    setState(() {
+      if (isGrafico) {
+        _dataInicialGrafico = novaDataInicial;
+        _dataFinalGrafico = novaDataFinal;
+        _periodoHistorico = 'custom';
+      } else {
+        _dataInicialLista = novaDataInicial;
+        _dataFinalLista = novaDataFinal;
+        _periodoLista = 'custom';
+      }
+    });
+
+    if (isGrafico) {
+      _carregarRegistrosGrafico();
+    } else {
+      _carregarRegistrosRecentes();
+    }
+  }
+
+  String _formatarPeriodoPersonalizado(DateTime? dataInicial, DateTime? dataFinal) {
+    if (dataInicial == null || dataFinal == null) return 'Personalizado';
+    
+    final meses = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
+    final mesInicial = meses[dataInicial.month - 1];
+    final mesFinal = meses[dataFinal.month - 1];
+    
+    return '${dataInicial.day} $mesInicial ${dataInicial.year} - ${dataFinal.day} $mesFinal ${dataFinal.year}';
   }
 
   // Getters para paginação
@@ -541,8 +643,48 @@ class _DorPageState extends State<DorPage> {
                           ],
                         ),
                       ),
-                      // Dropdown de período
-                      AppDropdown<String>(
+                      // Dropdown de período ou período personalizado
+                      _periodoHistorico == 'custom' && _dataInicialGrafico != null
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: AppColors.buttonPrimary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppColors.buttonPrimary),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => _mostrarSeletorDataPersonalizada(isGrafico: true),
+                                    child: Text(
+                                      _formatarPeriodoPersonalizado(_dataInicialGrafico, _dataFinalGrafico),
+                                      style: AppTypography.labelSmall.copyWith(
+                                        color: AppColors.buttonPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  GestureDetector(
+                                    onTap: () => _mostrarSeletorDataPersonalizada(isGrafico: true),
+                                    child: const Icon(Icons.edit, size: 16, color: AppColors.buttonPrimary),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _periodoHistorico = '30';
+                                        _dataInicialGrafico = null;
+                                        _dataFinalGrafico = null;
+                                      });
+                                      _carregarRegistrosGrafico();
+                                    },
+                                    child: const Icon(Icons.close, size: 16, color: AppColors.buttonPrimary),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : AppDropdown<String>(
                         value: _periodoHistorico,
                         items: [
                           DropdownMenuItem(value: '7', child: Text('7 ${l10n.days}')),
@@ -554,16 +696,12 @@ class _DorPageState extends State<DorPage> {
                         ],
                         onChanged: (value) {
                           if (value == 'custom') {
-                            // TODO: Implementar seletor de data personalizado
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(l10n.customPeriodSoon),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
+                            _mostrarSeletorDataPersonalizada(isGrafico: true);
                           } else {
                             setState(() {
                               _periodoHistorico = value!;
+                              _dataInicialGrafico = null;
+                              _dataFinalGrafico = null;
                             });
                             _carregarRegistrosGrafico();
                           }
@@ -618,8 +756,48 @@ class _DorPageState extends State<DorPage> {
                           ],
                         ),
                       ),
-                      // Dropdown de período
-                      AppDropdown<String>(
+                      // Dropdown de período ou período personalizado
+                      _periodoLista == 'custom' && _dataInicialLista != null
+                          ? Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: AppColors.buttonPrimary.withValues(alpha: 0.1),
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: AppColors.buttonPrimary),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  GestureDetector(
+                                    onTap: () => _mostrarSeletorDataPersonalizada(isGrafico: false),
+                                    child: Text(
+                                      _formatarPeriodoPersonalizado(_dataInicialLista, _dataFinalLista),
+                                      style: AppTypography.labelSmall.copyWith(
+                                        color: AppColors.buttonPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  GestureDetector(
+                                    onTap: () => _mostrarSeletorDataPersonalizada(isGrafico: false),
+                                    child: const Icon(Icons.edit, size: 16, color: AppColors.buttonPrimary),
+                                  ),
+                                  const SizedBox(width: 4),
+                                  GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _periodoLista = 'today';
+                                        _dataInicialLista = null;
+                                        _dataFinalLista = null;
+                                      });
+                                      _carregarRegistrosRecentes();
+                                    },
+                                    child: const Icon(Icons.close, size: 16, color: AppColors.buttonPrimary),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : AppDropdown<String>(
                         value: _periodoLista,
                         items: [
                           DropdownMenuItem(value: 'today', child: Text('Hoje')),
@@ -630,15 +808,12 @@ class _DorPageState extends State<DorPage> {
                         ],
                         onChanged: (value) {
                           if (value == 'custom') {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(l10n.customPeriodSoon),
-                                duration: const Duration(seconds: 2),
-                              ),
-                            );
+                            _mostrarSeletorDataPersonalizada(isGrafico: false);
                           } else {
                             setState(() {
                               _periodoLista = value!;
+                              _dataInicialLista = null;
+                              _dataFinalLista = null;
                             });
                             _carregarRegistrosRecentes();
                           }
@@ -740,7 +915,7 @@ class _DorPageState extends State<DorPage> {
                                       dataCompleta: registro['dataCompleta'],
                                     ),
                                   );
-                                }).toList(),
+                                }),
                                 
                                 // Paginação
                                 if (_totalPaginas > 1) ...[
