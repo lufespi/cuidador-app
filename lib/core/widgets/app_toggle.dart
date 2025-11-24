@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppToggle extends StatelessWidget {
   final bool value;
-  final ValueChanged<bool> onChanged;
+  final ValueChanged<bool>? onChanged;
 
   const AppToggle({
     super.key,
@@ -15,7 +15,7 @@ class AppToggle extends StatelessWidget {
     final theme = Theme.of(context);
     
     return GestureDetector(
-      onTap: () => onChanged(!value),
+      onTap: onChanged != null ? () => onChanged!(!value) : null,
       child: Container(
         width: 48,
         height: 28,

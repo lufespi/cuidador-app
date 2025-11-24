@@ -363,41 +363,50 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
                       ),
                       const SizedBox(height: 16),
                       
-                      // Text to speech toggle
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.volume_up,
-                            color: Theme.of(context).colorScheme.onSurface,
-                            size: 20,
-                          ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'Texto-Para-Fala',
-                                  style: AppTypography.textPrimary.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                Text(
-                                  'Leitura de textos em voz alta',
-                                  style: AppTypography.textDisabled,
-                                ),
-                              ],
+                      // Text to speech toggle (DESABILITADO - Em desenvolvimento)
+                      Opacity(
+                        opacity: 0.5,
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.volume_up,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              size: 20,
                             ),
-                          ),
-                          AppToggle(
-                            value: _textToSpeech,
-                            onChanged: (value) {
-                              setState(() {
-                                _textToSpeech = value;
-                              });
-                            },
-                          ),
-                        ],
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Texto-Para-Fala',
+                                    style: AppTypography.textPrimary.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  Text(
+                                    'Leitura de textos em voz alta',
+                                    style: AppTypography.textDisabled,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Esta funcionalidade está em desenvolvimento'),
+                                    duration: Duration(seconds: 2),
+                                  ),
+                                );
+                              },
+                              child: AppToggle(
+                                value: false,
+                                onChanged: null,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

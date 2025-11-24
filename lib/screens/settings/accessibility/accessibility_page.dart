@@ -7,7 +7,6 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/theme/theme_provider.dart' as app_theme;
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_toggle.dart';
-import '../../../core/widgets/app_button.dart';
 
 class AccessibilityPage extends StatefulWidget {
   const AccessibilityPage({super.key});
@@ -19,7 +18,6 @@ class AccessibilityPage extends StatefulWidget {
 class _AccessibilityPageState extends State<AccessibilityPage> {
   double _fontSizeLevel = 3; // 0-6, onde 3 é médio
   bool _highContrast = false;
-  bool _textToSpeech = false;
 
   @override
   void initState() {
@@ -39,16 +37,7 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
     return labels[_fontSizeLevel.toInt()];
   }
 
-  void _handleSave() {
-    final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar preferências de acessibilidade
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.successPreferencesSaved),
-      ),
-    );
-    Navigator.pop(context);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -264,54 +253,52 @@ class _AccessibilityPageState extends State<AccessibilityPage> {
                     ),
                     const SizedBox(height: 16),
                     
-                    // Texto-Para-Fala toggle
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.volume_up,
-                          color: Theme.of(context).colorScheme.onSurface,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                l10n.textToSpeech,
-                                style: AppTypography.textPrimary.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                l10n.textToSpeechDescription,
-                                style: AppTypography.textDisabled,
-                              ),
-                            ],
+                    // Texto-Para-Fala toggle (DESABILITADO - Em desenvolvimento)
+                    Opacity(
+                      opacity: 0.5,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.volume_up,
+                            color: Theme.of(context).colorScheme.onSurface,
+                            size: 20,
                           ),
-                        ),
-                        AppToggle(
-                          value: _textToSpeech,
-                          onChanged: (value) {
-                            setState(() {
-                              _textToSpeech = value;
-                            });
-                          },
-                        ),
-                      ],
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  l10n.textToSpeech,
+                                  style: AppTypography.textPrimary.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                Text(
+                                  l10n.textToSpeechDescription,
+                                  style: AppTypography.textDisabled,
+                                ),
+                              ],
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Esta funcionalidade está em desenvolvimento'),
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
+                            },
+                            child: AppToggle(
+                              value: false,
+                              onChanged: null,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
-                ),
-              ),
-              
-              const SizedBox(height: 24),
-              
-              // Botão Salvar Alterações
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: AppButton(
-                  label: l10n.saveChanges,
-                  onPressed: _handleSave,
                 ),
               ),
               

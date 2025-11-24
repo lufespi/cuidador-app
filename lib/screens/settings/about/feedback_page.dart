@@ -112,7 +112,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
                           borderRadius: BorderRadius.circular(12),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withAlpha(25),
+                              color: Theme.of(context).brightness == Brightness.dark 
+                                  ? Colors.black.withAlpha(50)
+                                  : Colors.black.withAlpha(25),
                               blurRadius: 8,
                               offset: const Offset(0, 2),
                             ),
@@ -120,11 +122,31 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         ),
                         child: DropdownButtonFormField<String>(
                           initialValue: _selectedType.isEmpty ? null : _selectedType,
+                          hint: Text(
+                            l10n.genderHint,
+                            style: AppTypography.textDisabled.copyWith(
+                              color: Theme.of(context).brightness == Brightness.dark
+                                  ? AppColors.textDisabled
+                                  : AppColors.textDisabled,
+                            ),
+                          ),
+                          style: AppTypography.textPrimary.copyWith(
+                            color: Theme.of(context).brightness == Brightness.dark
+                                ? AppColors.textPrimary
+                                : AppColors.textPrimary,
+                          ),
+                          icon: Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                          dropdownColor: Theme.of(context).brightness == Brightness.dark
+                              ? AppColors.inputBackground
+                              : AppColors.inputBackground,
                           decoration: InputDecoration(
                             filled: true,
                             fillColor: Theme.of(context).brightness == Brightness.dark
-                                ? const Color(0xFF2E3838)
-                                : Colors.white,
+                                ? AppColors.inputBackground
+                                : AppColors.inputBackground,
                             isDense: true,
                             constraints: const BoxConstraints(minHeight: 48),
                             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -144,12 +166,51 @@ class _FeedbackPageState extends State<FeedbackPage> {
                               ),
                             ),
                           ),
-                          style: AppTypography.textPrimary,
                           items: [
-                            DropdownMenuItem(value: 'suggestion', child: Text(l10n.suggestion)),
-                            DropdownMenuItem(value: 'problem', child: Text(l10n.problem)),
-                            DropdownMenuItem(value: 'compliment', child: Text(l10n.compliment)),
-                            DropdownMenuItem(value: 'other', child: Text(l10n.other)),
+                            DropdownMenuItem(
+                              value: 'suggestion',
+                              child: Text(
+                                l10n.suggestion,
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.textPrimary
+                                      : AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 'problem',
+                              child: Text(
+                                l10n.problem,
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.textPrimary
+                                      : AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 'compliment',
+                              child: Text(
+                                l10n.compliment,
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.textPrimary
+                                      : AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
+                            DropdownMenuItem(
+                              value: 'other',
+                              child: Text(
+                                l10n.other,
+                                style: AppTypography.textPrimary.copyWith(
+                                  color: Theme.of(context).brightness == Brightness.dark
+                                      ? AppColors.textPrimary
+                                      : AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
                           ],
                           onChanged: (value) {
                             setState(() {
