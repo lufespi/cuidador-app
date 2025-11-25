@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../data/services/auth_service.dart';
 import '../about/terms_page.dart';
 
 class PrivacyPage extends StatefulWidget {
@@ -16,11 +16,10 @@ class PrivacyPage extends StatefulWidget {
 }
 
 class _PrivacyPageState extends State<PrivacyPage> {
+  final AuthService _authService = AuthService();
   bool _dataUsageConsent = false;
   bool _shareAnonymousData = false;
-  
-  // Preferências de e-mail
-  bool _emailNotificationsEnabled = false;
+  String _dataSharePreference = 'none'; // 'none', 'full', 'diagnostic'
   
   @override
   void initState() {
@@ -29,12 +28,34 @@ class _PrivacyPageState extends State<PrivacyPage> {
   }
   
   Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _dataUsageConsent = prefs.getBool('dataUsageConsent') ?? false;
-      _shareAnonymousData = prefs.getBool('shareAnonymousData') ?? false;
-      _emailNotificationsEnabled = prefs.getBool('emailNotificationsEnabled') ?? false;
-    });
+    try {
+      // Carrega preferências do perfil do usuário
+      final user = await _authService.getProfile();
+      
+      setState(() {
+        // Determina qual toggle ativar baseado na preferência salva
+        if (user.dataSharePreference == 'full') {
+          _dataUsageConsent = true;
+          _shareAnonymousData = false;
+          _dataSharePreference = 'full';
+        } else if (user.dataSharePreference == 'diagnostic') {
+          _dataUsageConsent = false;
+          _shareAnonymousData = true;
+          _dataSharePreference = 'diagnostic';
+        } else {
+          _dataUsageConsent = false;
+          _shareAnonymousData = false;
+          _dataSharePreference = 'none';
+        }
+      });
+    } catch (e) {
+      // Se falhar, usa valores padrão (não compartilhar)
+      setState(() {
+        _dataUsageConsent = false;
+        _shareAnonymousData = false;
+        _dataSharePreference = 'none';
+      });
+    }
   }
 
   void _viewPrivacyPolicy() {
@@ -50,10 +71,10 @@ class _PrivacyPageState extends State<PrivacyPage> {
     final l10n = AppLocalizations.of(context)!;
     
     try {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setBool('dataUsageConsent', _dataUsageConsent);
-      await prefs.setBool('shareAnonymousData', _shareAnonymousData);
-      await prefs.setBool('emailNotificationsEnabled', _emailNotificationsEnabled);
+      // Salva preferências de compartilhamento no backend
+      await _authService.updateProfile(
+        dataSharePreference: _dataSharePreference,
+      );
       
       if (!mounted) return;
       
@@ -170,6 +191,9 @@ class _PrivacyPageState extends State<PrivacyPage> {
                                 _dataUsageConsent = value;
                                 if (value) {
                                   _shareAnonymousData = false; // Desabilita o outro
+                                  _dataSharePreference = 'full';
+                                } else {
+                                  _dataSharePreference = 'none';
                                 }
                               });
                             },
@@ -214,6 +238,9 @@ class _PrivacyPageState extends State<PrivacyPage> {
                                 _shareAnonymousData = value;
                                 if (value) {
                                   _dataUsageConsent = false; // Desabilita o outro
+                                  _dataSharePreference = 'diagnostic';
+                                } else {
+                                  _dataSharePreference = 'none';
                                 }
                               });
                             },
@@ -303,17 +330,28 @@ class _PrivacyPageState extends State<PrivacyPage> {
                               l10n.receiveEmailNotifications,
                               style: AppTypography.textPrimary.copyWith(
                                 fontWeight: FontWeight.w600,
+                                color: AppColors.textDisabled,
                               ),
                             ),
                           ),
                           const SizedBox(width: 16),
-                          AppToggle(
-                            value: _emailNotificationsEnabled,
-                            onChanged: (value) {
-                              setState(() {
-                                _emailNotificationsEnabled = value;
-                              });
+                          GestureDetector(
+                            onTap: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Funcionalidade estará disponível em breve'),
+                                  backgroundColor: AppColors.stateWarning,
+                                  duration: Duration(seconds: 2),
+                                ),
+                              );
                             },
+                            child: Opacity(
+                              opacity: 0.5,
+                              child: AppToggle(
+                                value: false,
+                                onChanged: null, // Desabilitado
+                              ),
+                            ),
                           ),
                         ],
                       ),

@@ -106,6 +106,7 @@ class AuthService {
     String? telefone,
     String? diagnostico,
     String? comorbidades,
+    String? dataSharePreference,
   }) async {
     final response = await _httpClient.put(
       ApiConfig.profileUrl,
@@ -116,6 +117,7 @@ class AuthService {
         if (telefone != null) 'telefone': telefone,
         if (diagnostico != null) 'diagnostico': diagnostico,
         if (comorbidades != null) 'comorbidades': comorbidades,
+        if (dataSharePreference != null) 'data_share_preference': dataSharePreference,
       },
       requiresAuth: true,
     );

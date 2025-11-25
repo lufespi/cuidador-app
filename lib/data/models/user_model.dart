@@ -11,6 +11,7 @@ class UserModel {
   final DateTime createdAt;
   final DateTime? updatedAt;
   final bool isAdmin;
+  final String dataSharePreference; // 'none', 'full', 'diagnostic'
 
   UserModel({
     required this.id,
@@ -24,6 +25,7 @@ class UserModel {
     required this.createdAt,
     this.updatedAt,
     this.isAdmin = false,
+    this.dataSharePreference = 'none',
   });
 
   /// Factory para criar do JSON
@@ -40,6 +42,7 @@ class UserModel {
       createdAt: _parseDate(json['created_at']) ?? DateTime.now(),
       updatedAt: _parseDate(json['updated_at']),
       isAdmin: json['is_admin'] == true || json['is_admin'] == 1,
+      dataSharePreference: json['data_share_preference'] as String? ?? 'none',
     );
   }
 
@@ -93,6 +96,7 @@ class UserModel {
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
       'is_admin': isAdmin,
+      'data_share_preference': dataSharePreference,
     };
   }
 
@@ -109,6 +113,7 @@ class UserModel {
     DateTime? createdAt,
     DateTime? updatedAt,
     bool? isAdmin,
+    String? dataSharePreference,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -122,6 +127,7 @@ class UserModel {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       isAdmin: isAdmin ?? this.isAdmin,
+      dataSharePreference: dataSharePreference ?? this.dataSharePreference,
     );
   }
 }

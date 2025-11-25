@@ -389,6 +389,35 @@ class _UserDetailPageState extends State<UserDetailPage> {
                                     color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                                   ),
                                 ),
+                              
+                              const SizedBox(height: 12),
+                              Divider(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+                              const SizedBox(height: 12),
+                              
+                              // Compartilhamento de dados
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.share_outlined,
+                                    color: isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary,
+                                    size: 20,
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    'Compartilhamento de Dados',
+                                    style: AppTypography.bodyMedium.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                _getDataSharePreferenceText(_user!.dataSharePreference),
+                                style: AppTypography.bodyMedium.copyWith(
+                                  color: _getDataSharePreferenceColor(_user!.dataSharePreference, isDark),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -668,6 +697,30 @@ class _UserDetailPageState extends State<UserDetailPage> {
       return Colors.orange;
     } else {
       return Colors.red;
+    }
+  }
+  
+  String _getDataSharePreferenceText(String preference) {
+    switch (preference) {
+      case 'full':
+        return '✓ Usuário permite compartilhar todas as estatísticas';
+      case 'diagnostic':
+        return '✓ Usuário compartilha apenas dados de diagnóstico';
+      case 'none':
+      default:
+        return '✗ Usuário não permite compartilhamento de dados';
+    }
+  }
+  
+  Color _getDataSharePreferenceColor(String preference, bool isDark) {
+    switch (preference) {
+      case 'full':
+        return isDark ? AppColorsDark.stateSuccess : AppColorsLight.stateSuccess;
+      case 'diagnostic':
+        return isDark ? AppColorsDark.stateWarning : AppColorsLight.stateWarning;
+      case 'none':
+      default:
+        return isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled;
     }
   }
 }
