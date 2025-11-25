@@ -23,7 +23,7 @@ class FeedbackService {
       final response = await http.post(
         Uri.parse('$baseUrl/feedback'),
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
         body: json.encode({
@@ -37,12 +37,13 @@ class FeedbackService {
       if (response.statusCode == 201) {
         return true;
       } else if (response.statusCode == 400) {
-        final data = json.decode(response.body);
+        final data = json.decode(utf8.decode(response.bodyBytes));
         throw Exception(data['error'] ?? 'Erro ao enviar feedback');
       } else if (response.statusCode == 403) {
         throw Exception('Acesso negado.');
       } else {
-        throw Exception('Erro ao enviar feedback');
+        final errorBody = utf8.decode(response.bodyBytes);
+        throw Exception('Erro ao enviar feedback: $errorBody');
       }
     } catch (e) {
       throw Exception('Erro ao enviar feedback: $e');
@@ -80,13 +81,13 @@ class FeedbackService {
       final response = await http.get(
         uri,
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final data = json.decode(utf8.decode(response.bodyBytes));
         return {
           'feedbacks': List<Map<String, dynamic>>.from(data['feedbacks']),
           'total': data['total'],
@@ -96,7 +97,7 @@ class FeedbackService {
       } else if (response.statusCode == 403) {
         throw Exception('Acesso negado.');
       } else {
-        throw Exception('Erro ao buscar feedbacks');
+        throw Exception('Erro ao buscar feedbacks: ${utf8.decode(response.bodyBytes)}');
       }
     } catch (e) {
       throw Exception('Erro ao buscar feedbacks: $e');
@@ -114,19 +115,19 @@ class FeedbackService {
       final response = await http.get(
         Uri.parse('$baseUrl/admin/feedback/$feedbackId'),
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
       );
 
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        return json.decode(utf8.decode(response.bodyBytes));
       } else if (response.statusCode == 404) {
         throw Exception('Feedback não encontrado');
       } else if (response.statusCode == 403) {
         throw Exception('Acesso negado.');
       } else {
-        throw Exception('Erro ao buscar feedback');
+        throw Exception('Erro ao buscar feedback: ${utf8.decode(response.bodyBytes)}');
       }
     } catch (e) {
       throw Exception('Erro ao buscar feedback: $e');
@@ -144,7 +145,7 @@ class FeedbackService {
       final response = await http.delete(
         Uri.parse('$baseUrl/admin/feedback/$feedbackId'),
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
           'Authorization': 'Bearer $token',
         },
       );
@@ -156,7 +157,7 @@ class FeedbackService {
       } else if (response.statusCode == 403) {
         throw Exception('Acesso negado.');
       } else {
-        throw Exception('Erro ao deletar feedback');
+        throw Exception('Erro ao deletar feedback: ${utf8.decode(response.bodyBytes)}');
       }
     } catch (e) {
       throw Exception('Erro ao deletar feedback: $e');

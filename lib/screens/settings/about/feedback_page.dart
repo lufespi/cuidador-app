@@ -44,6 +44,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
   void _submitFeedback() async {
     final l10n = AppLocalizations.of(context)!;
+    
+    // Validar se tipo foi selecionado
+    if (_selectedType.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Por favor, selecione o tipo de feedback'),
+          backgroundColor: AppColors.stateError,
+        ),
+      );
+      return;
+    }
+    
     if (_formKey.currentState!.validate()) {
       if (!mounted) return;
       setState(() {

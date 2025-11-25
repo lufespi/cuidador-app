@@ -156,84 +156,86 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
       body: SafeArea(
         child: Column(
           children: [
-            // Filtros
+            // Card com Filtros
             Padding(
               padding: const EdgeInsets.all(16),
-              child: Column(
-                children: [
-                  // Campo de busca
-                  TextField(
-                    controller: _searchController,
-                    onChanged: _onSearchChanged,
-                    decoration: InputDecoration(
-                      hintText: 'Buscar por nome, email ou mensagem...',
-                      prefixIcon: const Icon(Icons.search),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+              child: AppCard(
+                child: Column(
+                  children: [
+                    // Campo de busca
+                    TextField(
+                      controller: _searchController,
+                      onChanged: _onSearchChanged,
+                      decoration: InputDecoration(
+                        hintText: 'Buscar por nome, email ou mensagem...',
+                        prefixIcon: const Icon(Icons.search),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary, width: 2),
+                        ),
+                        filled: true,
+                        fillColor: isDark ? AppColorsDark.surface : AppColorsLight.surface,
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide(color: isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary, width: 2),
-                      ),
-                      filled: true,
-                      fillColor: isDark ? AppColorsDark.surface : AppColorsLight.surface,
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  // Filtro por tipo
-                  Row(
-                    children: [
-                      Text(
-                        'Tipo:',
-                        style: AppTypography.labelSmall,
-                      ),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: DropdownButtonFormField<String>(
-                          initialValue: _selectedType,
-                          hint: const Text('Todos'),
-                          decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+                    const SizedBox(height: 12),
+                    // Filtro por tipo
+                    Row(
+                      children: [
+                        Text(
+                          'Tipo:',
+                          style: AppTypography.labelSmall,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: DropdownButtonFormField<String>(
+                            initialValue: _selectedType,
+                            hint: const Text('Todos'),
+                            decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
+                              ),
+                              filled: true,
+                              fillColor: isDark ? AppColorsDark.surface : AppColorsLight.surface,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: isDark ? AppColorsDark.border : AppColorsLight.border),
-                            ),
-                            filled: true,
-                            fillColor: isDark ? AppColorsDark.surface : AppColorsLight.surface,
-                            contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                            items: const [
+                              DropdownMenuItem(value: null, child: Text('Todos')),
+                              DropdownMenuItem(value: 'suggestion', child: Text('Sugestão')),
+                              DropdownMenuItem(value: 'problem', child: Text('Problema')),
+                              DropdownMenuItem(value: 'compliment', child: Text('Elogio')),
+                              DropdownMenuItem(value: 'other', child: Text('Outro')),
+                            ],
+                            onChanged: _onTypeChanged,
                           ),
-                          items: const [
-                            DropdownMenuItem(value: null, child: Text('Todos')),
-                            DropdownMenuItem(value: 'suggestion', child: Text('Sugestão')),
-                            DropdownMenuItem(value: 'problem', child: Text('Problema')),
-                            DropdownMenuItem(value: 'compliment', child: Text('Elogio')),
-                            DropdownMenuItem(value: 'other', child: Text('Outro')),
-                          ],
-                          onChanged: _onTypeChanged,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    // Total de feedbacks
+                    Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        '$_total feedback(s) encontrado(s)',
+                        style: AppTypography.labelSmall.copyWith(
+                          color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  // Total de feedbacks
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '$_total feedback(s) encontrado(s)',
-                      style: AppTypography.labelSmall.copyWith(
-                        color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             
