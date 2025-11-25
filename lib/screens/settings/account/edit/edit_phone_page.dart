@@ -112,12 +112,19 @@ class _EditPhonePageState extends State<EditPhonePage> {
                       ),
                       const SizedBox(width: 8),
                       TextButton(
-                        onPressed: () {
-                          // TODO: Validar senha e salvar alteração
-                          if (_passwordController.text.isNotEmpty) {
-                            Navigator.of(context).pop();
-                            _saveChanges();
+                        onPressed: () async {
+                          if (_passwordController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(l10n.passwordRequired),
+                                backgroundColor: AppColors.stateError,
+                              ),
+                            );
+                            return;
                           }
+                          
+                          Navigator.of(context).pop();
+                          await _saveChanges();
                         },
                         child: Text(
                           l10n.confirm,
@@ -138,7 +145,7 @@ class _EditPhonePageState extends State<EditPhonePage> {
     }
   }
 
-  void _saveChanges() async {
+  Future<void> _saveChanges() async {
     final l10n = AppLocalizations.of(context)!;
     
     setState(() {
@@ -146,10 +153,16 @@ class _EditPhonePageState extends State<EditPhonePage> {
     });
     
     try {
+      // Primeiro verifica a senha
+      await _authService.changePassword(
+        senhaAtual: _passwordController.text,
+        novaSenha: _passwordController.text,
+      );
+      
       // Remove formatação do telefone (mantém apenas números)
       final phoneDigits = _phoneController.text.replaceAll(RegExp(r'[^0-9]'), '');
       
-      // Salva no backend
+      // Se a senha estiver correta, atualiza o telefone
       await _authService.updateProfile(telefone: phoneDigits);
       
       if (!mounted) return;

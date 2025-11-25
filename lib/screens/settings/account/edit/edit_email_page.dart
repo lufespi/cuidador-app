@@ -5,6 +5,7 @@ import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_text_field.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../data/services/auth_service.dart';
 
 class EditEmailPage extends StatefulWidget {
   final String currentEmail;
@@ -20,6 +21,7 @@ class EditEmailPage extends StatefulWidget {
 
 class _EditEmailPageState extends State<EditEmailPage> {
   final _formKey = GlobalKey<FormState>();
+  final AuthService _authService = AuthService();
   late TextEditingController _emailController;
   final TextEditingController _passwordController = TextEditingController();
   bool _hasChanges = false;
@@ -108,12 +110,19 @@ class _EditEmailPageState extends State<EditEmailPage> {
                       ),
                       const SizedBox(width: 8),
                       TextButton(
-                        onPressed: () {
-                          // TODO: Validar senha e salvar alteração
-                          if (_passwordController.text.isNotEmpty) {
-                            Navigator.of(context).pop();
-                            _saveChanges();
+                        onPressed: () async {
+                          if (_passwordController.text.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(l10n.passwordRequired),
+                                backgroundColor: AppColors.stateError,
+                              ),
+                            );
+                            return;
                           }
+                          
+                          Navigator.of(context).pop();
+                          await _saveChanges();
                         },
                         child: Text(
                           l10n.confirm,
@@ -134,15 +143,40 @@ class _EditEmailPageState extends State<EditEmailPage> {
     }
   }
 
-  void _saveChanges() {
-    final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar alteração do e-mail
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.emailUpdatedSuccess),
-      ),
-    );
-    Navigator.pop(context, _emailController.text);
+  Future<void> _saveChanges() async {
+    try {
+      // Primeiro verifica a senha tentando alterar para a mesma senha atual
+      // (backend validará a senha_atual)
+      await _authService.changePassword(
+        senhaAtual: _passwordController.text,
+        novaSenha: _passwordController.text,
+      );
+      
+      // Se a senha estiver correta, atualiza o email
+      // Nota: Backend atual não suporta atualização de email via PUT /profile
+      // Por segurança, email não deve ser alterado facilmente
+      // Implementação futura: criar endpoint específico PUT /email
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text('Alteração de e-mail não está disponível no momento. Entre em contato com o suporte.'),
+          backgroundColor: AppColors.stateWarning,
+        ),
+      );
+      
+      Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceAll('Exception: ', '')),
+          backgroundColor: AppColors.stateError,
+        ),
+      );
+    }
   }
 
   @override

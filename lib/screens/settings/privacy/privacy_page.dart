@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
@@ -20,6 +21,21 @@ class _PrivacyPageState extends State<PrivacyPage> {
   
   // Preferências de e-mail
   bool _emailNotificationsEnabled = false;
+  
+  @override
+  void initState() {
+    super.initState();
+    _loadPreferences();
+  }
+  
+  Future<void> _loadPreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _dataUsageConsent = prefs.getBool('dataUsageConsent') ?? false;
+      _shareAnonymousData = prefs.getBool('shareAnonymousData') ?? false;
+      _emailNotificationsEnabled = prefs.getBool('emailNotificationsEnabled') ?? false;
+    });
+  }
 
   void _viewPrivacyPolicy() {
     Navigator.push(
@@ -30,15 +46,34 @@ class _PrivacyPageState extends State<PrivacyPage> {
     );
   }
 
-  void _saveChanges() {
+  Future<void> _saveChanges() async {
     final l10n = AppLocalizations.of(context)!;
-    // TODO: Salvar preferências de privacidade
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.successPreferencesSaved),
-      ),
-    );
-    Navigator.pop(context);
+    
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('dataUsageConsent', _dataUsageConsent);
+      await prefs.setBool('shareAnonymousData', _shareAnonymousData);
+      await prefs.setBool('emailNotificationsEnabled', _emailNotificationsEnabled);
+      
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.successPreferencesSaved),
+          backgroundColor: AppColors.stateSuccess,
+        ),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar preferências: $e'),
+          backgroundColor: AppColors.stateError,
+        ),
+      );
+    }
   }
 
   @override
