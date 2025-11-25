@@ -160,7 +160,7 @@ class AdminService {
         throw Exception('Token não encontrado');
       }
 
-      final url = '$baseUrl/admin/users/$userId/pain-records?limit=10';
+      final url = '$baseUrl/admin/users/$userId/pain-records';
 
       final response = await http.get(
         Uri.parse(url),
