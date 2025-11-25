@@ -319,52 +319,67 @@ class _PainDetailPageState extends State<PainDetailPage> {
               ),
               const SizedBox(height: 16),
 
-              // Card - Descrição/Anotações
-              if (descricao.isNotEmpty && descricao != 'Sem descrição')
-                AppCard(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          const Icon(
-                            Icons.description_outlined,
-                            color: AppColors.buttonPrimary,
-                            size: 24,
-                          ),
-                          const SizedBox(width: 8),
-                          Text(
-                            'Anotações',
-                            style: AppTypography.heading2Primary,
-                          ),
-                          const Spacer(),
-                          IconButton(
-                            icon: const Icon(Icons.edit, size: 20),
-                            onPressed: () {
-                              _showEditDescricaoDialog(context, descricao);
-                            },
-                            tooltip: 'Editar anotações',
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 12),
-                      Container(
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).brightness == Brightness.dark
-                              ? const Color(0xFF192E2D)
-                              : AppColors.surfaceVariant,
-                          borderRadius: BorderRadius.circular(12),
+              // Card - Descrição/Anotações (sempre exibe, mesmo quando vazio)
+              AppCard(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.description_outlined,
+                          color: AppColors.buttonPrimary,
+                          size: 24,
                         ),
-                        child: Text(
-                          descricao,
-                          style: AppTypography.bodyMedium,
+                        const SizedBox(width: 8),
+                        Text(
+                          'Anotações',
+                          style: AppTypography.heading2Primary,
+                        ),
+                        const Spacer(),
+                        IconButton(
+                          icon: Icon(
+                            descricao.isEmpty || descricao == 'Sem descrição' 
+                              ? Icons.add 
+                              : Icons.edit, 
+                            size: 20
+                          ),
+                          onPressed: () {
+                            _showEditDescricaoDialog(context, descricao);
+                          },
+                          tooltip: descricao.isEmpty || descricao == 'Sem descrição'
+                            ? 'Adicionar anotações'
+                            : 'Editar anotações',
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 12),
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? const Color(0xFF192E2D)
+                            : AppColors.surfaceVariant,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Text(
+                        descricao.isEmpty || descricao == 'Sem descrição'
+                          ? 'Nenhuma anotação. Toque no ícone + para adicionar.'
+                          : descricao,
+                        style: AppTypography.bodyMedium.copyWith(
+                          color: descricao.isEmpty || descricao == 'Sem descrição'
+                            ? AppColors.textDisabled
+                            : null,
+                          fontStyle: descricao.isEmpty || descricao == 'Sem descrição'
+                            ? FontStyle.italic
+                            : null,
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
               const SizedBox(height: 24),
 
               // Botão de Excluir Registro
