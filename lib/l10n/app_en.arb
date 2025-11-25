@@ -648,6 +648,7 @@
   "deleteRecordConfirmation": "Are you sure you want to delete this pain record? This action cannot be undone.",
   "errorUpdating": "Error updating",
   "errorDeleting": "Error deleting",
+  "painRecordDetails": "Record Details",
   
   "dataCollectionTitle": "Data Collection",
   "dataCollectionDescription": "Manage how you want to share your application usage data in accordance with the General Data Protection Law",

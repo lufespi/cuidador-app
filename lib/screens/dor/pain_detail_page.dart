@@ -26,6 +26,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final args = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     
     // Inicializa dados apenas na primeira vez
@@ -84,7 +85,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
             onPressed: () => Navigator.pop(context, _hasChanges),
         ),
         title: Text(
-          'Detalhes do Registro',
+          l10n.painRecordDetails,
           style: AppTypography.heading1Primary.copyWith(
             color: Theme.of(context).brightness == Brightness.dark
                 ? Colors.white

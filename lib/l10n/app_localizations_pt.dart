@@ -1754,6 +1754,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get errorDeleting => 'Erro ao excluir';
 
   @override
+  String get painRecordDetails => 'Detalhes do Registro';
+
+  @override
   String get dataCollectionTitle => 'Coleta de Dados';
 
   @override
@@ -3663,6 +3666,9 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get errorDeleting => 'Erro ao excluir';
+
+  @override
+  String get painRecordDetails => 'Detalhes do Registro';
 
   @override
   String get dataCollectionTitle => 'Coleta de Dados';

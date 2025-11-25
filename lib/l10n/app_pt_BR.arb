@@ -623,6 +623,7 @@
   "deleteRecordConfirmation": "Tem certeza que deseja excluir este registro de dor? Esta ação não pode ser desfeita.",
   "errorUpdating": "Erro ao atualizar",
   "errorDeleting": "Erro ao excluir",
+  "painRecordDetails": "Detalhes do Registro",
   
   "dataCollectionTitle": "Coleta de Dados",
   "dataCollectionDescription": "Gerencie como deseja compartilhar seus dados de uso da aplicação de acordo com a Lei Geral de Proteção de Dados",

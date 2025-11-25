@@ -1745,6 +1745,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorDeleting => 'Error deleting';
 
   @override
+  String get painRecordDetails => 'Record Details';
+
+  @override
   String get dataCollectionTitle => 'Data Collection';
 
   @override
@@ -3644,6 +3647,9 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get errorDeleting => 'Error deleting';
+
+  @override
+  String get painRecordDetails => 'Record Details';
 
   @override
   String get dataCollectionTitle => 'Data Collection';

@@ -3388,6 +3388,12 @@ abstract class AppLocalizations {
   /// **'Erro ao excluir'**
   String get errorDeleting;
 
+  /// No description provided for @painRecordDetails.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Detalhes do Registro'**
+  String get painRecordDetails;
+
   /// No description provided for @dataCollectionTitle.
   ///
   /// In pt_BR, this message translates to:

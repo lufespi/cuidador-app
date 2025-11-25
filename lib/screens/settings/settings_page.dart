@@ -172,8 +172,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         if (snapshot.hasData && snapshot.data == true) {
                           return SettingsMenuItem(
                             iconPath: 'assets/icons/settings/user-round.svg',
-                            title: 'Administrador',
-                            subtitle: 'Gerencie usuários e relatórios.',
+                            title: l10n.adminTitle,
+                            subtitle: l10n.manageUsersAndReports,
                             showDivider: false,
                             onTap: () {
                               Navigator.push(
