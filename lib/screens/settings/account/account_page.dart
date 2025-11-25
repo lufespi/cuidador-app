@@ -619,22 +619,27 @@ class _AccountPageState extends State<AccountPage> {
                         isLoading = true;
                       });
 
+                      // Salva referências antes da operação async
+                      final navigator = Navigator.of(context);
+                      final scaffoldMessenger = ScaffoldMessenger.of(context);
+                      final dialogNavigator = Navigator.of(dialogContext);
+
                       try {
                         await _authService.deleteAccount(senha: senha);
                         
                         if (!mounted) return;
                         
-                        Navigator.pop(dialogContext);
+                        dialogNavigator.pop();
                         
                         // Navega para tela de login
-                        Navigator.of(context).pushAndRemoveUntil(
+                        navigator.pushAndRemoveUntil(
                           MaterialPageRoute(
                             builder: (context) => const LoginPage(),
                           ),
                           (route) => false,
                         );
                         
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        scaffoldMessenger.showSnackBar(
                           SnackBar(
                             content: Text(l10n.accountDeletedSuccessfully),
                             backgroundColor: AppColors.stateSuccess,
@@ -647,7 +652,7 @@ class _AccountPageState extends State<AccountPage> {
                         
                         if (!mounted) return;
                         
-                        ScaffoldMessenger.of(context).showSnackBar(
+                        scaffoldMessenger.showSnackBar(
                           SnackBar(
                             content: Text(e.toString().replaceAll('Exception: ', '')),
                             backgroundColor: AppColors.stateError,
