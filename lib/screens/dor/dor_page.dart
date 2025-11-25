@@ -70,7 +70,15 @@ class _DorPageState extends State<DorPage> {
         startDate = _dataInicialLista;
         endDate = _dataFinalLista;
       } else if (_periodoLista == 'today') {
-        startDate = DateTime.now().subtract(const Duration(hours: 24));
+        // Hoje: desde 00:00 até agora
+        final now = DateTime.now();
+        startDate = DateTime(now.year, now.month, now.day);
+      } else if (_periodoLista == 'yesterday') {
+        // Ontem: desde 00:00 até 23:59:59 de ontem
+        final now = DateTime.now();
+        final yesterday = now.subtract(const Duration(days: 1));
+        startDate = DateTime(yesterday.year, yesterday.month, yesterday.day);
+        endDate = DateTime(yesterday.year, yesterday.month, yesterday.day, 23, 59, 59);
       } else {
         final dias = int.parse(_periodoLista);
         startDate = DateTime.now().subtract(Duration(days: dias));
@@ -801,6 +809,7 @@ class _DorPageState extends State<DorPage> {
                         value: _periodoLista,
                         items: [
                           DropdownMenuItem(value: 'today', child: Text('Hoje')),
+                          DropdownMenuItem(value: 'yesterday', child: Text('Ontem')),
                           DropdownMenuItem(value: '7', child: Text('Últimos 7 dias')),
                           DropdownMenuItem(value: '14', child: Text('Últimos 14 dias')),
                           DropdownMenuItem(value: '30', child: Text('Últimos 30 dias')),
