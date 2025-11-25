@@ -49,7 +49,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
     if (_selectedType.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Por favor, selecione o tipo de feedback'),
+          content: Text(l10n.pleaseSelectFeedbackType),
           backgroundColor: AppColors.stateError,
         ),
       );
@@ -88,7 +88,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erro ao enviar feedback: ${e.toString()}'),
+            content: Text('${l10n.errorSendingFeedback}: ${e.toString()}'),
             backgroundColor: AppColors.stateError,
           ),
         );

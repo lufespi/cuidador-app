@@ -1592,6 +1592,103 @@ class AppLocalizationsEn extends AppLocalizations {
   String get feedbackMinLength => 'The message must be at least 10 characters';
 
   @override
+  String get pleaseSelectFeedbackType => 'Please select the feedback type';
+
+  @override
+  String get errorSendingFeedback => 'Error sending feedback';
+
+  @override
+  String get adminTitle => 'Administrator';
+
+  @override
+  String get manageUsersAndReports => 'Manage users and reports.';
+
+  @override
+  String get users => 'Users';
+
+  @override
+  String get viewManageUsers => 'View and manage registered users.';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get viewUserFeedback => 'View feedback sent by users.';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get exportUserData => 'Export user data.';
+
+  @override
+  String get featureAvailableSoon => 'Feature available soon';
+
+  @override
+  String get feedbackListTitle => 'Feedback';
+
+  @override
+  String get searchByNameEmailMessage => 'Search by name, email or message...';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get feedbacksFound => 'feedback(s) found';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get noFeedbackFound => 'No feedback found.';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get emailNotProvided => 'Email not provided';
+
+  @override
+  String get feedbackDetailTitle => 'Feedback Details';
+
+  @override
+  String get confirmDelete => 'Confirm deletion';
+
+  @override
+  String get confirmDeleteFeedback =>
+      'Are you sure you want to delete this feedback?';
+
+  @override
+  String get feedbackDeletedSuccess => 'Feedback deleted successfully';
+
+  @override
+  String get errorDeletingFeedback => 'Error deleting feedback';
+
+  @override
+  String get feedbackInfo => 'Feedback Information';
+
+  @override
+  String get userInfo => 'User Information';
+
+  @override
+  String get submittedBy => 'Submitted by';
+
+  @override
+  String get userEmail => 'User email';
+
+  @override
+  String get submittedAt => 'Submitted at';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get deleteFeedback => 'Delete Feedback';
+
+  @override
   String get dataCollectionTitle => 'Data Collection';
 
   @override
@@ -3338,6 +3435,103 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get feedbackMinLength => 'The message must be at least 10 characters';
+
+  @override
+  String get pleaseSelectFeedbackType => 'Please select the feedback type';
+
+  @override
+  String get errorSendingFeedback => 'Error sending feedback';
+
+  @override
+  String get adminTitle => 'Administrator';
+
+  @override
+  String get manageUsersAndReports => 'Manage users and reports.';
+
+  @override
+  String get users => 'Users';
+
+  @override
+  String get viewManageUsers => 'View and manage registered users.';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get viewUserFeedback => 'View feedback sent by users.';
+
+  @override
+  String get reports => 'Reports';
+
+  @override
+  String get exportUserData => 'Export user data.';
+
+  @override
+  String get featureAvailableSoon => 'Feature available soon';
+
+  @override
+  String get feedbackListTitle => 'Feedback';
+
+  @override
+  String get searchByNameEmailMessage => 'Search by name, email or message...';
+
+  @override
+  String get type => 'Type';
+
+  @override
+  String get all => 'All';
+
+  @override
+  String get feedbacksFound => 'feedback(s) found';
+
+  @override
+  String get tryAgain => 'Try Again';
+
+  @override
+  String get noFeedbackFound => 'No feedback found.';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get emailNotProvided => 'Email not provided';
+
+  @override
+  String get feedbackDetailTitle => 'Feedback Details';
+
+  @override
+  String get confirmDelete => 'Confirm deletion';
+
+  @override
+  String get confirmDeleteFeedback =>
+      'Are you sure you want to delete this feedback?';
+
+  @override
+  String get feedbackDeletedSuccess => 'Feedback deleted successfully';
+
+  @override
+  String get errorDeletingFeedback => 'Error deleting feedback';
+
+  @override
+  String get feedbackInfo => 'Feedback Information';
+
+  @override
+  String get userInfo => 'User Information';
+
+  @override
+  String get submittedBy => 'Submitted by';
+
+  @override
+  String get userEmail => 'User email';
+
+  @override
+  String get submittedAt => 'Submitted at';
+
+  @override
+  String get message => 'Message';
+
+  @override
+  String get deleteFeedback => 'Delete Feedback';
 
   @override
   String get dataCollectionTitle => 'Data Collection';

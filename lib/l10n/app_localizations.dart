@@ -3088,6 +3088,198 @@ abstract class AppLocalizations {
   /// **'A mensagem deve ter pelo menos 10 caracteres'**
   String get feedbackMinLength;
 
+  /// No description provided for @pleaseSelectFeedbackType.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Por favor, selecione o tipo de feedback'**
+  String get pleaseSelectFeedbackType;
+
+  /// No description provided for @errorSendingFeedback.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Erro ao enviar feedback'**
+  String get errorSendingFeedback;
+
+  /// No description provided for @adminTitle.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Administrador'**
+  String get adminTitle;
+
+  /// No description provided for @manageUsersAndReports.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Gerencie usuários e relatórios.'**
+  String get manageUsersAndReports;
+
+  /// No description provided for @users.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Usuários'**
+  String get users;
+
+  /// No description provided for @viewManageUsers.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Visualize e gerencie usuários cadastrados.'**
+  String get viewManageUsers;
+
+  /// No description provided for @feedback.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Feedback'**
+  String get feedback;
+
+  /// No description provided for @viewUserFeedback.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Visualize o feedback enviado pelos usuários.'**
+  String get viewUserFeedback;
+
+  /// No description provided for @reports.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Relatórios'**
+  String get reports;
+
+  /// No description provided for @exportUserData.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Exporte dados dos usuários.'**
+  String get exportUserData;
+
+  /// No description provided for @featureAvailableSoon.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Funcionalidade disponível em breve'**
+  String get featureAvailableSoon;
+
+  /// No description provided for @feedbackListTitle.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Feedback'**
+  String get feedbackListTitle;
+
+  /// No description provided for @searchByNameEmailMessage.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Buscar por nome, email ou mensagem...'**
+  String get searchByNameEmailMessage;
+
+  /// No description provided for @type.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Tipo'**
+  String get type;
+
+  /// No description provided for @all.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Todos'**
+  String get all;
+
+  /// No description provided for @feedbacksFound.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'feedback(s) encontrado(s)'**
+  String get feedbacksFound;
+
+  /// No description provided for @tryAgain.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Tentar Novamente'**
+  String get tryAgain;
+
+  /// No description provided for @noFeedbackFound.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Nenhum feedback encontrado.'**
+  String get noFeedbackFound;
+
+  /// No description provided for @anonymous.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Anônimo'**
+  String get anonymous;
+
+  /// No description provided for @emailNotProvided.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Email não informado'**
+  String get emailNotProvided;
+
+  /// No description provided for @feedbackDetailTitle.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Detalhes do Feedback'**
+  String get feedbackDetailTitle;
+
+  /// No description provided for @confirmDelete.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Confirmar exclusão'**
+  String get confirmDelete;
+
+  /// No description provided for @confirmDeleteFeedback.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Tem certeza que deseja excluir este feedback?'**
+  String get confirmDeleteFeedback;
+
+  /// No description provided for @feedbackDeletedSuccess.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Feedback excluído com sucesso'**
+  String get feedbackDeletedSuccess;
+
+  /// No description provided for @errorDeletingFeedback.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Erro ao excluir feedback'**
+  String get errorDeletingFeedback;
+
+  /// No description provided for @feedbackInfo.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Informações do Feedback'**
+  String get feedbackInfo;
+
+  /// No description provided for @userInfo.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Informações do Usuário'**
+  String get userInfo;
+
+  /// No description provided for @submittedBy.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Enviado por'**
+  String get submittedBy;
+
+  /// No description provided for @userEmail.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'E-mail do usuário'**
+  String get userEmail;
+
+  /// No description provided for @submittedAt.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Enviado em'**
+  String get submittedAt;
+
+  /// No description provided for @message.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Mensagem'**
+  String get message;
+
+  /// No description provided for @deleteFeedback.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Excluir Feedback'**
+  String get deleteFeedback;
+
   /// No description provided for @dataCollectionTitle.
   ///
   /// In pt_BR, this message translates to:

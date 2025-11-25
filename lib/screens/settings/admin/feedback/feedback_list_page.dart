@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_card.dart';
@@ -90,16 +91,17 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
     }
   }
 
-  String _getFeedbackTypeLabel(String type) {
+  String _getFeedbackTypeLabel(BuildContext context, String type) {
+    final l10n = AppLocalizations.of(context)!;
     switch (type) {
       case 'suggestion':
-        return 'Sugestão';
+        return l10n.suggestion;
       case 'problem':
-        return 'Problema';
+        return l10n.problem;
       case 'compliment':
-        return 'Elogio';
+        return l10n.compliment;
       case 'other':
-        return 'Outro';
+        return l10n.other;
       default:
         return type;
     }
@@ -139,6 +141,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -148,7 +151,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Feedback',
+          l10n.feedbackListTitle,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -167,7 +170,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                       controller: _searchController,
                       onChanged: _onSearchChanged,
                       decoration: InputDecoration(
-                        hintText: 'Buscar por nome, email ou mensagem...',
+                        hintText: l10n.searchByNameEmailMessage,
                         prefixIcon: const Icon(Icons.search),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -190,14 +193,14 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                     Row(
                       children: [
                         Text(
-                          'Tipo:',
+                          '${l10n.type}:',
                           style: AppTypography.labelSmall,
                         ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: DropdownButtonFormField<String>(
                             initialValue: _selectedType,
-                            hint: const Text('Todos'),
+                            hint: Text(l10n.all),
                             decoration: InputDecoration(
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
@@ -211,12 +214,12 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                               fillColor: isDark ? AppColorsDark.surface : AppColorsLight.surface,
                               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                             ),
-                            items: const [
-                              DropdownMenuItem(value: null, child: Text('Todos')),
-                              DropdownMenuItem(value: 'suggestion', child: Text('Sugestão')),
-                              DropdownMenuItem(value: 'problem', child: Text('Problema')),
-                              DropdownMenuItem(value: 'compliment', child: Text('Elogio')),
-                              DropdownMenuItem(value: 'other', child: Text('Outro')),
+                            items: [
+                              DropdownMenuItem(value: null, child: Text(l10n.all)),
+                              DropdownMenuItem(value: 'suggestion', child: Text(l10n.suggestion)),
+                              DropdownMenuItem(value: 'problem', child: Text(l10n.problem)),
+                              DropdownMenuItem(value: 'compliment', child: Text(l10n.compliment)),
+                              DropdownMenuItem(value: 'other', child: Text(l10n.other)),
                             ],
                             onChanged: _onTypeChanged,
                           ),
@@ -228,7 +231,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                     Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        '$_total feedback(s) encontrado(s)',
+                        '$_total ${l10n.feedbacksFound}',
                         style: AppTypography.labelSmall.copyWith(
                           color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                         ),
@@ -263,7 +266,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                               ),
                               const SizedBox(height: 24),
                               AppButton(
-                                label: 'Tentar Novamente',
+                                label: l10n.tryAgain,
                                 onPressed: () => _loadFeedbacks(),
                                 kind: AppButtonKind.buttonSecondary,
                                 block: false,
@@ -274,7 +277,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                       : _feedbacks.isEmpty
                           ? Center(
                               child: Text(
-                                'Nenhum feedback encontrado.',
+                                l10n.noFeedbackFound,
                                 style: AppTypography.bodyMedium.copyWith(
                                   color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                                 ),
@@ -329,7 +332,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                                                       borderRadius: BorderRadius.circular(4),
                                                     ),
                                                     child: Text(
-                                                      _getFeedbackTypeLabel(type),
+                                                      _getFeedbackTypeLabel(context, type),
                                                       style: AppTypography.labelSmall.copyWith(
                                                         color: _getFeedbackTypeColor(type, isDark),
                                                         fontWeight: FontWeight.bold,
@@ -340,12 +343,12 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                                               ),
                                               const SizedBox(height: 8),
                                               Text(
-                                                feedback['user_name'] ?? feedback['name'] ?? 'Anônimo',
+                                                feedback['user_name'] ?? feedback['name'] ?? l10n.anonymous,
                                                 style: AppTypography.heading2Primary,
                                               ),
                                               const SizedBox(height: 4),
                                               Text(
-                                                feedback['user_email'] ?? feedback['email'] ?? 'Email não informado',
+                                                feedback['user_email'] ?? feedback['email'] ?? l10n.emailNotProvided,
                                                 style: AppTypography.bodyMedium.copyWith(
                                                   color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                                                 ),

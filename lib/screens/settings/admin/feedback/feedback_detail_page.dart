@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../../l10n/app_localizations.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../core/widgets/app_card.dart';
@@ -58,22 +59,23 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
   }
 
   Future<void> _deleteFeedback() async {
+    final l10n = AppLocalizations.of(context)!;
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Confirmar exclusão'),
-        content: const Text('Tem certeza que deseja excluir este feedback?'),
+        title: Text(l10n.confirmDelete),
+        content: Text(l10n.confirmDeleteFeedback),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('Cancelar'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () => Navigator.pop(context, true),
             style: TextButton.styleFrom(
               foregroundColor: AppColors.stateError,
             ),
-            child: const Text('Excluir'),
+            child: Text(l10n.delete),
           ),
         ],
       ),
@@ -85,8 +87,8 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
         if (!mounted) return;
         
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Feedback excluído com sucesso'),
+          SnackBar(
+            content: Text(l10n.feedbackDeletedSuccess),
             backgroundColor: AppColors.stateSuccess,
           ),
         );
@@ -96,7 +98,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
         
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erro ao excluir feedback: ${e.toString()}'),
+            content: Text('${l10n.errorDeletingFeedback}: ${e.toString()}'),
             backgroundColor: AppColors.stateError,
           ),
         );
@@ -113,16 +115,17 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
     }
   }
 
-  String _getFeedbackTypeLabel(String type) {
+  String _getFeedbackTypeLabel(BuildContext context, String type) {
+    final l10n = AppLocalizations.of(context)!;
     switch (type) {
       case 'suggestion':
-        return 'Sugestão';
+        return l10n.suggestion;
       case 'problem':
-        return 'Problema';
+        return l10n.problem;
       case 'compliment':
-        return 'Elogio';
+        return l10n.compliment;
       case 'other':
-        return 'Outro';
+        return l10n.other;
       default:
         return type;
     }
@@ -162,6 +165,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -171,7 +175,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Detalhes do Feedback',
+          l10n.feedbackDetailTitle,
           style: AppTypography.heading1Secondary,
         ),
         actions: [
@@ -206,7 +210,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
                       ),
                       const SizedBox(height: 24),
                       AppButton(
-                        label: 'Tentar Novamente',
+                        label: l10n.tryAgain,
                         onPressed: () => _loadFeedback(),
                         kind: AppButtonKind.buttonSecondary,
                         block: false,
@@ -242,12 +246,12 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      _getFeedbackTypeLabel(_feedback!['feedback_type']),
+                                      _getFeedbackTypeLabel(context, _feedback!['feedback_type']),
                                       style: AppTypography.heading1Primary,
                                     ),
                                     const SizedBox(height: 4),
                                     Text(
-                                      'Enviado em ${_formatDate(_feedback!['created_at'])}',
+                                      '${l10n.submittedAt} ${_formatDate(_feedback!['created_at'])}',
                                       style: AppTypography.labelSmall.copyWith(
                                         color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                                       ),
@@ -274,15 +278,15 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    'Informações do Usuário',
+                                    l10n.userInfo,
                                     style: AppTypography.heading2Primary,
                                   ),
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              _buildInfoRow('Nome', _feedback!['user_name'] ?? _feedback!['name'] ?? 'Não informado', isDark),
+                              _buildInfoRow(l10n.nameOptional.replaceAll(' (opcional)', ''), _feedback!['user_name'] ?? _feedback!['name'] ?? l10n.emailNotProvided.replaceAll('Email', 'Nome'), isDark),
                               const SizedBox(height: 12),
-                              _buildInfoRow('Email', _feedback!['user_email'] ?? _feedback!['email'] ?? 'Não informado', isDark),
+                              _buildInfoRow('Email', _feedback!['user_email'] ?? _feedback!['email'] ?? l10n.emailNotProvided, isDark),
                               if (_feedback!['user_phone'] != null) ...[
                                 const SizedBox(height: 12),
                                 _buildInfoRow('Telefone', _feedback!['user_phone'], isDark),
@@ -306,7 +310,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
                                   ),
                                   const SizedBox(width: 8),
                                   Text(
-                                    'Mensagem',
+                                    l10n.message,
                                     style: AppTypography.heading2Primary,
                                   ),
                                 ],

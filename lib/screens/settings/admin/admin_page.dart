@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/settings_menu_item.dart';
@@ -13,6 +14,7 @@ class AdminPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
       appBar: AppBar(
@@ -22,7 +24,7 @@ class AdminPage extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          'Administrador',
+          l10n.adminTitle,
           style: AppTypography.heading1Secondary,
         ),
       ),
@@ -34,7 +36,7 @@ class AdminPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Gerencie usuários e relatórios.',
+                l10n.manageUsersAndReports,
                 style: AppTypography.bodyMedium.copyWith(
                   color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                 ),
@@ -42,8 +44,8 @@ class AdminPage extends StatelessWidget {
               const SizedBox(height: 24),
               SettingsMenuItem(
                 iconPath: 'assets/icons/settings/user-round.svg',
-                title: 'Usuários',
-                subtitle: 'Visualize e gerencie usuários cadastrados.',
+                title: l10n.users,
+                subtitle: l10n.viewManageUsers,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -54,8 +56,8 @@ class AdminPage extends StatelessWidget {
               ),
               SettingsMenuItem(
                 icon: Icons.feedback_outlined,
-                title: 'Feedback',
-                subtitle: 'Visualize o feedback enviado pelos usuários.',
+                title: l10n.feedback,
+                subtitle: l10n.viewUserFeedback,
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -66,12 +68,12 @@ class AdminPage extends StatelessWidget {
               ),
               SettingsMenuItem(
                 icon: Icons.description_outlined,
-                title: 'Relatórios',
-                subtitle: 'Exporte dados dos usuários.',
+                title: l10n.reports,
+                subtitle: l10n.exportUserData,
                 onTap: () {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: const Text('Funcionalidade disponível em breve'),
+                      content: Text(l10n.featureAvailableSoon),
                       backgroundColor: isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary,
                     ),
                   );

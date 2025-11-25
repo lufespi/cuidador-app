@@ -1599,6 +1599,105 @@ class AppLocalizationsPt extends AppLocalizations {
       'A mensagem deve ter pelo menos 10 caracteres';
 
   @override
+  String get pleaseSelectFeedbackType =>
+      'Por favor, selecione o tipo de feedback';
+
+  @override
+  String get errorSendingFeedback => 'Erro ao enviar feedback';
+
+  @override
+  String get adminTitle => 'Administrador';
+
+  @override
+  String get manageUsersAndReports => 'Gerencie usuários e relatórios.';
+
+  @override
+  String get users => 'Usuários';
+
+  @override
+  String get viewManageUsers => 'Visualize e gerencie usuários cadastrados.';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get viewUserFeedback => 'Visualize o feedback enviado pelos usuários.';
+
+  @override
+  String get reports => 'Relatórios';
+
+  @override
+  String get exportUserData => 'Exporte dados dos usuários.';
+
+  @override
+  String get featureAvailableSoon => 'Funcionalidade disponível em breve';
+
+  @override
+  String get feedbackListTitle => 'Feedback';
+
+  @override
+  String get searchByNameEmailMessage =>
+      'Buscar por nome, email ou mensagem...';
+
+  @override
+  String get type => 'Tipo';
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get feedbacksFound => 'feedback(s) encontrado(s)';
+
+  @override
+  String get tryAgain => 'Tentar Novamente';
+
+  @override
+  String get noFeedbackFound => 'Nenhum feedback encontrado.';
+
+  @override
+  String get anonymous => 'Anônimo';
+
+  @override
+  String get emailNotProvided => 'Email não informado';
+
+  @override
+  String get feedbackDetailTitle => 'Detalhes do Feedback';
+
+  @override
+  String get confirmDelete => 'Confirmar exclusão';
+
+  @override
+  String get confirmDeleteFeedback =>
+      'Tem certeza que deseja excluir este feedback?';
+
+  @override
+  String get feedbackDeletedSuccess => 'Feedback excluído com sucesso';
+
+  @override
+  String get errorDeletingFeedback => 'Erro ao excluir feedback';
+
+  @override
+  String get feedbackInfo => 'Informações do Feedback';
+
+  @override
+  String get userInfo => 'Informações do Usuário';
+
+  @override
+  String get submittedBy => 'Enviado por';
+
+  @override
+  String get userEmail => 'E-mail do usuário';
+
+  @override
+  String get submittedAt => 'Enviado em';
+
+  @override
+  String get message => 'Mensagem';
+
+  @override
+  String get deleteFeedback => 'Excluir Feedback';
+
+  @override
   String get dataCollectionTitle => 'Coleta de Dados';
 
   @override
@@ -3353,6 +3452,105 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
   @override
   String get feedbackMinLength =>
       'A mensagem deve ter pelo menos 10 caracteres';
+
+  @override
+  String get pleaseSelectFeedbackType =>
+      'Por favor, selecione o tipo de feedback';
+
+  @override
+  String get errorSendingFeedback => 'Erro ao enviar feedback';
+
+  @override
+  String get adminTitle => 'Administrador';
+
+  @override
+  String get manageUsersAndReports => 'Gerencie usuários e relatórios.';
+
+  @override
+  String get users => 'Usuários';
+
+  @override
+  String get viewManageUsers => 'Visualize e gerencie usuários cadastrados.';
+
+  @override
+  String get feedback => 'Feedback';
+
+  @override
+  String get viewUserFeedback => 'Visualize o feedback enviado pelos usuários.';
+
+  @override
+  String get reports => 'Relatórios';
+
+  @override
+  String get exportUserData => 'Exporte dados dos usuários.';
+
+  @override
+  String get featureAvailableSoon => 'Funcionalidade disponível em breve';
+
+  @override
+  String get feedbackListTitle => 'Feedback';
+
+  @override
+  String get searchByNameEmailMessage =>
+      'Buscar por nome, email ou mensagem...';
+
+  @override
+  String get type => 'Tipo';
+
+  @override
+  String get all => 'Todos';
+
+  @override
+  String get feedbacksFound => 'feedback(s) encontrado(s)';
+
+  @override
+  String get tryAgain => 'Tentar Novamente';
+
+  @override
+  String get noFeedbackFound => 'Nenhum feedback encontrado.';
+
+  @override
+  String get anonymous => 'Anônimo';
+
+  @override
+  String get emailNotProvided => 'Email não informado';
+
+  @override
+  String get feedbackDetailTitle => 'Detalhes do Feedback';
+
+  @override
+  String get confirmDelete => 'Confirmar exclusão';
+
+  @override
+  String get confirmDeleteFeedback =>
+      'Tem certeza que deseja excluir este feedback?';
+
+  @override
+  String get feedbackDeletedSuccess => 'Feedback excluído com sucesso';
+
+  @override
+  String get errorDeletingFeedback => 'Erro ao excluir feedback';
+
+  @override
+  String get feedbackInfo => 'Informações do Feedback';
+
+  @override
+  String get userInfo => 'Informações do Usuário';
+
+  @override
+  String get submittedBy => 'Enviado por';
+
+  @override
+  String get userEmail => 'E-mail do usuário';
+
+  @override
+  String get submittedAt => 'Enviado em';
+
+  @override
+  String get message => 'Mensagem';
+
+  @override
+  String get deleteFeedback => 'Excluir Feedback';
 
   @override
   String get dataCollectionTitle => 'Coleta de Dados';
