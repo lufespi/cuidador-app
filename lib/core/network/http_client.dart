@@ -87,15 +87,25 @@ class HttpClient {
   /// DELETE request
   Future<Map<String, dynamic>> delete(
     String url, {
+    Map<String, dynamic>? body,
     Map<String, String>? headers,
     bool requiresAuth = false,
   }) async {
     try {
       final allHeaders = await _buildHeaders(headers, requiresAuth);
       
-      final response = await _client
-          .delete(Uri.parse(url), headers: allHeaders)
+      final request = http.Request('DELETE', Uri.parse(url));
+      request.headers.addAll(allHeaders);
+      
+      if (body != null) {
+        request.body = jsonEncode(body);
+      }
+      
+      final streamedResponse = await _client
+          .send(request)
           .timeout(ApiConfig.receiveTimeout);
+      
+      final response = await http.Response.fromStream(streamedResponse);
 
       return _handleResponse(response);
     } on SocketException {

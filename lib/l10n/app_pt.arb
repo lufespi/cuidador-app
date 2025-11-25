@@ -435,6 +435,9 @@
   "editPhone": "Editar Telefone",
   "editPhoneDescription": "Atualize seu número de telefone",
   "confirmWithPassword": "Confirme com sua senha",
+  "enterPasswordToConfirm": "Digite sua senha para confirmar a exclusão da conta",
+  "passwordRequired": "A senha é obrigatória",
+  "accountDeletedSuccessfully": "Conta excluída com sucesso",
   "currentPassword": "Senha Atual",
   "phoneUpdatedSuccess": "Telefone atualizado com sucesso!",
   

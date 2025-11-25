@@ -24,6 +24,7 @@ class ApiConfig {
   static String get profileUrl => '$apiUrl/auth/profile';
   static String get passwordUrl => '$apiUrl/auth/password';
   static String get resetPasswordUrl => '$apiUrl/auth/reset-password';
+  static String get deleteAccountUrl => '$apiUrl/auth/delete-account';
   
   // Endpoints de dor
   static String get painRecordsUrl => '$apiUrl/pain/records';

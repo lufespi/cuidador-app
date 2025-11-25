@@ -1148,6 +1148,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get confirmWithPassword => 'Confirm with your password';
 
   @override
+  String get enterPasswordToConfirm =>
+      'Enter your password to confirm account deletion';
+
+  @override
+  String get passwordRequired => 'Password is required';
+
+  @override
+  String get accountDeletedSuccessfully => 'Account deleted successfully';
+
+  @override
   String get currentPassword => 'Current Password';
 
   @override
@@ -3050,6 +3060,16 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get confirmWithPassword => 'Confirm with your password';
+
+  @override
+  String get enterPasswordToConfirm =>
+      'Enter your password to confirm account deletion';
+
+  @override
+  String get passwordRequired => 'Password is required';
+
+  @override
+  String get accountDeletedSuccessfully => 'Account deleted successfully';
 
   @override
   String get currentPassword => 'Current Password';

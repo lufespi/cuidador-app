@@ -6,6 +6,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../data/services/auth_service.dart';
 import '../../../data/models/user_model.dart';
+import '../../auth/login/login_page.dart';
 import 'edit/edit_name_page.dart';
 import 'edit/edit_birth_date_page.dart';
 import 'edit/edit_gender_page.dart';
@@ -508,12 +509,7 @@ class _AccountPageState extends State<AccountPage> {
               child: TextButton(
                 onPressed: () {
                   Navigator.pop(context);
-                  // TODO: Implementar exclusão de conta
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.deleteAccountDevelopment),
-                    ),
-                  );
+                  _showPasswordConfirmationDialog(context);
                 },
                 style: TextButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 14),
@@ -543,6 +539,135 @@ class _AccountPageState extends State<AccountPage> {
                   style: AppTypography.heading2Primary,
                 ),
               ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Mostra dialog para confirmar exclusão com senha
+  void _showPasswordConfirmationDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final passwordController = TextEditingController();
+    bool isLoading = false;
+    bool obscurePassword = true;
+
+    showDialog(
+      context: context,
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setState) => AlertDialog(
+          title: Text(
+            l10n.confirmWithPassword,
+            style: AppTypography.heading2Primary,
+            textAlign: TextAlign.center,
+          ),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                l10n.enterPasswordToConfirm,
+                style: AppTypography.textPrimary.copyWith(
+                  color: AppColors.textSecondary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 20),
+              TextField(
+                controller: passwordController,
+                obscureText: obscurePassword,
+                decoration: InputDecoration(
+                  labelText: l10n.password,
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      obscurePassword ? Icons.visibility : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        obscurePassword = !obscurePassword;
+                      });
+                    },
+                  ),
+                ),
+                enabled: !isLoading,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: isLoading ? null : () => Navigator.pop(dialogContext),
+              child: Text(l10n.cancel),
+            ),
+            ElevatedButton(
+              onPressed: isLoading
+                  ? null
+                  : () async {
+                      final senha = passwordController.text.trim();
+                      
+                      if (senha.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.passwordRequired),
+                            backgroundColor: AppColors.stateError,
+                          ),
+                        );
+                        return;
+                      }
+
+                      setState(() {
+                        isLoading = true;
+                      });
+
+                      try {
+                        await _authService.deleteAccount(senha: senha);
+                        
+                        if (!mounted) return;
+                        
+                        Navigator.pop(dialogContext);
+                        
+                        // Navega para tela de login
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                          (route) => false,
+                        );
+                        
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(l10n.accountDeletedSuccessfully),
+                            backgroundColor: AppColors.stateSuccess,
+                          ),
+                        );
+                      } catch (e) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        
+                        if (!mounted) return;
+                        
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(e.toString().replaceAll('Exception: ', '')),
+                            backgroundColor: AppColors.stateError,
+                          ),
+                        );
+                      }
+                    },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.stateError,
+              ),
+              child: isLoading
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        color: Colors.white,
+                      ),
+                    )
+                  : Text(l10n.deleteMyAccount),
             ),
           ],
         ),

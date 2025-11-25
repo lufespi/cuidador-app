@@ -192,4 +192,16 @@ class AuthService {
       return false;
     }
   }
+
+  /// Deleta a conta do usuário e todos os seus dados
+  Future<void> deleteAccount({required String senha}) async {
+    await _httpClient.delete(
+      ApiConfig.deleteAccountUrl,
+      body: {'senha': senha},
+      requiresAuth: true,
+    );
+    
+    // Limpa tokens localmente após deletar conta
+    await _tokenStorage.clearTokens();
+  }
 }

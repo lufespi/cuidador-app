@@ -1151,6 +1151,16 @@ class AppLocalizationsPt extends AppLocalizations {
   String get confirmWithPassword => 'Confirme com sua senha';
 
   @override
+  String get enterPasswordToConfirm =>
+      'Digite sua senha para confirmar a exclusão da conta';
+
+  @override
+  String get passwordRequired => 'A senha é obrigatória';
+
+  @override
+  String get accountDeletedSuccessfully => 'Conta excluída com sucesso';
+
+  @override
   String get currentPassword => 'Senha Atual';
 
   @override
@@ -3063,6 +3073,16 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get confirmWithPassword => 'Confirme com sua senha';
+
+  @override
+  String get enterPasswordToConfirm =>
+      'Digite sua senha para confirmar a exclusão da conta';
+
+  @override
+  String get passwordRequired => 'A senha é obrigatória';
+
+  @override
+  String get accountDeletedSuccessfully => 'Conta excluída com sucesso';
 
   @override
   String get currentPassword => 'Senha Atual';

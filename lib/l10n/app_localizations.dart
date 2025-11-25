@@ -2260,6 +2260,24 @@ abstract class AppLocalizations {
   /// **'Confirme com sua senha'**
   String get confirmWithPassword;
 
+  /// No description provided for @enterPasswordToConfirm.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Digite sua senha para confirmar a exclusão da conta'**
+  String get enterPasswordToConfirm;
+
+  /// No description provided for @passwordRequired.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'A senha é obrigatória'**
+  String get passwordRequired;
+
+  /// No description provided for @accountDeletedSuccessfully.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Conta excluída com sucesso'**
+  String get accountDeletedSuccessfully;
+
   /// No description provided for @currentPassword.
   ///
   /// In pt_BR, this message translates to:
