@@ -777,7 +777,11 @@ class _PainDetailPageState extends State<PainDetailPage> {
 
   void _showEditDescricaoDialog(BuildContext context, String descricaoAtual) async {
     final l10n = AppLocalizations.of(context)!;
-    final descricaoController = TextEditingController(text: descricaoAtual);
+    // Se a descrição for vazia ou "Sem descrição", inicia com campo vazio
+    final textoInicial = (descricaoAtual.isEmpty || descricaoAtual == 'Sem descrição') 
+      ? '' 
+      : descricaoAtual;
+    final descricaoController = TextEditingController(text: textoInicial);
 
     showDialog(
       context: context,
