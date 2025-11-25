@@ -1698,6 +1698,62 @@ class AppLocalizationsPt extends AppLocalizations {
   String get deleteFeedback => 'Excluir Feedback';
 
   @override
+  String get noPainLocationIndicated => 'Nenhum local da dor indicado';
+
+  @override
+  String get noPainLocationMessage =>
+      'Você não indicou nenhum local da dor. Deseja salvar o registro mesmo assim?';
+
+  @override
+  String get painRecordSavedSuccess => 'Registro de dor salvo com sucesso!';
+
+  @override
+  String get errorSavingPainRecord => 'Erro ao salvar registro';
+
+  @override
+  String get errorLoadingRecords => 'Erro ao carregar registros';
+
+  @override
+  String get noRecordFound => 'Nenhum registro encontrado';
+
+  @override
+  String get today => 'Hoje';
+
+  @override
+  String get yesterday => 'Ontem';
+
+  @override
+  String get last7Days => 'Últimos 7 dias';
+
+  @override
+  String get last14Days => 'Últimos 14 dias';
+
+  @override
+  String get last30Days => 'Últimos 30 dias';
+
+  @override
+  String get custom => 'Personalizado';
+
+  @override
+  String get editPainLevel => 'Editar Nível de Dor';
+
+  @override
+  String get editAnnotations => 'Editar Anotações';
+
+  @override
+  String get deleteRecord => 'Excluir Registro';
+
+  @override
+  String get deleteRecordConfirmation =>
+      'Tem certeza que deseja excluir este registro de dor? Esta ação não pode ser desfeita.';
+
+  @override
+  String get errorUpdating => 'Erro ao atualizar';
+
+  @override
+  String get errorDeleting => 'Erro ao excluir';
+
+  @override
   String get dataCollectionTitle => 'Coleta de Dados';
 
   @override
@@ -3551,6 +3607,62 @@ class AppLocalizationsPtBr extends AppLocalizationsPt {
 
   @override
   String get deleteFeedback => 'Excluir Feedback';
+
+  @override
+  String get noPainLocationIndicated => 'Nenhum local da dor indicado';
+
+  @override
+  String get noPainLocationMessage =>
+      'Você não indicou nenhum local da dor. Deseja salvar o registro mesmo assim?';
+
+  @override
+  String get painRecordSavedSuccess => 'Registro de dor salvo com sucesso!';
+
+  @override
+  String get errorSavingPainRecord => 'Erro ao salvar registro';
+
+  @override
+  String get errorLoadingRecords => 'Erro ao carregar registros';
+
+  @override
+  String get noRecordFound => 'Nenhum registro encontrado';
+
+  @override
+  String get today => 'Hoje';
+
+  @override
+  String get yesterday => 'Ontem';
+
+  @override
+  String get last7Days => 'Últimos 7 dias';
+
+  @override
+  String get last14Days => 'Últimos 14 dias';
+
+  @override
+  String get last30Days => 'Últimos 30 dias';
+
+  @override
+  String get custom => 'Personalizado';
+
+  @override
+  String get editPainLevel => 'Editar Nível de Dor';
+
+  @override
+  String get editAnnotations => 'Editar Anotações';
+
+  @override
+  String get deleteRecord => 'Excluir Registro';
+
+  @override
+  String get deleteRecordConfirmation =>
+      'Tem certeza que deseja excluir este registro de dor? Esta ação não pode ser desfeita.';
+
+  @override
+  String get errorUpdating => 'Erro ao atualizar';
+
+  @override
+  String get errorDeleting => 'Erro ao excluir';
 
   @override
   String get dataCollectionTitle => 'Coleta de Dados';

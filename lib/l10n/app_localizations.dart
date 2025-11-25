@@ -3280,6 +3280,114 @@ abstract class AppLocalizations {
   /// **'Excluir Feedback'**
   String get deleteFeedback;
 
+  /// No description provided for @noPainLocationIndicated.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Nenhum local da dor indicado'**
+  String get noPainLocationIndicated;
+
+  /// No description provided for @noPainLocationMessage.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Você não indicou nenhum local da dor. Deseja salvar o registro mesmo assim?'**
+  String get noPainLocationMessage;
+
+  /// No description provided for @painRecordSavedSuccess.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Registro de dor salvo com sucesso!'**
+  String get painRecordSavedSuccess;
+
+  /// No description provided for @errorSavingPainRecord.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Erro ao salvar registro'**
+  String get errorSavingPainRecord;
+
+  /// No description provided for @errorLoadingRecords.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Erro ao carregar registros'**
+  String get errorLoadingRecords;
+
+  /// No description provided for @noRecordFound.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Nenhum registro encontrado'**
+  String get noRecordFound;
+
+  /// No description provided for @today.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Hoje'**
+  String get today;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Ontem'**
+  String get yesterday;
+
+  /// No description provided for @last7Days.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Últimos 7 dias'**
+  String get last7Days;
+
+  /// No description provided for @last14Days.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Últimos 14 dias'**
+  String get last14Days;
+
+  /// No description provided for @last30Days.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Últimos 30 dias'**
+  String get last30Days;
+
+  /// No description provided for @custom.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Personalizado'**
+  String get custom;
+
+  /// No description provided for @editPainLevel.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Editar Nível de Dor'**
+  String get editPainLevel;
+
+  /// No description provided for @editAnnotations.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Editar Anotações'**
+  String get editAnnotations;
+
+  /// No description provided for @deleteRecord.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Excluir Registro'**
+  String get deleteRecord;
+
+  /// No description provided for @deleteRecordConfirmation.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Tem certeza que deseja excluir este registro de dor? Esta ação não pode ser desfeita.'**
+  String get deleteRecordConfirmation;
+
+  /// No description provided for @errorUpdating.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Erro ao atualizar'**
+  String get errorUpdating;
+
+  /// No description provided for @errorDeleting.
+  ///
+  /// In pt_BR, this message translates to:
+  /// **'Erro ao excluir'**
+  String get errorDeleting;
+
   /// No description provided for @dataCollectionTitle.
   ///
   /// In pt_BR, this message translates to:

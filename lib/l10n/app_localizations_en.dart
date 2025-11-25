@@ -1689,6 +1689,62 @@ class AppLocalizationsEn extends AppLocalizations {
   String get deleteFeedback => 'Delete Feedback';
 
   @override
+  String get noPainLocationIndicated => 'No pain location indicated';
+
+  @override
+  String get noPainLocationMessage =>
+      'You have not indicated any pain location. Do you want to save the record anyway?';
+
+  @override
+  String get painRecordSavedSuccess => 'Pain record saved successfully!';
+
+  @override
+  String get errorSavingPainRecord => 'Error saving record';
+
+  @override
+  String get errorLoadingRecords => 'Error loading records';
+
+  @override
+  String get noRecordFound => 'No record found';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get last7Days => 'Last 7 days';
+
+  @override
+  String get last14Days => 'Last 14 days';
+
+  @override
+  String get last30Days => 'Last 30 days';
+
+  @override
+  String get custom => 'Custom';
+
+  @override
+  String get editPainLevel => 'Edit Pain Level';
+
+  @override
+  String get editAnnotations => 'Edit Annotations';
+
+  @override
+  String get deleteRecord => 'Delete Record';
+
+  @override
+  String get deleteRecordConfirmation =>
+      'Are you sure you want to delete this pain record? This action cannot be undone.';
+
+  @override
+  String get errorUpdating => 'Error updating';
+
+  @override
+  String get errorDeleting => 'Error deleting';
+
+  @override
   String get dataCollectionTitle => 'Data Collection';
 
   @override
@@ -3532,6 +3588,62 @@ class AppLocalizationsEnUs extends AppLocalizationsEn {
 
   @override
   String get deleteFeedback => 'Delete Feedback';
+
+  @override
+  String get noPainLocationIndicated => 'No pain location indicated';
+
+  @override
+  String get noPainLocationMessage =>
+      'You have not indicated any pain location. Do you want to save the record anyway?';
+
+  @override
+  String get painRecordSavedSuccess => 'Pain record saved successfully!';
+
+  @override
+  String get errorSavingPainRecord => 'Error saving record';
+
+  @override
+  String get errorLoadingRecords => 'Error loading records';
+
+  @override
+  String get noRecordFound => 'No record found';
+
+  @override
+  String get today => 'Today';
+
+  @override
+  String get yesterday => 'Yesterday';
+
+  @override
+  String get last7Days => 'Last 7 days';
+
+  @override
+  String get last14Days => 'Last 14 days';
+
+  @override
+  String get last30Days => 'Last 30 days';
+
+  @override
+  String get custom => 'Custom';
+
+  @override
+  String get editPainLevel => 'Edit Pain Level';
+
+  @override
+  String get editAnnotations => 'Edit Annotations';
+
+  @override
+  String get deleteRecord => 'Delete Record';
+
+  @override
+  String get deleteRecordConfirmation =>
+      'Are you sure you want to delete this pain record? This action cannot be undone.';
+
+  @override
+  String get errorUpdating => 'Error updating';
+
+  @override
+  String get errorDeleting => 'Error deleting';
 
   @override
   String get dataCollectionTitle => 'Data Collection';

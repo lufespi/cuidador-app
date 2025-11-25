@@ -4,6 +4,7 @@ import '../../core/theme/app_typography.dart';
 import '../../core/widgets/app_card.dart';
 import '../../data/services/pain_service.dart';
 import 'body_region_mapper.dart';
+import '../../l10n/app_localizations.dart';
 
 class PainDetailPage extends StatefulWidget {
   const PainDetailPage({super.key});
@@ -424,6 +425,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
   }
 
   void _showEditNivelDialog(BuildContext context, int nivelAtual) {
+    final l10n = AppLocalizations.of(context)!;
     final pageContext = this.context;
     int novoNivel = nivelAtual;
     
@@ -431,7 +433,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
       context: context,
       builder: (context) => StatefulBuilder(
         builder: (context, setDialogState) => AlertDialog(
-          title: const Text('Editar Nível de Dor'),
+          title: Text(l10n.editPainLevel),
           content: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -525,9 +527,9 @@ class _PainDetailPageState extends State<PainDetailPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancelar'),
+              child: Text(l10n.cancel),
             ),
-            TextButton(
+            ElevatedButton(
               onPressed: () async {
                 Navigator.pop(context);
                 
@@ -558,7 +560,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   if (mounted && pageContext.mounted) {
                     ScaffoldMessenger.of(pageContext).showSnackBar(
                       SnackBar(
-                        content: Text('Erro ao atualizar: $e'),
+                        content: Text('${l10n.errorUpdating}: $e'),
                         backgroundColor: AppColors.stateError,
                       ),
                     );
@@ -567,7 +569,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   // Nenhuma limpeza necessária
                 }
               },
-              child: const Text('Salvar'),
+              child: Text(l10n.save),
             ),
           ],
         ),
@@ -600,6 +602,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
   }
 
   void _showEditDataDialog(BuildContext context, DateTime dataAtual) async {
+    final l10n = AppLocalizations.of(context)!;
     // Salva o contexto da página antes de abrir os dialogs
     final pageContext = this.context;
     
@@ -684,7 +687,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancelar'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () async {
@@ -729,7 +732,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                     if (mounted && pageContext.mounted) {
                       ScaffoldMessenger.of(pageContext).showSnackBar(
                         SnackBar(
-                          content: Text('Erro ao atualizar: $e'),
+                          content: Text('${l10n.errorUpdating}: $e'),
                           backgroundColor: AppColors.stateError,
                         ),
                       );
@@ -746,7 +749,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   );
                 }
               },
-              child: const Text('Salvar'),
+              child: Text(l10n.save),
             ),
           ],
             ),
@@ -756,13 +759,14 @@ class _PainDetailPageState extends State<PainDetailPage> {
     }
   }
 
-  void _showEditDescricaoDialog(BuildContext context, String descricaoAtual) {
+  void _showEditDescricaoDialog(BuildContext context, String descricaoAtual) async {
+    final l10n = AppLocalizations.of(context)!;
     final descricaoController = TextEditingController(text: descricaoAtual);
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Editar Anotações'),
+        title: Text(l10n.editAnnotations),
         content: TextField(
           controller: descricaoController,
           maxLines: 5,
@@ -776,7 +780,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -808,7 +812,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                 if (mounted && context.mounted) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Erro ao atualizar: $e'),
+                      content: Text('${l10n.errorUpdating}: $e'),
                       backgroundColor: AppColors.stateError,
                     ),
                   );
@@ -817,7 +821,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                 // Nenhuma limpeza necessária
               }
             },
-            child: const Text('Salvar'),
+            child: Text(l10n.save),
           ),
         ],
       ),
@@ -825,15 +829,16 @@ class _PainDetailPageState extends State<PainDetailPage> {
   }
 
   void _showDeleteConfirmation(BuildContext context, String? recordId) {
+    final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Excluir Registro'),
-        content: const Text('Tem certeza que deseja excluir este registro de dor? Esta ação não pode ser desfeita.'),
+        title: Text(l10n.deleteRecord),
+        content: Text(l10n.deleteRecordConfirmation),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancelar'),
+            child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
@@ -860,7 +865,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
                 if (mounted) {
                   scaffoldMessenger.showSnackBar(
                     SnackBar(
-                      content: Text('Erro ao excluir: $e'),
+                      content: Text('${l10n.errorDeleting}: $e'),
                       backgroundColor: AppColors.stateError,
                     ),
                   );
@@ -872,7 +877,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
             style: TextButton.styleFrom(
               foregroundColor: AppColors.stateError,
             ),
-            child: const Text('Excluir'),
+            child: Text(l10n.deleteRecord),
           ),
         ],
       ),

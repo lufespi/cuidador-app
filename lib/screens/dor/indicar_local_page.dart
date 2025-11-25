@@ -188,6 +188,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
   ];
 
   void _mostrarPopupConfirmacao() {
+    final l10n = AppLocalizations.of(context)!;
     final dorProvider = Provider.of<DorProvider>(context, listen: false);
     
     showDialog(
@@ -251,7 +252,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: Text(
-              'Editar',
+              l10n.edit,
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textSecondary,
               ),
@@ -270,7 +271,7 @@ class _IndicarLocalPageState extends State<IndicarLocalPage> {
               ),
             ),
             child: Text(
-              'Confirmar',
+              l10n.confirm,
               style: AppTypography.bodyMedium.copyWith(
                 color: AppColors.textWhite,
                 fontWeight: FontWeight.w600,

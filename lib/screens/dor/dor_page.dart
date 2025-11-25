@@ -186,21 +186,22 @@ class _DorPageState extends State<DorPage> {
 
     // Se não há localizações, mostra popup de confirmação
     if (localizacoes.isEmpty) {
+      final l10n = AppLocalizations.of(context)!;
       final confirmar = await showDialog<bool>(
         context: context,
         builder: (context) => AlertDialog(
-          title: const Text('Nenhum local da dor indicado'),
-          content: const Text(
-            'Você não indicou nenhum local da dor. Deseja salvar o registro mesmo assim?',
+          title: Text(l10n.noPainLocationIndicated),
+          content: Text(
+            l10n.noPainLocationMessage,
           ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context, false),
-              child: const Text('Cancelar'),
+              child: Text(l10n.cancel),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context, true),
-              child: const Text('Salvar'),
+              child: Text(l10n.save),
             ),
           ],
         ),
@@ -240,18 +241,20 @@ class _DorPageState extends State<DorPage> {
 
       if (!mounted) return;
       
+      final l10n = AppLocalizations.of(context)!;
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Registro de dor salvo com sucesso!'),
+        SnackBar(
+          content: Text(l10n.painRecordSavedSuccess),
           backgroundColor: AppColors.stateSuccess,
-          duration: Duration(seconds: 2),
+          duration: const Duration(seconds: 2),
         ),
       );
     } catch (e) {
       if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Erro ao salvar registro: $e'),
+            content: Text('${l10n.errorSavingPainRecord}: $e'),
             backgroundColor: AppColors.stateError,
             duration: const Duration(seconds: 3),
           ),
@@ -808,12 +811,12 @@ class _DorPageState extends State<DorPage> {
                           : AppDropdown<String>(
                         value: _periodoLista,
                         items: [
-                          DropdownMenuItem(value: 'today', child: Text('Hoje')),
-                          DropdownMenuItem(value: 'yesterday', child: Text('Ontem')),
-                          DropdownMenuItem(value: '7', child: Text('Últimos 7 dias')),
-                          DropdownMenuItem(value: '14', child: Text('Últimos 14 dias')),
-                          DropdownMenuItem(value: '30', child: Text('Últimos 30 dias')),
-                          DropdownMenuItem(value: 'custom', child: Text('Personalizado')),
+                          DropdownMenuItem(value: 'today', child: Text(l10n.today)),
+                          DropdownMenuItem(value: 'yesterday', child: Text(l10n.yesterday)),
+                          DropdownMenuItem(value: '7', child: Text(l10n.last7Days)),
+                          DropdownMenuItem(value: '14', child: Text(l10n.last14Days)),
+                          DropdownMenuItem(value: '30', child: Text(l10n.last30Days)),
+                          DropdownMenuItem(value: 'custom', child: Text(l10n.custom)),
                         ],
                         onChanged: (value) {
                           if (value == 'custom') {
@@ -864,7 +867,7 @@ class _DorPageState extends State<DorPage> {
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    'Erro ao carregar registros',
+                                    l10n.errorLoadingRecords,
                                     style: AppTypography.bodyMedium.copyWith(
                                       color: AppColors.stateError,
                                     ),
@@ -873,7 +876,7 @@ class _DorPageState extends State<DorPage> {
                                   TextButton.icon(
                                     onPressed: _carregarRegistrosRecentes,
                                     icon: const Icon(Icons.refresh),
-                                    label: const Text('Tentar novamente'),
+                                    label: Text(l10n.tryAgain),
                                   ),
                                 ],
                               ),
@@ -895,7 +898,7 @@ class _DorPageState extends State<DorPage> {
                                     ),
                                     const SizedBox(height: 12),
                                     Text(
-                                      'Nenhum registro encontrado',
+                                      l10n.noRecordFound,
                                       style: AppTypography.textDisabled,
                                     ),
                                     const SizedBox(height: 4),
