@@ -4,7 +4,8 @@ import '../theme/app_colors.dart';
 import '../theme/app_typography.dart';
 
 class SettingsMenuItem extends StatelessWidget {
-  final String iconPath;
+  final String? iconPath;
+  final IconData? icon;
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
@@ -12,12 +13,13 @@ class SettingsMenuItem extends StatelessWidget {
 
   const SettingsMenuItem({
     super.key,
-    required this.iconPath,
+    this.iconPath,
+    this.icon,
     required this.title,
     required this.subtitle,
     this.onTap,
     this.showDivider = true,
-  });
+  }) : assert(iconPath != null || icon != null, 'Forneça iconPath ou icon');
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +37,21 @@ class SettingsMenuItem extends StatelessWidget {
                   width: 32,
                   height: 32,
                   alignment: Alignment.center,
-                  child: SvgPicture.asset(
-                    iconPath,
-                    width: 24,
-                    height: 24,
-                    colorFilter: ColorFilter.mode(
-                      Theme.of(context).colorScheme.onSurface,
-                      BlendMode.srcIn,
-                    ),
-                  ),
+                  child: icon != null
+                      ? Icon(
+                          icon,
+                          size: 24,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        )
+                      : SvgPicture.asset(
+                          iconPath!,
+                          width: 24,
+                          height: 24,
+                          colorFilter: ColorFilter.mode(
+                            Theme.of(context).colorScheme.onSurface,
+                            BlendMode.srcIn,
+                          ),
+                        ),
                 ),
                 const SizedBox(width: 16),
                 // Textos

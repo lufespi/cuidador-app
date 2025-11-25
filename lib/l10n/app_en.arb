@@ -302,6 +302,31 @@
   "languageDescriptionShort": "Select the app language.",
   "aboutApp": "About the App",
   "aboutDescription": "Learn more about CuidaDor.",
+  "administrator": "Administrator",
+  "administratorDescription": "Manage users and reports.",
+  "users": "Users",
+  "usersDescription": "View and manage registered users.",
+  "reports": "Reports",
+  "reportsDescription": "Export user data.",
+  "searchUser": "Search user...",
+  "noUsersFound": "No users found.",
+  "resetPassword": "Reset Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "passwordsMustMatch": "Passwords must match.",
+  "passwordResetSuccess": "Password reset successfully!",
+  "exportUserData": "Export data from {userName}",
+  "@exportUserData": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "exportPdf": "Export PDF",
+  "reportExportedSuccess": "Report exported successfully!",
+  "registeredOn": "Registered on",
+  "tryAgain": "Try Again",
   "theme": "Theme",
   "languageSelection": "Language Selection",
   "languageDescription": "You can change your preferred language",

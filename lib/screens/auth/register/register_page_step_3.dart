@@ -21,7 +21,7 @@ class _RegisterPageStep3State extends State<RegisterPageStep3> {
   
   double _fontSizeLevel = 3; // 0-6, onde 3 é médio
   bool _highContrast = false;
-  bool _textToSpeech = false;
+  final bool _textToSpeech = false;
   bool _gdprConsent = false;
   bool _emailConsent = false;
   bool _isBackButtonPressed = false;

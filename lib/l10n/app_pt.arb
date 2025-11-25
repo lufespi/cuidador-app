@@ -302,6 +302,31 @@
   "languageDescriptionShort": "Selecione o idioma do aplicativo.",
   "aboutApp": "Sobre o Aplicativo",
   "aboutDescription": "Saiba mais sobre o CuidaDor.",
+  "administrator": "Administrador",
+  "administratorDescription": "Gerencie usuários e relatórios.",
+  "users": "Usuários",
+  "usersDescription": "Visualize e gerencie usuários cadastrados.",
+  "reports": "Relatórios",
+  "reportsDescription": "Exporte dados dos usuários.",
+  "searchUser": "Buscar usuário...",
+  "noUsersFound": "Nenhum usuário encontrado.",
+  "resetPassword": "Redefinir Senha",
+  "newPassword": "Nova Senha",
+  "confirmPassword": "Confirmar Senha",
+  "passwordsMustMatch": "As senhas devem ser iguais.",
+  "passwordResetSuccess": "Senha redefinida com sucesso!",
+  "exportUserData": "Exportar dados de {userName}",
+  "@exportUserData": {
+    "placeholders": {
+      "userName": {
+        "type": "String"
+      }
+    }
+  },
+  "exportPdf": "Exportar PDF",
+  "reportExportedSuccess": "Relatório exportado com sucesso!",
+  "registeredOn": "Cadastrado em",
+  "tryAgain": "Tentar Novamente",
   "theme": "Tema",
   "languageSelection": "Seleção de Idioma",
   "languageDescription": "Você pode alterar o idioma de sua preferência",

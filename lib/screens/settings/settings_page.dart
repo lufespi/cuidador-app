@@ -4,6 +4,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/index.dart';
 import '../../l10n/app_localizations.dart';
+import '../../data/services/auth_service.dart';
 import '../auth/login/login_page.dart';
 import 'account/account_page.dart';
 import 'accessibility/accessibility_page.dart';
@@ -12,9 +13,26 @@ import 'privacy/privacy_page.dart';
 import 'theme/theme_page.dart';
 import 'language/language_page.dart';
 import 'about/about_page.dart';
+import 'admin/admin_page.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  final AuthService _authService = AuthService();
+
+  Future<bool> _checkIfAdmin() async {
+    try {
+      final user = await _authService.getProfile();
+      return user.isAdmin;
+    } catch (e) {
+      return false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -139,12 +157,33 @@ class SettingsPage extends StatelessWidget {
                       iconPath: 'assets/icons/settings/info.svg',
                       title: l10n.aboutApp,
                       subtitle: l10n.aboutDescription,
-                      showDivider: false, // Último item não tem divider
+                      showDivider: true,
                       onTap: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => const AboutPage()),
                         );
+                      },
+                    ),
+                    // Card de Administrador (condicional)
+                    FutureBuilder<bool>(
+                      future: _checkIfAdmin(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData && snapshot.data == true) {
+                          return SettingsMenuItem(
+                            iconPath: 'assets/icons/settings/user-round.svg',
+                            title: 'Administrador',
+                            subtitle: 'Gerencie usuários e relatórios.',
+                            showDivider: false,
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AdminPage()),
+                              );
+                            },
+                          );
+                        }
+                        return const SizedBox.shrink();
                       },
                     ),
                   ],

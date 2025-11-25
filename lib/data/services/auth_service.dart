@@ -182,4 +182,14 @@ class AuthService {
 
     return authResponse;
   }
+
+  /// Verifica se o usuário logado é administrador
+  Future<bool> isAdmin() async {
+    try {
+      final user = await getProfile();
+      return user.isAdmin;
+    } catch (e) {
+      return false;
+    }
+  }
 }

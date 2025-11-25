@@ -10,6 +10,7 @@ class UserModel {
   final String? comorbidades;
   final DateTime createdAt;
   final DateTime? updatedAt;
+  final bool isAdmin;
 
   UserModel({
     required this.id,
@@ -22,6 +23,7 @@ class UserModel {
     this.comorbidades,
     required this.createdAt,
     this.updatedAt,
+    this.isAdmin = false,
   });
 
   /// Factory para criar do JSON
@@ -37,6 +39,7 @@ class UserModel {
       comorbidades: json['comorbidades'] as String?,
       createdAt: _parseDate(json['created_at']) ?? DateTime.now(),
       updatedAt: _parseDate(json['updated_at']),
+      isAdmin: json['is_admin'] == true || json['is_admin'] == 1,
     );
   }
 
@@ -89,6 +92,7 @@ class UserModel {
       'comorbidades': comorbidades,
       'created_at': createdAt.toIso8601String(),
       'updated_at': updatedAt?.toIso8601String(),
+      'is_admin': isAdmin,
     };
   }
 
@@ -104,6 +108,7 @@ class UserModel {
     String? comorbidades,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isAdmin,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -116,6 +121,7 @@ class UserModel {
       comorbidades: comorbidades ?? this.comorbidades,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 }
