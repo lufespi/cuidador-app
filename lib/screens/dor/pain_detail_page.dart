@@ -34,7 +34,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
       recordId = args['id']?.toString();
       nivel = args['nivel'];
       data = args['data'];
-      descricao = args['descricao'];
+      descricao = args['descricao'] ?? '';
       bodyParts = args['bodyParts'];
     }
 
@@ -766,7 +766,7 @@ class _PainDetailPageState extends State<PainDetailPage> {
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(l10n.editAnnotations),
         content: TextField(
           controller: descricaoController,
@@ -780,13 +780,18 @@ class _PainDetailPageState extends State<PainDetailPage> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop(dialogContext),
             child: Text(l10n.cancel),
           ),
           TextButton(
             onPressed: () async {
               final novaDescricao = descricaoController.text.trim();
-              Navigator.pop(context);
+              
+              // Salva referências antes da operação async
+              final navigator = Navigator.of(dialogContext);
+              final scaffoldMessenger = ScaffoldMessenger.of(context);
+              
+              navigator.pop(); // Fecha o dialog
               
               try {
                 if (recordId != null) {
@@ -795,13 +800,13 @@ class _PainDetailPageState extends State<PainDetailPage> {
                     descricao: novaDescricao,
                   );
                   
-                  if (mounted && context.mounted) {
+                  if (mounted) {
                     setState(() {
                       descricao = novaDescricao;
                       _hasChanges = true;
                     });
                     
-                    ScaffoldMessenger.of(context).showSnackBar(
+                    scaffoldMessenger.showSnackBar(
                       const SnackBar(
                         content: Text('Anotações atualizadas com sucesso'),
                         backgroundColor: AppColors.stateSuccess,
@@ -810,16 +815,14 @@ class _PainDetailPageState extends State<PainDetailPage> {
                   }
                 }
               } catch (e) {
-                if (mounted && context.mounted) {
-                  ScaffoldMessenger.of(context).showSnackBar(
+                if (mounted) {
+                  scaffoldMessenger.showSnackBar(
                     SnackBar(
                       content: Text('${l10n.errorUpdating}: $e'),
                       backgroundColor: AppColors.stateError,
                     ),
                   );
                 }
-              } finally {
-                // Nenhuma limpeza necessária
               }
             },
             child: Text(l10n.save),
