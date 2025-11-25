@@ -37,7 +37,8 @@ class AdminService {
       } else if (response.statusCode == 403) {
         throw Exception('Acesso negado. Você não tem permissão de administrador.');
       } else {
-        throw Exception('Erro ao carregar usuários: ${response.statusCode}');
+        final errorBody = response.body;
+        throw Exception('Erro ao carregar usuários: ${response.statusCode}\nBody: $errorBody');
       }
     } catch (e) {
       throw Exception('Erro ao carregar usuários: $e');
@@ -147,6 +148,39 @@ class AdminService {
       }
     } catch (e) {
       throw Exception('Erro ao exportar relatório: $e');
+    }
+  }
+
+  /// Obtém registros de dor de um usuário (últimos 10)
+  Future<List<Map<String, dynamic>>> getUserPainRecords(int userId) async {
+    try {
+      final tokenStorage = TokenStorage();
+      final token = await tokenStorage.getAccessToken();
+      if (token == null) {
+        throw Exception('Token não encontrado');
+      }
+
+      final url = '$baseUrl/admin/users/$userId/pain-records?limit=10';
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final records = List<Map<String, dynamic>>.from(data['records']);
+        return records;
+      } else if (response.statusCode == 403) {
+        throw Exception('Acesso negado.');
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
     }
   }
 }

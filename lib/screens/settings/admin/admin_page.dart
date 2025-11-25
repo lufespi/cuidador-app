@@ -4,6 +4,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/settings_menu_item.dart';
 import 'users/users_list_page.dart';
 import 'reports/reports_page.dart';
+import 'feedback/feedback_list_page.dart';
 
 /// Página principal do painel administrativo
 class AdminPage extends StatelessWidget {
@@ -53,13 +54,26 @@ class AdminPage extends StatelessWidget {
                 },
               ),
               SettingsMenuItem(
+                icon: Icons.feedback_outlined,
+                title: 'Feedback',
+                subtitle: 'Visualize o feedback enviado pelos usuários.',
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const FeedbackListPage(),
+                    ),
+                  );
+                },
+              ),
+              SettingsMenuItem(
                 icon: Icons.description_outlined,
                 title: 'Relatórios',
                 subtitle: 'Exporte dados dos usuários.',
                 onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => const ReportsPage(),
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text('Funcionalidade disponível em breve'),
+                      backgroundColor: isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary,
                     ),
                   );
                 },

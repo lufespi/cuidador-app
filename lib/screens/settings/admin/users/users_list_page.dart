@@ -37,6 +37,7 @@ class _UsersListPageState extends State<UsersListPage> {
   }
 
   Future<void> _loadUsers({String? search}) async {
+    if (!mounted) return;
     setState(() {
       _isLoading = true;
       _hasError = false;
@@ -44,11 +45,13 @@ class _UsersListPageState extends State<UsersListPage> {
 
     try {
       final users = await _adminService.getAllUsers(search: search);
+      if (!mounted) return;
       setState(() {
         _users = users;
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _hasError = true;
         _errorMessage = e.toString();
@@ -63,6 +66,10 @@ class _UsersListPageState extends State<UsersListPage> {
     } else {
       _loadUsers(search: value);
     }
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
   }
 
   @override
@@ -169,29 +176,53 @@ class _UsersListPageState extends State<UsersListPage> {
                                   },
                                   child: AppCard(
                                     margin: const EdgeInsets.only(bottom: 12),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                    child: Row(
                                       children: [
-                                        Text(
-                                          user.nome ?? 'Sem nome',
-                                          style: AppTypography.heading2Primary,
-                                        ),
-                                        const SizedBox(height: 4),
-                                        Text(
-                                          user.email,
-                                          style: AppTypography.bodyMedium.copyWith(
-                                            color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
+                                        // Ícone de usuário à esquerda
+                                        Container(
+                                          padding: const EdgeInsets.all(12),
+                                          decoration: BoxDecoration(
+                                            color: (isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary).withValues(alpha: 0.1),
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Icon(
+                                            Icons.person_outline,
+                                            size: 32,
+                                            color: isDark ? AppColorsDark.buttonPrimary : AppColorsLight.buttonPrimary,
                                           ),
                                         ),
-                                        if (user.diagnostico != null && user.diagnostico!.isNotEmpty) ...[
-                                          const SizedBox(height: 8),
-                                          Text(
-                                            user.diagnostico!,
-                                            style: AppTypography.labelSmall.copyWith(
-                                              color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
-                                            ),
+                                        const SizedBox(width: 16),
+                                        // Informações do usuário
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                user.nome ?? 'Sem nome',
+                                                style: AppTypography.heading2Primary,
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                user.email,
+                                                style: AppTypography.bodyMedium.copyWith(
+                                                  color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
+                                                ),
+                                              ),
+                                              const SizedBox(height: 4),
+                                              Text(
+                                                'Cadastrado em ${_formatDate(user.createdAt)}',
+                                                style: AppTypography.labelSmall.copyWith(
+                                                  color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        ),
+                                        // Ícone de seta à direita
+                                        Icon(
+                                          Icons.chevron_right,
+                                          color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
+                                        ),
                                       ],
                                     ),
                                   ),

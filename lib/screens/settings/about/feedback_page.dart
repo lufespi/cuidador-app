@@ -5,6 +5,7 @@ import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_text_field.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../data/services/feedback_service.dart';
 
 class FeedbackPage extends StatefulWidget {
   const FeedbackPage({super.key});
@@ -18,7 +19,9 @@ class _FeedbackPageState extends State<FeedbackPage> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _messageController = TextEditingController();
+  final FeedbackService _feedbackService = FeedbackService();
   String _selectedType = '';
+  bool _isSubmitting = false;
 
   @override
   void initState() {
@@ -39,17 +42,45 @@ class _FeedbackPageState extends State<FeedbackPage> {
     super.dispose();
   }
 
-  void _submitFeedback() {
+  void _submitFeedback() async {
     final l10n = AppLocalizations.of(context)!;
     if (_formKey.currentState!.validate()) {
-      // TODO: Implementar envio de feedback
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(l10n.feedbackSentSuccess),
-          backgroundColor: AppColors.buttonPrimary,
-        ),
-      );
-      Navigator.pop(context);
+      if (!mounted) return;
+      setState(() {
+        _isSubmitting = true;
+      });
+
+      try {
+        await _feedbackService.sendFeedback(
+          feedbackType: _selectedType,
+          message: _messageController.text.trim(),
+          name: _nameController.text.trim().isEmpty ? null : _nameController.text.trim(),
+          email: _emailController.text.trim().isEmpty ? null : _emailController.text.trim(),
+        );
+
+        if (!mounted) return;
+        
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.feedbackSentSuccess),
+            backgroundColor: AppColors.buttonPrimary,
+          ),
+        );
+        Navigator.pop(context);
+      } catch (e) {
+        if (!mounted) return;
+        
+        setState(() {
+          _isSubmitting = false;
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao enviar feedback: ${e.toString()}'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
     }
   }
 
@@ -271,7 +302,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                       // Botão Enviar
                       AppButton(
                         label: l10n.sendFeedback,
-                        onPressed: _submitFeedback,
+                        onPressed: _isSubmitting ? null : _submitFeedback,
                         height: 48,
                       ),
                     ],

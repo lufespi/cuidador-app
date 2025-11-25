@@ -35,7 +35,7 @@ class UserModel {
       dataNascimento: _parseDate(json['data_nascimento']),
       genero: json['sexo'] as String? ?? json['genero'] as String?, // Backend usa 'sexo'
       telefone: json['telefone'] as String?,
-      diagnostico: json['diagnostico'] as String?,
+      diagnostico: json['diagnostico'] as String? ?? json['data_diagnostico'] as String?,
       comorbidades: json['comorbidades'] as String?,
       createdAt: _parseDate(json['created_at']) ?? DateTime.now(),
       updatedAt: _parseDate(json['updated_at']),

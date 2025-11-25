@@ -32,6 +32,7 @@ class _ReportsPageState extends State<ReportsPage> {
   }
 
   Future<void> _loadUsers() async {
+    if (!mounted) return;
     setState(() {
       _isLoading = true;
       _hasError = false;
@@ -39,11 +40,13 @@ class _ReportsPageState extends State<ReportsPage> {
 
     try {
       final users = await _adminService.getAllUsers();
+      if (!mounted) return;
       setState(() {
         _users = users;
         _isLoading = false;
       });
     } catch (e) {
+      if (!mounted) return;
       setState(() {
         _hasError = true;
         _errorMessage = e.toString();
