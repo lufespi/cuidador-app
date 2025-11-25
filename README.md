@@ -2,7 +2,7 @@
 
 [![Flutter](https://img.shields.io/badge/Flutter-3.0%2B-02569B?logo=flutter)](https://flutter.dev)
 [![Dart](https://img.shields.io/badge/Dart-3.0%2B-0175C2?logo=dart)](https://dart.dev)
-[![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Linux-green)]()
+[![Platform](https://img.shields.io/badge/Platform-Android-green)]()
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **CuidaDor** é um aplicativo mobile desenvolvido em Flutter para registro e acompanhamento de dores crônicas, oferecendo ferramentas de gestão para pacientes e administradores de saúde.
