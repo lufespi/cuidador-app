@@ -248,7 +248,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
                                     const SizedBox(height: 4),
                                     Text(
                                       'Enviado em ${_formatDate(_feedback!['created_at'])}',
-                                      style: AppTypography.labelMedium.copyWith(
+                                      style: AppTypography.labelSmall.copyWith(
                                         color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
                                       ),
                                     ),
@@ -342,7 +342,7 @@ class _FeedbackDetailPageState extends State<FeedbackDetailPage> {
           width: 80,
           child: Text(
             '$label:',
-            style: AppTypography.labelMedium.copyWith(
+            style: AppTypography.labelSmall.copyWith(
               color: isDark ? AppColorsDark.textDisabled : AppColorsLight.textDisabled,
             ),
           ),

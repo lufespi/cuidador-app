@@ -3,7 +3,6 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/settings_menu_item.dart';
 import 'users/users_list_page.dart';
-import 'reports/reports_page.dart';
 import 'feedback/feedback_list_page.dart';
 
 /// Página principal do painel administrativo

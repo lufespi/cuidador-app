@@ -1,10 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../../core/config/api_config.dart';
-import '../providers/auth_provider.dart';
+import '../../core/network/token_storage.dart';
 
 class FeedbackService {
   final String baseUrl = ApiConfig.apiUrl;
+  final TokenStorage _tokenStorage = TokenStorage();
 
   /// Envia feedback do usuário
   Future<bool> sendFeedback({
@@ -14,7 +15,7 @@ class FeedbackService {
     String? email,
   }) async {
     try {
-      final token = await AuthProvider().getToken();
+      final token = await _tokenStorage.getAccessToken();
       if (token == null) {
         throw Exception('Usuário não autenticado');
       }
@@ -56,7 +57,7 @@ class FeedbackService {
     int offset = 0,
   }) async {
     try {
-      final token = await AuthProvider().getToken();
+      final token = await _tokenStorage.getAccessToken();
       if (token == null) {
         throw Exception('Usuário não autenticado');
       }
@@ -105,7 +106,7 @@ class FeedbackService {
   /// Busca um feedback específico por ID (apenas admin)
   Future<Map<String, dynamic>> getFeedbackById(int feedbackId) async {
     try {
-      final token = await AuthProvider().getToken();
+      final token = await _tokenStorage.getAccessToken();
       if (token == null) {
         throw Exception('Usuário não autenticado');
       }
@@ -135,7 +136,7 @@ class FeedbackService {
   /// Deleta um feedback (apenas admin)
   Future<bool> deleteFeedback(int feedbackId) async {
     try {
-      final token = await AuthProvider().getToken();
+      final token = await _tokenStorage.getAccessToken();
       if (token == null) {
         throw Exception('Usuário não autenticado');
       }

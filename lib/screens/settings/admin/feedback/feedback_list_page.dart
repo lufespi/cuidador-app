@@ -190,12 +190,12 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                     children: [
                       Text(
                         'Tipo:',
-                        style: AppTypography.labelMedium,
+                        style: AppTypography.labelSmall,
                       ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: DropdownButtonFormField<String>(
-                          value: _selectedType,
+                          initialValue: _selectedType,
                           hint: const Text('Todos'),
                           decoration: InputDecoration(
                             border: OutlineInputBorder(
@@ -351,7 +351,7 @@ class _FeedbackListPageState extends State<FeedbackListPage> {
                                               const SizedBox(height: 4),
                                               Text(
                                                 feedback['message'] ?? '',
-                                                style: AppTypography.bodySmall,
+                                                style: AppTypography.bodyMedium,
                                                 maxLines: 2,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
