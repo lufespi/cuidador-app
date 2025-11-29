@@ -5,6 +5,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../../core/widgets/app_toggle.dart';
 import '../../../core/widgets/app_button.dart';
+import '../../../core/notifications/notification_service.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -48,15 +49,85 @@ class _NotificationsPageState extends State<NotificationsPage> {
     super.dispose();
   }
 
-  void _saveChanges() {
+    void _saveChanges() async {
     final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(l10n.changesSuccessfullySaved),
-      ),
-    );
-    Navigator.pop(context);
+
+    try {
+      if (!_notificationsEnabled) {
+        // Notificações desativadas totalmente
+        await NotificationService().cancelAll();
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.changesSuccessfullySaved),
+          ),
+        );
+        Navigator.pop(context);
+        return;
+      }
+
+    // Monta uma descrição com base nos lembretes ativados
+    final List<String> ativos = [];
+    if (_remindersEnabled) {
+      if (_exerciciosEnabled) ativos.add('exercícios');
+      if (_respiracaoEnabled) ativos.add('respiração');
+      if (_alongamentoEnabled) ativos.add('alongamentos');
+      if (_relaxamentoEnabled) ativos.add('relaxamento');
+    }
+
+    final String corpoNotificacao;
+    if (ativos.isEmpty) {
+      corpoNotificacao = 'Suas notificações foram configuradas.';
+    } else {
+      corpoNotificacao =
+          'Lembretes ativados para: ${ativos.join(', ')}.';
+    }
+
+    // Antes de agendar, limpa qualquer agendamento antigo
+    await NotificationService().cancelAll();
+
+    // Se horário estiver habilitado, agenda notificação diária
+    if (_scheduleEnabled) {
+      int hour = int.tryParse(_hourController.text) ?? 9;
+      int minute = int.tryParse(_minuteController.text) ?? 0;
+
+      // Garante valores válidos
+      if (hour < 0 || hour > 23) hour = 9;
+      if (minute < 0 || minute > 59) minute = 0;
+
+      await NotificationService().scheduleDailyReminder(
+        id: 1, // ID fixo por enquanto (1 lembrete diário geral)
+        hour: hour,
+        minute: minute,
+        title: 'CuidaDor',
+        body: corpoNotificacao,
+      );
+    } else {
+      // Se não quiser agendamento, manda só uma de confirmação
+      await NotificationService().showInstantNotification(
+        title: 'CuidaDor',
+        body: corpoNotificacao,
+      );
+    }
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.changesSuccessfullySaved),
+        ),
+      );
+      Navigator.pop(context);
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Erro ao salvar notificações: ${e.toString()}'),
+          backgroundColor: AppColors.stateError,
+        ),
+      );
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +174,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       ),
                     ),
                     
+                    const SizedBox(height: 16),
+                    
                     // Cards condicionais
                     if (_notificationsEnabled) ...[
                       const SizedBox(height: 16),
@@ -116,18 +189,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Expanded(
-                                  child: Row(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Icon(
-                                        Icons.notifications_active_outlined,
-                                        color: Theme.of(context).colorScheme.onSurface,
-                                        size: 24,
+                                      Text(
+                                        'Lembretes personalizados',
+                                        style: AppTypography.heading2Primary,
                                       ),
-                                      const SizedBox(width: 8),
-                                      Expanded(
-                                        child: Text(
-                                          'Lembretes Personalizados',
-                                          style: AppTypography.heading1Primary,
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Receba lembretes para cuidar da sua saúde ao longo do dia.',
+                                        style: AppTypography.textPrimary.copyWith(
+                                          color: AppColors.textSecondary,
                                         ),
                                       ),
                                     ],
@@ -143,28 +216,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Escolha quais atividades você deseja ser lembrado',
-                              style: AppTypography.textPrimary.copyWith(
-                                color: AppColors.textDisabled,
-                              ),
-                            ),
-                            const SizedBox(height: 20),
                             
-                            // Exercícios
+                            const SizedBox(height: 16),
+                            
+                            // Lista de lembretes
                             Opacity(
                               opacity: _remindersEnabled ? 1.0 : 0.5,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Exercícios',
-                                    style: AppTypography.textPrimary,
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: !_remindersEnabled,
-                                    child: AppToggle(
+                              child: IgnorePointer(
+                                ignoring: !_remindersEnabled,
+                                child: Column(
+                                  children: [
+                                    _buildReminderItem(
+                                      label: 'Exercícios leves',
                                       value: _exerciciosEnabled,
                                       onChanged: (value) {
                                         setState(() {
@@ -172,26 +235,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         });
                                       },
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Respiração
-                            Opacity(
-                              opacity: _remindersEnabled ? 1.0 : 0.5,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Respiração',
-                                    style: AppTypography.textPrimary,
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: !_remindersEnabled,
-                                    child: AppToggle(
+                                    const SizedBox(height: 8),
+                                    _buildReminderItem(
+                                      label: 'Respiração guiada',
                                       value: _respiracaoEnabled,
                                       onChanged: (value) {
                                         setState(() {
@@ -199,26 +245,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         });
                                       },
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Alongamento
-                            Opacity(
-                              opacity: _remindersEnabled ? 1.0 : 0.5,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Alongamento',
-                                    style: AppTypography.textPrimary,
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: !_remindersEnabled,
-                                    child: AppToggle(
+                                    const SizedBox(height: 8),
+                                    _buildReminderItem(
+                                      label: 'Alongamentos rápidos',
                                       value: _alongamentoEnabled,
                                       onChanged: (value) {
                                         setState(() {
@@ -226,26 +255,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         });
                                       },
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            
-                            const SizedBox(height: 16),
-                            
-                            // Relaxamento
-                            Opacity(
-                              opacity: _remindersEnabled ? 1.0 : 0.5,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Relaxamento',
-                                    style: AppTypography.textPrimary,
-                                  ),
-                                  IgnorePointer(
-                                    ignoring: !_remindersEnabled,
-                                    child: AppToggle(
+                                    const SizedBox(height: 8),
+                                    _buildReminderItem(
+                                      label: 'Relaxamento e descanso',
                                       value: _relaxamentoEnabled,
                                       onChanged: (value) {
                                         setState(() {
@@ -253,8 +265,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                         });
                                       },
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ],
@@ -274,16 +286,22 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 Expanded(
                                   child: Row(
                                     children: [
-                                      Icon(
-                                        Icons.access_time,
-                                        color: Theme.of(context).colorScheme.onSurface,
-                                        size: 24,
-                                      ),
-                                      const SizedBox(width: 8),
                                       Expanded(
-                                        child: Text(
-                                          'Horário e Frequência',
-                                          style: AppTypography.heading1Primary,
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Horário e frequência',
+                                              style: AppTypography.heading2Primary,
+                                            ),
+                                            const SizedBox(height: 4),
+                                            Text(
+                                              'Escolha o melhor horário e quantas vezes por semana deseja receber lembretes.',
+                                              style: AppTypography.textPrimary.copyWith(
+                                                color: AppColors.textSecondary,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
@@ -299,7 +317,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 20),
+                            
+                            const SizedBox(height: 16),
                             
                             // Horário preferido
                             Opacity(
@@ -318,151 +337,29 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                   children: [
                                     // Input de hora
                                     Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(12),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withAlpha(25),
-                                              blurRadius: 8,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        child: TextField(
-                                          controller: _hourController,
-                                          keyboardType: TextInputType.number,
-                                          textAlign: TextAlign.center,
-                                          maxLength: 2,
-                                          style: AppTypography.textPrimary,
-                                          decoration: InputDecoration(
-                                            hintText: 'HH',
-                                            hintStyle: AppTypography.textPrimary.copyWith(
-                                              color: AppColors.textDisabled,
-                                            ),
-                                            filled: true,
-                                            fillColor: Theme.of(context).brightness == Brightness.dark
-                                                ? const Color(0xFF2E3838)
-                                                : Colors.white,
-                                            counterText: '',
-                                            contentPadding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 14,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                color: AppColors.buttonPrimary,
-                                                width: 2,
-                                              ),
-                                            ),
-                                          ),
-                                          onChanged: (value) {
-                                            // Remove caracteres não numéricos
-                                            String cleaned = value.replaceAll(RegExp(r'[^0-9]'), '');
-                                            
-                                            // Valida e limita a 23
-                                            if (cleaned.isNotEmpty) {
-                                              int? hour = int.tryParse(cleaned);
-                                              if (hour != null && hour > 23) {
-                                                cleaned = '23';
-                                                _hourController.value = TextEditingValue(
-                                                  text: cleaned,
-                                                  selection: TextSelection.collapsed(offset: cleaned.length),
-                                                );
-                                              }
-                                            }
-                                          },
+                                      child: TextField(
+                                        controller: _hourController,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Hora',
+                                          border: OutlineInputBorder(),
                                         ),
                                       ),
                                     ),
-                                    
-                                    // Separador
-                                    const Padding(
-                                      padding: EdgeInsets.symmetric(horizontal: 8),
-                                      child: Text(
-                                        ':',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.bold,
-                                          color: AppColors.textDisabled,
-                                        ),
-                                      ),
+                                    const SizedBox(width: 8),
+                                    const Text(
+                                      ':',
+                                      style: TextStyle(fontSize: 24),
                                     ),
-                                    
+                                    const SizedBox(width: 8),
                                     // Input de minuto
                                     Expanded(
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(12),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.black.withAlpha(25),
-                                              blurRadius: 8,
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        child: TextField(
-                                          controller: _minuteController,
-                                          keyboardType: TextInputType.number,
-                                          textAlign: TextAlign.center,
-                                          maxLength: 2,
-                                          style: AppTypography.textPrimary,
-                                          decoration: InputDecoration(
-                                            hintText: 'MM',
-                                            hintStyle: AppTypography.textPrimary.copyWith(
-                                              color: AppColors.textDisabled,
-                                            ),
-                                            filled: true,
-                                            fillColor: Theme.of(context).brightness == Brightness.dark
-                                                ? const Color(0xFF2E3838)
-                                                : Colors.white,
-                                            counterText: '',
-                                            contentPadding: const EdgeInsets.symmetric(
-                                              horizontal: 16,
-                                              vertical: 14,
-                                            ),
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: BorderSide.none,
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(12),
-                                              borderSide: const BorderSide(
-                                                color: AppColors.buttonPrimary,
-                                                width: 2,
-                                              ),
-                                            ),
-                                          ),
-                                          onChanged: (value) {
-                                            // Remove caracteres não numéricos
-                                            String cleaned = value.replaceAll(RegExp(r'[^0-9]'), '');
-                                            
-                                            // Valida e limita a 59
-                                            if (cleaned.isNotEmpty) {
-                                              int? minute = int.tryParse(cleaned);
-                                              if (minute != null && minute > 59) {
-                                                cleaned = '59';
-                                                _minuteController.value = TextEditingValue(
-                                                  text: cleaned,
-                                                  selection: TextSelection.collapsed(offset: cleaned.length),
-                                                );
-                                              }
-                                            }
-                                          },
+                                      child: TextField(
+                                        controller: _minuteController,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          labelText: 'Minuto',
+                                          border: OutlineInputBorder(),
                                         ),
                                       ),
                                     ),
@@ -471,9 +368,17 @@ class _NotificationsPageState extends State<NotificationsPage> {
                               ),
                             ),
                             
-                            const SizedBox(height: 20),
+                            const SizedBox(height: 16),
                             
                             // Frequência
+                            Opacity(
+                              opacity: _scheduleEnabled ? 1.0 : 0.5,
+                              child: Text(
+                                'Frequência',
+                                style: AppTypography.heading2Primary,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
                             Opacity(
                               opacity: _scheduleEnabled ? 1.0 : 0.5,
                               child: IgnorePointer(
@@ -481,17 +386,41 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      'Frequência',
-                                      style: AppTypography.heading2Primary,
+                                    DropdownButton<String>(
+                                      value: _frequency,
+                                      isExpanded: true,
+                                      items: const [
+                                        DropdownMenuItem(
+                                          value: 'diariamente',
+                                          child: Text('Diariamente'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 'dias_uteis',
+                                          child: Text('Dias úteis'),
+                                        ),
+                                        DropdownMenuItem(
+                                          value: 'personalizado',
+                                          child: Text('Personalizado'),
+                                        ),
+                                      ],
+                                      onChanged: (value) {
+                                        if (value == null) return;
+                                        setState(() {
+                                          _frequency = value;
+                                        });
+                                      },
                                     ),
-                                    const SizedBox(height: 12),
                                     
-                                    _buildFrequencyOption('diariamente', 'Diariamente'),
                                     const SizedBox(height: 8),
-                                    _buildFrequencyOption('dias_uteis', 'Dias úteis'),
-                                    const SizedBox(height: 8),
-                                    _buildFrequencyOption('personalizado', 'Personalizado'),
+                                    
+                                    if (_frequency == 'personalizado')
+                                      Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: TextButton(
+                                          onPressed: _showWeekdaysDialog,
+                                          child: const Text('Selecionar dias da semana'),
+                                        ),
+                                      ),
                                   ],
                                 ),
                               ),
@@ -539,62 +468,36 @@ class _NotificationsPageState extends State<NotificationsPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Organizar em 2 colunas
-                    for (int i = 0; i < days.length; i += 2)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 8),
-                        child: Row(
-                          children: [
-                            // Primeira coluna
-                            Expanded(
-                              child: _buildDayButton(
-                                days[i],
-                                setDialogState,
-                              ),
-                            ),
-                            
-                            const SizedBox(width: 8),
-                            
-                            // Segunda coluna (se existir)
-                            Expanded(
-                              child: i + 1 < days.length
-                                  ? _buildDayButton(
-                                      days[i + 1],
-                                      setDialogState,
-                                    )
-                                  : const SizedBox(),
-                            ),
-                          ],
+                    for (final day in days)
+                      CheckboxListTile(
+                        title: Text(
+                          day,
+                          style: AppTypography.textPrimary,
                         ),
+                        value: _selectedDays[day],
+                        onChanged: (value) {
+                          if (value == null) return;
+                          setDialogState(() {
+                            _selectedDays[day] = value;
+                          });
+                        },
                       ),
                   ],
                 ),
               ),
               actions: [
                 TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.pop(context),
                   child: Text(
                     'Cancelar',
-                    style: AppTypography.textPrimary.copyWith(
-                      color: AppColors.textDisabled,
-                    ),
+                    style: AppTypography.textLink,
                   ),
                 ),
                 TextButton(
-                  onPressed: () {
-                    setState(() {
-                      // Atualiza o estado principal
-                    });
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: () => Navigator.pop(context),
                   child: Text(
                     'Confirmar',
-                    style: AppTypography.textPrimary.copyWith(
-                      color: AppColors.buttonPrimary,
-                      fontWeight: FontWeight.w600,
-                    ),
+                    style: AppTypography.textLink,
                   ),
                 ),
               ],
@@ -605,91 +508,33 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 
-  Widget _buildDayButton(String day, StateSetter setDialogState) {
-    final isSelected = _selectedDays[day]!;
-    
-    return InkWell(
-      onTap: () {
-        setDialogState(() {
-          _selectedDays[day] = !_selectedDays[day]!;
-        });
-      },
-      borderRadius: BorderRadius.circular(4),
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? AppColors.buttonPrimary
-              : AppColors.buttonPrimary.withAlpha(51), // 20% de opacidade (verde claro)
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Center(
-          child: Text(
-            day,
-            style: AppTypography.textPrimary.copyWith(
-              color: Colors.white,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
-            ),
+  Widget _buildReminderItem({
+    required String label,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      decoration: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: AppColors.border,
+            width: 0.5,
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildFrequencyOption(String value, String label) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          _frequency = value;
-          
-          // Reseta os dias selecionados se mudar para outra opção
-          if (value != 'personalizado') {
-            _selectedDays.updateAll((key, val) => false);
-          }
-        });
-        
-        // Abre o popup se for personalizado
-        if (value == 'personalizado') {
-          _showWeekdaysDialog();
-        }
-      },
-      borderRadius: BorderRadius.circular(8),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          children: [
-            Container(
-              width: 20,
-              height: 20,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: _frequency == value
-                      ? AppColors.buttonPrimary
-                      : AppColors.textDisabled,
-                  width: 2,
-                ),
-                color: _frequency == value
-                    ? AppColors.buttonPrimary
-                    : Colors.transparent,
-              ),
-              child: _frequency == value
-                  ? const Center(
-                      child: Icon(
-                        Icons.circle,
-                        size: 10,
-                        color: Colors.white,
-                      ),
-                    )
-                  : null,
-            ),
-            const SizedBox(width: 12),
-            Text(
-              label,
-              style: AppTypography.textPrimary,
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            label,
+            style: AppTypography.textPrimary,
+          ),
+          AppToggle(
+            value: value,
+            onChanged: onChanged,
+          ),
+        ],
       ),
     );
   }

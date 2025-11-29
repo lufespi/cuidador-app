@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../../../../l10n/app_localizations.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/app_button.dart';
+import '../../../../core/utils/input_formatters.dart';
 import '../../../../data/services/auth_service.dart';
 
 class EditBirthDatePage extends StatefulWidget {
@@ -20,6 +22,7 @@ class EditBirthDatePage extends StatefulWidget {
 
 class _EditBirthDatePageState extends State<EditBirthDatePage> {
   final AuthService _authService = AuthService();
+  final TextEditingController _dateController = TextEditingController();
   late DateTime _selectedDate;
   late DateTime _initialDate;
   bool _hasChanges = false;
@@ -44,10 +47,12 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
       _selectedDate = DateTime(2000, 1, 1);
     }
     _initialDate = _selectedDate;
+    _dateController.text = _formatDate(_selectedDate);
   }
 
   @override
   void dispose() {
+    _dateController.dispose();
     super.dispose();
   }
 
@@ -80,6 +85,7 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
     if (picked != null && picked != _selectedDate) {
       setState(() {
         _selectedDate = picked;
+        _dateController.text = _formatDate(picked);
       });
       _checkForChanges();
     }
@@ -87,6 +93,25 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
 
   String _formatDate(DateTime date) {
     return '${date.day.toString().padLeft(2, '0')}/${date.month.toString().padLeft(2, '0')}/${date.year}';
+  }
+  
+  DateTime? _parseDate(String text) {
+    try {
+      final parts = text.split('/');
+      if (parts.length == 3) {
+        final day = int.parse(parts[0]);
+        final month = int.parse(parts[1]);
+        final year = int.parse(parts[2]);
+        
+        // Validação básica
+        if (day >= 1 && day <= 31 && month >= 1 && month <= 12 && year >= 1900 && year <= DateTime.now().year) {
+          return DateTime(year, month, day);
+        }
+      }
+    } catch (e) {
+      // Ignora erros de parse
+    }
+    return null;
   }
 
   void _saveChanges() async {
@@ -171,42 +196,63 @@ class _EditBirthDatePageState extends State<EditBirthDatePage> {
                             ),
                             const SizedBox(height: 20),
                             
-                            InkWell(
-                              onTap: _selectDate,
-                              borderRadius: BorderRadius.circular(12),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 16,
-                                  vertical: 14,
+                            TextField(
+                              controller: _dateController,
+                              keyboardType: TextInputType.number,
+                              inputFormatters: [
+                                DateInputFormatter(),
+                              ],
+                              onChanged: (value) {
+                                if (value.length == 10) {
+                                  final parsed = _parseDate(value);
+                                  if (parsed != null) {
+                                    setState(() {
+                                      _selectedDate = parsed;
+                                    });
+                                    _checkForChanges();
+                                  }
+                                }
+                              },
+                              decoration: InputDecoration(
+                                hintText: 'DD/MM/AAAA',
+                                hintStyle: AppTypography.bodyLarge.copyWith(
+                                  color: AppColors.textDisabled,
                                 ),
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).brightness == Brightness.dark
-                                      ? const Color(0xFF2E3838)
-                                      : Colors.white,
+                                prefixIcon: IconButton(
+                                  icon: const Icon(
+                                    Icons.calendar_today,
+                                    color: AppColors.buttonPrimary,
+                                    size: 20,
+                                  ),
+                                  onPressed: _selectDate,
+                                ),
+                                filled: true,
+                                fillColor: Theme.of(context).brightness == Brightness.dark
+                                    ? const Color(0xFF2E3838)
+                                    : Colors.white,
+                                border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withAlpha(25),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                  ],
+                                  borderSide: const BorderSide(
+                                    color: AppColors.buttonPrimary,
+                                    width: 1,
+                                  ),
                                 ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      _formatDate(_selectedDate),
-                                      style: AppTypography.textPrimary,
-                                    ),
-                                    const Icon(
-                                      Icons.calendar_today,
-                                      color: AppColors.buttonPrimary,
-                                      size: 20,
-                                    ),
-                                  ],
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.buttonPrimary,
+                                    width: 1,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  borderSide: const BorderSide(
+                                    color: AppColors.buttonPrimary,
+                                    width: 2,
+                                  ),
                                 ),
                               ),
+                              style: AppTypography.textPrimary,
                             ),
                           ],
                         ),

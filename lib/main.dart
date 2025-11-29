@@ -4,6 +4,7 @@ import 'screens/dor/pain_detail_page.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/app_typography.dart';
+import 'core/notifications/notification_service.dart';
 import 'core/theme/theme_provider.dart' as app_theme;
 import 'core/l10n/locale_provider.dart';
 import 'l10n/app_localizations.dart';
@@ -11,17 +12,25 @@ import 'screens/auth/index.dart';
 import 'screens/auth/register/register_provider.dart';
 import 'screens/dor/dor_provider.dart';
 
-void main() => runApp(
-  MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => app_theme.ThemeProvider()),
-      ChangeNotifierProvider(create: (_) => LocaleProvider()),
-      ChangeNotifierProvider(create: (_) => RegisterProvider()),
-      ChangeNotifierProvider(create: (_) => DorProvider()),
-    ],
-    child: const CuidaDorApp(),
-  ),
-);
+/// Agora o main é async para inicializar notificações antes do runApp
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // 🔔 Inicializa o serviço de notificações locais
+  await NotificationService().init();
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => app_theme.ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        ChangeNotifierProvider(create: (_) => RegisterProvider()),
+        ChangeNotifierProvider(create: (_) => DorProvider()),
+      ],
+      child: const CuidaDorApp(),
+    ),
+  );
+}
 
 class CuidaDorApp extends StatelessWidget {
   const CuidaDorApp({super.key});
@@ -37,14 +46,14 @@ class CuidaDorApp extends StatelessWidget {
     return MaterialApp(
       title: 'CuidaDor',
       debugShowCheckedModeBanner: false,
-      theme: themeProvider.isHighContrastEnabled 
-          ? AppTheme.highContrastTheme 
+      theme: themeProvider.isHighContrastEnabled
+          ? AppTheme.highContrastTheme
           : AppTheme.lightTheme,
-      darkTheme: themeProvider.isHighContrastEnabled 
-          ? AppTheme.highContrastTheme 
+      darkTheme: themeProvider.isHighContrastEnabled
+          ? AppTheme.highContrastTheme
           : AppTheme.darkTheme,
-      themeMode: themeProvider.isHighContrastEnabled 
-          ? ThemeMode.light 
+      themeMode: themeProvider.isHighContrastEnabled
+          ? ThemeMode.light
           : _getThemeMode(themeProvider.themeMode),
       locale: localeProvider.locale,
       localizationsDelegates: const [

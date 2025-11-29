@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/reminder_card.dart';
+import '../../core/notifications/notification_service.dart';
+import '../../core/utils/input_formatters.dart';
 import '../../l10n/app_localizations.dart';
 
 class RemindersPage extends StatefulWidget {
@@ -36,10 +39,83 @@ class _RemindersPageState extends State<RemindersPage> {
     },
   ];
 
-  void _toggleReminder(int index) {
+  void _toggleReminder(int index) async {
+    final reminder = _reminders[index];
+    final newState = !reminder['isActive'];
+    
     setState(() {
-      _reminders[index]['isActive'] = !_reminders[index]['isActive'];
+      _reminders[index]['isActive'] = newState;
     });
+    
+    if (newState) {
+      // Ativar: agendar notificação
+      await _scheduleReminderNotification(reminder);
+    } else {
+      // Desativar: cancelar notificação
+      await _cancelReminderNotification(reminder);
+    }
+  }
+  
+  Future<void> _scheduleReminderNotification(Map<String, dynamic> reminder) async {
+    try {
+      // Parse do horário (formato HH:mm)
+      final timeParts = reminder['time'].toString().split(':');
+      final hour = int.parse(timeParts[0]);
+      final minute = int.parse(timeParts[1]);
+      
+      // Usar o ID do lembrete como ID da notificação
+      final notificationId = reminder['id'].hashCode;
+      
+      await NotificationService().scheduleDailyReminder(
+        id: notificationId,
+        hour: hour,
+        minute: minute,
+        title: reminder['title'],
+        body: reminder['description'],
+      );
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Lembrete agendado para ${reminder['time']}'),
+            backgroundColor: AppColors.stateSuccess,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao agendar notificação: $e'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
+    }
+  }
+  
+  Future<void> _cancelReminderNotification(Map<String, dynamic> reminder) async {
+    try {
+      final notificationId = reminder['id'].hashCode;
+      await NotificationService().cancelNotification(notificationId);
+      
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Notificação cancelada'),
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao cancelar notificação: $e'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
+    }
   }
 
   void _editReminder(int index) {
@@ -77,11 +153,20 @@ class _RemindersPageState extends State<RemindersPage> {
             ),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              final reminder = _reminders[index];
               setState(() {
                 _reminders.removeAt(index);
               });
-              Navigator.pop(context);
+              
+              // Cancelar notificação se estava ativa
+              if (reminder['isActive']) {
+                await _cancelReminderNotification(reminder);
+              }
+              
+              if (mounted) {
+                Navigator.pop(context);
+              }
             },
             child: Text(
               l10n.yes,
@@ -102,7 +187,12 @@ class _RemindersPageState extends State<RemindersPage> {
       context: context,
       builder: (context) => AddReminderDialog(
         reminder: reminder,
-        onSave: (newReminder) {
+        onSave: (newReminder) async {
+          // Se está editando e estava ativo, cancela notificação antiga
+          if (index != null && _reminders[index]['isActive']) {
+            await _cancelReminderNotification(_reminders[index]);
+          }
+          
           setState(() {
             if (index != null) {
               _reminders[index] = newReminder;
@@ -110,11 +200,22 @@ class _RemindersPageState extends State<RemindersPage> {
               _reminders.add(newReminder);
             }
           });
+          
+          // Se o novo lembrete está ativo, agenda notificação
+          if (newReminder['isActive']) {
+            await _scheduleReminderNotification(newReminder);
+          }
         },
-        onDelete: index != null ? () {
+        onDelete: index != null ? () async {
+          final reminder = _reminders[index];
           setState(() {
             _reminders.removeAt(index);
           });
+          
+          // Cancelar notificação se estava ativa
+          if (reminder['isActive']) {
+            await _cancelReminderNotification(reminder);
+          }
         } : null,
       ),
     );
@@ -805,6 +906,9 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
               TextField(
                 controller: _timeController,
                 keyboardType: TextInputType.number,
+                inputFormatters: [
+                  TimeInputFormatter(),
+                ],
                 decoration: InputDecoration(
                   hintText: l10n.reminderTimeHint,
                   hintStyle: AppTypography.bodyLarge.copyWith(
