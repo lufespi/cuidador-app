@@ -246,6 +246,7 @@ class _RemindersPageState extends State<RemindersPage> {
       context: context,
       builder: (context) => AddReminderDialog(
         reminder: reminder,
+        onDelete: index != null ? () => _deleteReminder(index) : null,
         onSave: (newReminderData) async {
           final messenger = ScaffoldMessenger.of(context);
           
@@ -473,11 +474,13 @@ class _RemindersPageState extends State<RemindersPage> {
 class AddReminderDialog extends StatefulWidget {
   final ReminderModel? reminder;
   final Function(Map<String, dynamic>) onSave;
+  final VoidCallback? onDelete;
 
   const AddReminderDialog({
     super.key,
     this.reminder,
     required this.onSave,
+    this.onDelete,
   });
 
   @override
@@ -1068,6 +1071,37 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   ),
                 ),
               ),
+              
+              // Botão de excluir (apenas ao editar)
+              if (widget.reminder != null && widget.onDelete != null) ...[
+                const SizedBox(height: 12),
+                SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      // Fecha o dialog de edição
+                      Navigator.pop(context);
+                      // Chama o callback de exclusão
+                      widget.onDelete!();
+                    },
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: AppColors.stateError,
+                      side: const BorderSide(color: AppColors.stateError),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.delete_outline, size: 20),
+                    label: Text(
+                      l10n.deleteReminder,
+                      style: AppTypography.sectionTitle.copyWith(
+                        color: AppColors.stateError,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
                   ],
                 ),
               ),

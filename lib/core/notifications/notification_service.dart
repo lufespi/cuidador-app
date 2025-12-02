@@ -29,6 +29,18 @@ class NotificationService {
         _flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<
             AndroidFlutterLocalNotificationsPlugin>();
 
+    // Cria o canal de notificação (obrigatório Android 8.0+)
+    const androidNotificationChannel = AndroidNotificationChannel(
+      'cuidador_channel_id',
+      'CuidaDor Notificações',
+      description: 'Alertas do app CuidaDor',
+      importance: Importance.max,
+      playSound: true,
+      enableVibration: true,
+    );
+
+    await androidImpl?.createNotificationChannel(androidNotificationChannel);
+    
     await androidImpl?.requestNotificationsPermission();
     
     // Android 12+ precisa permissão para alarmes exatos
@@ -47,6 +59,7 @@ class NotificationService {
       channelDescription: 'Alertas do app CuidaDor',
       importance: Importance.max,
       priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
     );
 
     const notifDetails = NotificationDetails(
@@ -75,6 +88,7 @@ class NotificationService {
       channelDescription: 'Alertas do app CuidaDor',
       importance: Importance.max,
       priority: Priority.high,
+      icon: '@mipmap/ic_launcher',
     );
 
     const notifDetails = NotificationDetails(
