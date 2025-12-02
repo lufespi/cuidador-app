@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/reminder_card.dart';
@@ -184,6 +183,9 @@ class _RemindersPageState extends State<RemindersPage> {
           ),
           TextButton(
             onPressed: () async {
+              final navigator = Navigator.of(context);
+              final messenger = ScaffoldMessenger.of(context);
+              
               try {
                 // Deleta no backend
                 await _reminderService.deleteReminder(reminder.id!);
@@ -198,25 +200,21 @@ class _RemindersPageState extends State<RemindersPage> {
                   await _cancelReminderNotification(reminder);
                 }
                 
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(l10n.reminderDeleted),
-                      backgroundColor: AppColors.stateSuccess,
-                    ),
-                  );
-                }
+                navigator.pop();
+                messenger.showSnackBar(
+                  const SnackBar(
+                    content: Text('Lembrete excluído com sucesso'),
+                    backgroundColor: AppColors.stateSuccess,
+                  ),
+                );
               } catch (e) {
-                if (mounted) {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Erro ao excluir lembrete: ${e.toString()}'),
-                      backgroundColor: AppColors.stateError,
-                    ),
-                  );
-                }
+                navigator.pop();
+                messenger.showSnackBar(
+                  SnackBar(
+                    content: Text('Erro ao excluir lembrete: ${e.toString()}'),
+                    backgroundColor: AppColors.stateError,
+                  ),
+                );
               }
             },
             child: Text(
@@ -239,6 +237,8 @@ class _RemindersPageState extends State<RemindersPage> {
       builder: (context) => AddReminderDialog(
         reminder: reminder,
         onSave: (newReminderData) async {
+          final messenger = ScaffoldMessenger.of(context);
+          
           try {
             if (index != null) {
               // Editando lembrete existente
@@ -297,14 +297,12 @@ class _RemindersPageState extends State<RemindersPage> {
               }
             }
           } catch (e) {
-            if (mounted) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Erro ao salvar lembrete: ${e.toString()}'),
-                  backgroundColor: AppColors.stateError,
-                ),
-              );
-            }
+            messenger.showSnackBar(
+              SnackBar(
+                content: Text('Erro ao salvar lembrete: ${e.toString()}'),
+                backgroundColor: AppColors.stateError,
+              ),
+            );
           }
         },
       ),
@@ -354,7 +352,9 @@ class _RemindersPageState extends State<RemindersPage> {
     final l10n = AppLocalizations.of(context)!;
     
     return Scaffold(
-      body: SafeArea(
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : SafeArea(
         child: Column(
           children: [
             // Header

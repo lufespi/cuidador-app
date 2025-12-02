@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/reminder_model.dart';
 import '../../core/network/http_client.dart';
-import '../../core/network/token_storage.dart';
+import '../../core/config/api_config.dart';
 
 class ReminderService {
   static const String _cacheKey = 'cached_reminders';
@@ -11,29 +11,19 @@ class ReminderService {
   /// Lista todos os lembretes do usuário
   Future<List<ReminderModel>> getReminders() async {
     try {
-      final token = await TokenStorage.getToken();
-      
-      if (token == null) {
-        throw Exception('Token não encontrado');
-      }
-
       final response = await _httpClient.get(
-        '/reminders',
-        headers: {'Authorization': 'Bearer $token'},
+        '${ApiConfig.baseUrl}/reminders',
+        requiresAuth: true,
       );
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body);
-        final reminders = data.map((json) => ReminderModel.fromJson(json)).toList();
-        
-        // Salva no cache local
-        await _cacheReminders(reminders);
-        
-        return reminders;
-      } else {
-        // Se falhar, tenta carregar do cache
-        return await _loadCachedReminders();
-      }
+      // Response já é Map<String, dynamic>, mas pode conter uma lista
+      final data = response is List ? response : (response['data'] as List? ?? []);
+      final reminders = (data as List).map((json) => ReminderModel.fromJson(json as Map<String, dynamic>)).toList();
+      
+      // Salva no cache local
+      await _cacheReminders(reminders);
+      
+      return reminders;
     } catch (e) {
       // Em caso de erro de conexão, carrega do cache
       return await _loadCachedReminders();
@@ -42,86 +32,45 @@ class ReminderService {
 
   /// Cria um novo lembrete
   Future<ReminderModel> createReminder(ReminderModel reminder) async {
-    final token = await TokenStorage.getToken();
-    
-    if (token == null) {
-      throw Exception('Token não encontrado');
-    }
-
     final response = await _httpClient.post(
-      '/reminders',
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(reminder.toJson()),
+      '${ApiConfig.baseUrl}/reminders',
+      body: reminder.toJson(),
+      requiresAuth: true,
     );
 
-    if (response.statusCode == 201) {
-      final reminderData = jsonDecode(response.body);
-      final newReminder = ReminderModel.fromJson(reminderData);
-      
-      // Atualiza cache
-      await _addToCache(newReminder);
-      
-      return newReminder;
-    } else {
-      final error = jsonDecode(response.body);
-      throw Exception(error['error'] ?? 'Erro ao criar lembrete');
-    }
+    final newReminder = ReminderModel.fromJson(response);
+    
+    // Atualiza cache
+    await _addToCache(newReminder);
+    
+    return newReminder;
   }
 
   /// Atualiza um lembrete existente
   Future<ReminderModel> updateReminder(int id, ReminderModel reminder) async {
-    final token = await TokenStorage.getToken();
-    
-    if (token == null) {
-      throw Exception('Token não encontrado');
-    }
-
     final response = await _httpClient.put(
-      '/reminders/$id',
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(reminder.toJson()),
+      '${ApiConfig.baseUrl}/reminders/$id',
+      body: reminder.toJson(),
+      requiresAuth: true,
     );
 
-    if (response.statusCode == 200) {
-      final reminderData = jsonDecode(response.body);
-      final updatedReminder = ReminderModel.fromJson(reminderData);
-      
-      // Atualiza cache
-      await _updateInCache(updatedReminder);
-      
-      return updatedReminder;
-    } else {
-      final error = jsonDecode(response.body);
-      throw Exception(error['error'] ?? 'Erro ao atualizar lembrete');
-    }
+    final updatedReminder = ReminderModel.fromJson(response);
+    
+    // Atualiza cache
+    await _updateInCache(updatedReminder);
+    
+    return updatedReminder;
   }
 
   /// Deleta um lembrete
   Future<void> deleteReminder(int id) async {
-    final token = await TokenStorage.getToken();
-    
-    if (token == null) {
-      throw Exception('Token não encontrado');
-    }
-
-    final response = await _httpClient.delete(
-      '/reminders/$id',
-      headers: {'Authorization': 'Bearer $token'},
+    await _httpClient.delete(
+      '${ApiConfig.baseUrl}/reminders/$id',
+      requiresAuth: true,
     );
 
-    if (response.statusCode == 200) {
-      // Remove do cache
-      await _removeFromCache(id);
-    } else {
-      final error = jsonDecode(response.body);
-      throw Exception(error['error'] ?? 'Erro ao deletar lembrete');
-    }
+    // Remove do cache
+    await _removeFromCache(id);
   }
 
   /// Salva todos os lembretes no cache local
@@ -175,46 +124,21 @@ class ReminderService {
 
   /// Obtém preferências de notificação do usuário
   Future<Map<String, dynamic>> getNotificationPreferences() async {
-    final token = await TokenStorage.getToken();
-    
-    if (token == null) {
-      throw Exception('Token não encontrado');
-    }
-
     final response = await _httpClient.get(
-      '/auth/notification-preferences',
-      headers: {'Authorization': 'Bearer $token'},
+      '${ApiConfig.baseUrl}/auth/notification-preferences',
+      requiresAuth: true,
     );
 
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body);
-    } else {
-      final error = jsonDecode(response.body);
-      throw Exception(error['error'] ?? 'Erro ao buscar preferências');
-    }
+    return response;
   }
 
   /// Atualiza preferências de notificação do usuário
   Future<void> updateNotificationPreferences(Map<String, dynamic> preferences) async {
-    final token = await TokenStorage.getToken();
-    
-    if (token == null) {
-      throw Exception('Token não encontrado');
-    }
-
-    final response = await _httpClient.put(
-      '/auth/notification-preferences',
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
-      body: jsonEncode(preferences),
+    await _httpClient.put(
+      '${ApiConfig.baseUrl}/auth/notification-preferences',
+      body: preferences,
+      requiresAuth: true,
     );
-
-    if (response.statusCode != 200) {
-      final error = jsonDecode(response.body);
-      throw Exception(error['error'] ?? 'Erro ao atualizar preferências');
-    }
     
     // Salva no cache local também
     final prefs = await SharedPreferences.getInstance();
