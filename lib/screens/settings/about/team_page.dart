@@ -88,22 +88,20 @@ class TeamPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Círculo para foto
+                        // Foto
                         Container(
                           width: 80,
                           height: 80,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.inputBackground,
                             border: Border.all(
                               color: AppColors.buttonPrimary,
                               width: 2,
                             ),
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            size: 40,
-                            color: AppColors.textDisabled,
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/kauemuller.jpg'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_typography.dart';
 import '../../core/widgets/reminder_card.dart';
@@ -86,6 +87,15 @@ class _RemindersPageState extends State<RemindersPage> {
   
   Future<void> _scheduleReminderNotification(ReminderModel reminder) async {
     try {
+      // Verifica se as notificações estão habilitadas globalmente
+      final prefs = await SharedPreferences.getInstance();
+      final notificationsEnabled = prefs.getBool('notifications_enabled') ?? true;
+      
+      if (!notificationsEnabled) {
+        // Notificações desabilitadas globalmente, não agenda
+        return;
+      }
+
       // Parse do horário (formato HH:mm)
       final timeParts = reminder.time.split(':');
       final hour = int.parse(timeParts[0]);

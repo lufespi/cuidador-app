@@ -39,6 +39,13 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/cuidador-icon.png"
+  remove_alpha_ios: true
 
 flutter:
   uses-material-design: true
@@ -59,6 +66,7 @@ flutter:
     - assets/images/pythonanywhere.png
     - assets/images/trello.png
     - assets/images/lufespi.jpg
+    - assets/images/kauemuller.jpg
 
     # Body Parts
     - assets/images/body-parts/Body.png

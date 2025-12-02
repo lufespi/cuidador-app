@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../l10n/app_localizations.dart';
@@ -19,14 +20,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
   bool _notificationsEnabled = true;
   
   // Lembretes personalizados
-  bool _remindersEnabled = true;
+  final bool _remindersEnabled = true;
   bool _exerciciosEnabled = true;
   bool _respiracaoEnabled = true;
   bool _alongamentoEnabled = true;
   bool _relaxamentoEnabled = true;
   
   // Horário e frequência
-  bool _scheduleEnabled = true;
+  final bool _scheduleEnabled = true;
   final TextEditingController _hourController = TextEditingController(text: '09');
   final TextEditingController _minuteController = TextEditingController(text: '00');
   String _frequency = 'diariamente';
@@ -43,6 +44,19 @@ class _NotificationsPageState extends State<NotificationsPage> {
   };
 
   @override
+  void initState() {
+    super.initState();
+    _loadNotificationSettings();
+  }
+
+  Future<void> _loadNotificationSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _notificationsEnabled = prefs.getBool('notifications_enabled') ?? true;
+    });
+  }
+
+  @override
   void dispose() {
     _hourController.dispose();
     _minuteController.dispose();
@@ -53,6 +67,10 @@ class _NotificationsPageState extends State<NotificationsPage> {
     final l10n = AppLocalizations.of(context)!;
 
     try {
+      // Salva o estado de notificações habilitadas no SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('notifications_enabled', _notificationsEnabled);
+
       if (!_notificationsEnabled) {
         // Notificações desativadas totalmente
         await NotificationService().cancelAll();
@@ -209,9 +227,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 AppToggle(
                                   value: _remindersEnabled,
                                   onChanged: (value) {
-                                    setState(() {
-                                      _remindersEnabled = value;
-                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Funcionalidade em breve! \u23f0'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
                                   },
                                 ),
                               ],
@@ -221,9 +242,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             
                             // Lista de lembretes
                             Opacity(
-                              opacity: _remindersEnabled ? 1.0 : 0.5,
+                              opacity: 0.5,
                               child: IgnorePointer(
-                                ignoring: !_remindersEnabled,
+                                ignoring: true,
                                 child: Column(
                                   children: [
                                     _buildReminderItem(
@@ -310,9 +331,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                                 AppToggle(
                                   value: _scheduleEnabled,
                                   onChanged: (value) {
-                                    setState(() {
-                                      _scheduleEnabled = value;
-                                    });
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text('Funcionalidade em breve! \u23f0'),
+                                        duration: Duration(seconds: 2),
+                                      ),
+                                    );
                                   },
                                 ),
                               ],
@@ -322,7 +346,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             
                             // Horário preferido
                             Opacity(
-                              opacity: _scheduleEnabled ? 1.0 : 0.5,
+                              opacity: 0.5,
                               child: Text(
                                 'Horário preferido',
                                 style: AppTypography.heading2Primary,
@@ -330,9 +354,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             ),
                             const SizedBox(height: 8),
                             Opacity(
-                              opacity: _scheduleEnabled ? 1.0 : 0.5,
+                              opacity: 0.5,
                               child: IgnorePointer(
-                                ignoring: !_scheduleEnabled,
+                                ignoring: true,
                                 child: Row(
                                   children: [
                                     // Input de hora
@@ -372,7 +396,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             
                             // Frequência
                             Opacity(
-                              opacity: _scheduleEnabled ? 1.0 : 0.5,
+                              opacity: 0.5,
                               child: Text(
                                 'Frequência',
                                 style: AppTypography.heading2Primary,
@@ -380,9 +404,9 @@ class _NotificationsPageState extends State<NotificationsPage> {
                             ),
                             const SizedBox(height: 8),
                             Opacity(
-                              opacity: _scheduleEnabled ? 1.0 : 0.5,
+                              opacity: 0.5,
                               child: IgnorePointer(
-                                ignoring: !_scheduleEnabled,
+                                ignoring: true,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
