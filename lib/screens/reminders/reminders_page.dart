@@ -6,6 +6,8 @@ import '../../core/widgets/reminder_card.dart';
 import '../../core/notifications/notification_service.dart';
 import '../../core/utils/input_formatters.dart';
 import '../../l10n/app_localizations.dart';
+import '../../data/models/reminder_model.dart';
+import '../../data/services/reminder_service.dart';
 
 class RemindersPage extends StatefulWidget {
   const RemindersPage({super.key});
@@ -15,69 +17,96 @@ class RemindersPage extends StatefulWidget {
 }
 
 class _RemindersPageState extends State<RemindersPage> {
-  // Lista de lembretes
-  final List<Map<String, dynamic>> _reminders = [
-    {
-      'id': '1',
-      'type': 'exercise',
-      'title': 'Respiração Matinal',
-      'description': 'Faça 5 minutos de respiração 4-7-8',
-      'frequency': 'Diário',
-      'time': '08:00',
-      'isActive': true,
-      'icon': Icons.air_outlined,
-    },
-    {
-      'id': '2',
-      'type': 'medication',
-      'title': 'Medicação',
-      'description': 'Tomar medicamento prescrito',
-      'frequency': 'Diário',
-      'time': '12:00',
-      'isActive': false,
-      'icon': Icons.medication_outlined,
-    },
-  ];
+  final ReminderService _reminderService = ReminderService();
+  List<ReminderModel> _reminders = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadReminders();
+  }
+
+  Future<void> _loadReminders() async {
+    setState(() => _isLoading = true);
+    
+    try {
+      final reminders = await _reminderService.getReminders();
+      if (mounted) {
+        setState(() {
+          _reminders = reminders;
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao carregar lembretes: ${e.toString()}'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
+    }
+  }
 
   void _toggleReminder(int index) async {
     final reminder = _reminders[index];
-    final newState = !reminder['isActive'];
+    final newState = !reminder.isActive;
     
-    setState(() {
-      _reminders[index]['isActive'] = newState;
-    });
-    
-    if (newState) {
-      // Ativar: agendar notificação
-      await _scheduleReminderNotification(reminder);
-    } else {
-      // Desativar: cancelar notificação
-      await _cancelReminderNotification(reminder);
+    try {
+      // Atualiza no backend
+      final updatedReminder = await _reminderService.updateReminder(
+        reminder.id!,
+        reminder.copyWith(isActive: newState),
+      );
+      
+      setState(() {
+        _reminders[index] = updatedReminder;
+      });
+      
+      if (newState) {
+        // Ativar: agendar notificação
+        await _scheduleReminderNotification(updatedReminder);
+      } else {
+        // Desativar: cancelar notificação
+        await _cancelReminderNotification(updatedReminder);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Erro ao atualizar lembrete: ${e.toString()}'),
+            backgroundColor: AppColors.stateError,
+          ),
+        );
+      }
     }
   }
   
-  Future<void> _scheduleReminderNotification(Map<String, dynamic> reminder) async {
+  Future<void> _scheduleReminderNotification(ReminderModel reminder) async {
     try {
       // Parse do horário (formato HH:mm)
-      final timeParts = reminder['time'].toString().split(':');
+      final timeParts = reminder.time.split(':');
       final hour = int.parse(timeParts[0]);
       final minute = int.parse(timeParts[1]);
       
       // Usar o ID do lembrete como ID da notificação
-      final notificationId = reminder['id'].hashCode;
+      final notificationId = reminder.id.hashCode;
       
       await NotificationService().scheduleDailyReminder(
         id: notificationId,
         hour: hour,
         minute: minute,
-        title: reminder['title'],
-        body: reminder['description'],
+        title: reminder.title,
+        body: reminder.description,
       );
       
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Lembrete agendado para ${reminder['time']}'),
+            content: Text('Lembrete agendado para ${reminder.time}'),
             backgroundColor: AppColors.stateSuccess,
           ),
         );
@@ -94,9 +123,9 @@ class _RemindersPageState extends State<RemindersPage> {
     }
   }
   
-  Future<void> _cancelReminderNotification(Map<String, dynamic> reminder) async {
+  Future<void> _cancelReminderNotification(ReminderModel reminder) async {
     try {
-      final notificationId = reminder['id'].hashCode;
+      final notificationId = reminder.id.hashCode;
       await NotificationService().cancelNotification(notificationId);
       
       if (mounted) {
@@ -122,8 +151,9 @@ class _RemindersPageState extends State<RemindersPage> {
     _showReminderDialog(reminder: _reminders[index], index: index);
   }
 
-  void _deleteReminder(int index) {
+  void _deleteReminder(int index) async {
     final l10n = AppLocalizations.of(context)!;
+    final reminder = _reminders[index];
     
     showDialog(
       context: context,
@@ -154,18 +184,39 @@ class _RemindersPageState extends State<RemindersPage> {
           ),
           TextButton(
             onPressed: () async {
-              final reminder = _reminders[index];
-              setState(() {
-                _reminders.removeAt(index);
-              });
-              
-              // Cancelar notificação se estava ativa
-              if (reminder['isActive']) {
-                await _cancelReminderNotification(reminder);
-              }
-              
-              if (mounted) {
-                Navigator.pop(context);
+              try {
+                // Deleta no backend
+                await _reminderService.deleteReminder(reminder.id!);
+                
+                // Remove da lista local
+                setState(() {
+                  _reminders.removeAt(index);
+                });
+                
+                // Cancelar notificação se estava ativa
+                if (reminder.isActive) {
+                  await _cancelReminderNotification(reminder);
+                }
+                
+                if (mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(l10n.reminderDeleted),
+                      backgroundColor: AppColors.stateSuccess,
+                    ),
+                  );
+                }
+              } catch (e) {
+                if (mounted) {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('Erro ao excluir lembrete: ${e.toString()}'),
+                      backgroundColor: AppColors.stateError,
+                    ),
+                  );
+                }
               }
             },
             child: Text(
@@ -182,41 +233,80 @@ class _RemindersPageState extends State<RemindersPage> {
 
 
 
-  void _showReminderDialog({Map<String, dynamic>? reminder, int? index}) {
+  void _showReminderDialog({ReminderModel? reminder, int? index}) async {
     showDialog(
       context: context,
       builder: (context) => AddReminderDialog(
         reminder: reminder,
-        onSave: (newReminder) async {
-          // Se está editando e estava ativo, cancela notificação antiga
-          if (index != null && _reminders[index]['isActive']) {
-            await _cancelReminderNotification(_reminders[index]);
-          }
-          
-          setState(() {
+        onSave: (newReminderData) async {
+          try {
             if (index != null) {
-              _reminders[index] = newReminder;
+              // Editando lembrete existente
+              final oldReminder = _reminders[index];
+              
+              // Cancela notificação antiga se estava ativo
+              if (oldReminder.isActive) {
+                await _cancelReminderNotification(oldReminder);
+              }
+              
+              // Atualiza no backend
+              final updatedReminder = await _reminderService.updateReminder(
+                oldReminder.id!,
+                ReminderModel(
+                  id: oldReminder.id,
+                  userId: oldReminder.userId,
+                  type: newReminderData['type'],
+                  title: newReminderData['title'],
+                  description: newReminderData['description'] ?? '',
+                  frequency: newReminderData['frequency'] ?? 'Diário',
+                  time: newReminderData['time'],
+                  isActive: newReminderData['isActive'] ?? true,
+                  selectedDays: newReminderData['selected_days'],
+                ),
+              );
+              
+              setState(() {
+                _reminders[index] = updatedReminder;
+              });
+              
+              // Agenda notificação se ativo
+              if (updatedReminder.isActive) {
+                await _scheduleReminderNotification(updatedReminder);
+              }
             } else {
-              _reminders.add(newReminder);
+              // Criando novo lembrete
+              final newReminder = await _reminderService.createReminder(
+                ReminderModel(
+                  type: newReminderData['type'],
+                  title: newReminderData['title'],
+                  description: newReminderData['description'] ?? '',
+                  frequency: newReminderData['frequency'] ?? 'Diário',
+                  time: newReminderData['time'],
+                  isActive: newReminderData['isActive'] ?? true,
+                  selectedDays: newReminderData['selected_days'],
+                ),
+              );
+              
+              setState(() {
+                _reminders.add(newReminder);
+              });
+              
+              // Agenda notificação se ativo
+              if (newReminder.isActive) {
+                await _scheduleReminderNotification(newReminder);
+              }
             }
-          });
-          
-          // Se o novo lembrete está ativo, agenda notificação
-          if (newReminder['isActive']) {
-            await _scheduleReminderNotification(newReminder);
+          } catch (e) {
+            if (mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Erro ao salvar lembrete: ${e.toString()}'),
+                  backgroundColor: AppColors.stateError,
+                ),
+              );
+            }
           }
         },
-        onDelete: index != null ? () async {
-          final reminder = _reminders[index];
-          setState(() {
-            _reminders.removeAt(index);
-          });
-          
-          // Cancelar notificação se estava ativa
-          if (reminder['isActive']) {
-            await _cancelReminderNotification(reminder);
-          }
-        } : null,
       ),
     );
   }
@@ -348,13 +438,13 @@ class _RemindersPageState extends State<RemindersPage> {
                       itemBuilder: (context, index) {
                         final reminder = _reminders[index];
                         return ReminderCard(
-                          title: reminder['title'],
-                          description: reminder['description'],
-                          frequency: reminder['frequency'],
-                          time: reminder['time'],
-                          isActive: reminder['isActive'],
-                          icon: _getReminderIcon(reminder['type']),
-                          type: _getReminderTypeLabel(reminder['type'], l10n),
+                          title: reminder.title,
+                          description: reminder.description,
+                          frequency: reminder.frequency,
+                          time: reminder.time,
+                          isActive: reminder.isActive,
+                          icon: _getReminderIcon(reminder.type),
+                          type: _getReminderTypeLabel(reminder.type, l10n),
                           onToggle: () => _toggleReminder(index),
                           onEdit: () => _editReminder(index),
                           onDelete: () => _deleteReminder(index),
@@ -371,15 +461,13 @@ class _RemindersPageState extends State<RemindersPage> {
 
 // Dialog para adicionar/editar lembrete
 class AddReminderDialog extends StatefulWidget {
-  final Map<String, dynamic>? reminder;
+  final ReminderModel? reminder;
   final Function(Map<String, dynamic>) onSave;
-  final VoidCallback? onDelete;
 
   const AddReminderDialog({
     super.key,
     this.reminder,
     required this.onSave,
-    this.onDelete,
   });
 
   @override
@@ -466,10 +554,10 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
     });
     
     if (widget.reminder != null) {
-      _titleController.text = widget.reminder!['title'];
-      _descriptionController.text = widget.reminder!['description'];
-      _selectedType = widget.reminder!['type'];
-      _timeController.text = widget.reminder!['time'];
+      _titleController.text = widget.reminder!.title;
+      _descriptionController.text = widget.reminder!.description;
+      _selectedType = widget.reminder!.type;
+      _timeController.text = widget.reminder!.time;
     } else {
       // Valor padrão
       _timeController.text = '08:00';
@@ -630,13 +718,13 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
     }
 
     final reminder = {
-      'id': widget.reminder?['id'] ?? DateTime.now().toString(),
       'type': _selectedType,
       'title': _titleController.text,
       'description': _descriptionController.text,
       'frequency': _selectedFrequency,
       'time': _timeController.text,
-      'isActive': widget.reminder?['isActive'] ?? true,
+      'isActive': widget.reminder?.isActive ?? true,
+      'selected_days': _selectedDays,
     };
 
     widget.onSave(reminder);
@@ -970,83 +1058,12 @@ class _AddReminderDialogState extends State<AddReminderDialog> {
                   ),
                 ),
               ),
-              
-              // Botão de excluir (apenas ao editar)
-              if (widget.reminder != null) ...[
-                const SizedBox(height: 16),
-                Center(
-                  child: TextButton(
-                    onPressed: _showDeleteConfirmation,
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                    ),
-                    child: Text(
-                      l10n.deleteReminder,
-                      style: AppTypography.sectionTitle.copyWith(
-                        color: AppColors.stateError.withValues(alpha: 0.7),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
                   ],
                 ),
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showDeleteConfirmation() {
-    final l10n = AppLocalizations.of(context)!;
-    
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        title: Text(
-          l10n.deleteReminder,
-          style: AppTypography.heading2Primary,
-        ),
-        content: Text(
-          l10n.deleteReminderConfirmation,
-          style: AppTypography.bodyLarge.copyWith(
-            color: AppColors.textDisabled,
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Apenas fecha o dialog de confirmação
-            },
-            child: Text(
-              l10n.no,
-              style: AppTypography.bodyMedium.copyWith(
-                color: AppColors.textDisabled,
-              ),
-            ),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context); // Fecha o dialog de confirmação
-              Navigator.pop(context); // Fecha o dialog de edição
-              if (widget.onDelete != null) {
-                widget.onDelete!(); // Remove o lembrete
-              }
-            },
-            child: Text(
-              l10n.yes,
-              style: AppTypography.captionPrimary.copyWith(
-                color: AppColors.stateError,
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
