@@ -12,7 +12,7 @@ class ReminderService {
   Future<List<ReminderModel>> getReminders() async {
     try {
       final response = await _httpClient.get(
-        '${ApiConfig.apiUrl}/reminders',
+        '${ApiConfig.baseUrl}/reminders',
         requiresAuth: true,
       );
 
@@ -33,7 +33,7 @@ class ReminderService {
   /// Cria um novo lembrete
   Future<ReminderModel> createReminder(ReminderModel reminder) async {
     final response = await _httpClient.post(
-      '${ApiConfig.apiUrl}/reminders',
+      '${ApiConfig.baseUrl}/reminders',
       body: reminder.toJson(),
       requiresAuth: true,
     );
@@ -49,7 +49,7 @@ class ReminderService {
   /// Atualiza um lembrete existente
   Future<ReminderModel> updateReminder(int id, ReminderModel reminder) async {
     final response = await _httpClient.put(
-      '${ApiConfig.apiUrl}/reminders/$id',
+      '${ApiConfig.baseUrl}/reminders/$id',
       body: reminder.toJson(),
       requiresAuth: true,
     );
@@ -65,7 +65,7 @@ class ReminderService {
   /// Deleta um lembrete
   Future<void> deleteReminder(int id) async {
     await _httpClient.delete(
-      '${ApiConfig.apiUrl}/reminders/$id',
+      '${ApiConfig.baseUrl}/reminders/$id',
       requiresAuth: true,
     );
 
@@ -125,7 +125,7 @@ class ReminderService {
   /// Obtém preferências de notificação do usuário
   Future<Map<String, dynamic>> getNotificationPreferences() async {
     final response = await _httpClient.get(
-      '${ApiConfig.apiUrl}/auth/notification-preferences',
+      '${ApiConfig.baseUrl}/auth/notification-preferences',
       requiresAuth: true,
     );
 
@@ -135,7 +135,7 @@ class ReminderService {
   /// Atualiza preferências de notificação do usuário
   Future<void> updateNotificationPreferences(Map<String, dynamic> preferences) async {
     await _httpClient.put(
-      '${ApiConfig.apiUrl}/auth/notification-preferences',
+      '${ApiConfig.baseUrl}/auth/notification-preferences',
       body: preferences,
       requiresAuth: true,
     );

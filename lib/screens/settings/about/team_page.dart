@@ -43,22 +43,20 @@ class TeamPage extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Círculo para foto
+                        // Foto
                         Container(
                           width: 80,
                           height: 80,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.inputBackground,
                             border: Border.all(
                               color: AppColors.buttonPrimary,
                               width: 2,
                             ),
-                          ),
-                          child: const Icon(
-                            Icons.person,
-                            size: 40,
-                            color: AppColors.textDisabled,
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/lufespi.jpg'),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 16),
@@ -173,12 +171,12 @@ class TeamPage extends StatelessWidget {
                       spacing: 20,
                       runSpacing: 20,
                       children: [
-                        _buildTechItem('Trello'),
-                        _buildTechItem('Figma'),
-                        _buildTechItem('Flutter'),
-                        _buildTechItem('Python'),
-                        _buildTechItem('Github'),
-                        _buildTechItem('PythonAnywhere'),
+                        _buildTechItem('Trello', 'assets/images/trello.png'),
+                        _buildTechItem('Figma', 'assets/images/figma.png'),
+                        _buildTechItem('Flutter', 'assets/images/flutter-logo.png'),
+                        _buildTechItem('Python', 'assets/images/python.png'),
+                        _buildTechItem('Github', 'assets/images/github-logo.png'),
+                        _buildTechItem('PythonAnywhere', 'assets/images/pythonanywhere.png'),
                       ],
                     ),
                   ],
@@ -193,10 +191,10 @@ class TeamPage extends StatelessWidget {
     );
   }
 
-  Widget _buildTechItem(String name) {
+  Widget _buildTechItem(String name, String imagePath) {
     return Column(
       children: [
-        // Círculo para logo da tecnologia
+        // Logo da tecnologia
         Container(
           width: 60,
           height: 60,
@@ -208,10 +206,14 @@ class TeamPage extends StatelessWidget {
               width: 2,
             ),
           ),
-          child: const Icon(
-            Icons.code,
-            size: 30,
-            color: AppColors.textDisabled,
+          child: ClipOval(
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
         ),
         const SizedBox(height: 8),

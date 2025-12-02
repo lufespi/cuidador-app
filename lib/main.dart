@@ -8,7 +8,7 @@ import 'core/notifications/notification_service.dart';
 import 'core/theme/theme_provider.dart' as app_theme;
 import 'core/l10n/locale_provider.dart';
 import 'l10n/app_localizations.dart';
-import 'screens/auth/index.dart';
+import 'screens/auth/splash_page.dart';
 import 'screens/auth/register/register_provider.dart';
 import 'screens/dor/dor_provider.dart';
 
@@ -75,7 +75,7 @@ class CuidaDorApp extends StatelessWidget {
         }
         return null;
       },
-      home: const LoginPage(),
+      home: const SplashPage(),
     );
   }
 

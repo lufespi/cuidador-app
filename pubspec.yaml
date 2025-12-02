@@ -51,6 +51,14 @@ flutter:
     - assets/images/doctor.png
     - assets/images/old-woman.png
     - assets/images/woman-exercise.png
+    - assets/images/cuidador-icon.png
+    - assets/images/figma.png
+    - assets/images/github-logo.png
+    - assets/images/flutter-logo.png
+    - assets/images/python.png
+    - assets/images/pythonanywhere.png
+    - assets/images/trello.png
+    - assets/images/lufespi.jpg
 
     # Body Parts
     - assets/images/body-parts/Body.png
@@ -121,6 +129,9 @@ flutter:
     - assets/icons/settings/person-standing.svg
     - assets/icons/settings/settings.svg
     - assets/icons/settings/user-round.svg
+    - assets/icons/settings/brazil-flag.svg
+    - assets/icons/settings/us-flag.svg
+    - assets/icons/settings/spain-flag.svg
     
   fonts:
     - family: Inter

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_typography.dart';
 import '../../../core/widgets/app_card.dart';
@@ -248,20 +249,22 @@ class _LanguagePageState extends State<LanguagePage> {
             
             const SizedBox(width: 16),
             
-            // Flag (código do país)
+            // Flag (SVG)
             Container(
               width: 48,
               height: 36,
               decoration: BoxDecoration(
-                color: AppColors.inputBackground,
                 borderRadius: BorderRadius.circular(4),
+                border: Border.all(
+                  color: AppColors.inputBackground,
+                  width: 1,
+                ),
               ),
-              child: Center(
-                child: Text(
-                  flag,
-                  style: AppTypography.heading2Primary.copyWith(
-                    color: isEnabled ? AppColors.textPrimary : AppColors.textDisabled,
-                  ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(4),
+                child: SvgPicture.asset(
+                  _getFlagAsset(flag),
+                  fit: BoxFit.cover,
                 ),
               ),
             ),
@@ -293,5 +296,18 @@ class _LanguagePageState extends State<LanguagePage> {
         ),
       ),
     );
+  }
+
+  String _getFlagAsset(String countryCode) {
+    switch (countryCode) {
+      case 'BR':
+        return 'assets/icons/settings/brazil-flag.svg';
+      case 'US':
+        return 'assets/icons/settings/us-flag.svg';
+      case 'ES':
+        return 'assets/icons/settings/spain-flag.svg';
+      default:
+        return 'assets/icons/settings/brazil-flag.svg';
+    }
   }
 }
