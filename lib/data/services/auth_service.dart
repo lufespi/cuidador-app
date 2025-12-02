@@ -75,15 +75,9 @@ class AuthService {
 
   /// Faz logout
   Future<void> logout() async {
-    try {
-      await _httpClient.post(
-        ApiConfig.logoutUrl,
-        requiresAuth: true,
-      );
-    } finally {
-      // Sempre limpa tokens localmente
-      await _tokenStorage.clearTokens();
-    }
+    // Apenas limpa tokens localmente
+    // Não depende do backend para logout
+    await _tokenStorage.clearTokens();
   }
 
   /// Obtém perfil do usuário

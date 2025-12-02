@@ -44,8 +44,11 @@ dev_dependencies:
 flutter_launcher_icons:
   android: true
   ios: true
-  image_path: "assets/images/cuidador-icon.png"
+  image_path: "assets/images/cuidador-logo-app.png"
   remove_alpha_ios: true
+  adaptive_icon_background: "#1DBEBC"
+  adaptive_icon_foreground: "assets/images/cuidador-logo-app.png"
+  adaptive_icon_monochrome: "assets/images/cuidador-logo-app.png"
 
 flutter:
   uses-material-design: true
@@ -58,7 +61,6 @@ flutter:
     - assets/images/doctor.png
     - assets/images/old-woman.png
     - assets/images/woman-exercise.png
-    - assets/images/cuidador-icon.png
     - assets/images/figma.png
     - assets/images/github-logo.png
     - assets/images/flutter-logo.png
@@ -67,6 +69,7 @@ flutter:
     - assets/images/trello.png
     - assets/images/lufespi.jpg
     - assets/images/kauemuller.jpg
+    - assets/images/cuidador-logo-app.png
 
     # Body Parts
     - assets/images/body-parts/Body.png

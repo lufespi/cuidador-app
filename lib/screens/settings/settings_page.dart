@@ -217,15 +217,21 @@ class _SettingsPageState extends State<SettingsPage> {
                             SizedBox(
                               width: double.infinity,
                               child: TextButton(
-                                onPressed: () {
+                                onPressed: () async {
                                   // Fecha o dialog
                                   Navigator.pop(context);
                                   
+                                  // Chama o logout para limpar tokens
+                                  final authService = AuthService();
+                                  await authService.logout();
+                                  
                                   // Remove todas as rotas e navega para o login
-                                  Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(builder: (context) => const LoginPage()),
-                                    (Route<dynamic> route) => false,
-                                  );
+                                  if (context.mounted) {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                      MaterialPageRoute(builder: (context) => const LoginPage()),
+                                      (Route<dynamic> route) => false,
+                                    );
+                                  }
                                 },
                                 style: TextButton.styleFrom(
                                   padding: const EdgeInsets.symmetric(vertical: 14),
