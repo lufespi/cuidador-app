@@ -119,10 +119,11 @@ class NotificationService {
         body,
         scheduledDate,
         notifDetails,
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
-        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        payload: 'reminder_$id', // Adiciona payload
       );
     } catch (e) {
       // Se falhar (permissão negada), usa modo inexato
@@ -132,10 +133,11 @@ class NotificationService {
         body,
         scheduledDate,
         notifDetails,
+        androidScheduleMode: AndroidScheduleMode.inexact,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime,
         matchDateTimeComponents: DateTimeComponents.time,
-        androidScheduleMode: AndroidScheduleMode.inexact,
+        payload: 'reminder_$id', // Adiciona payload
       );
     }
   }
